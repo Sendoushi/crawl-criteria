@@ -21,9 +21,6 @@ config = {
         'city': null,
         'location': null,
 
-        // 'keywords': [],
-        // 'not-keywords': [],
-
         'keywords': ['garagem'],
         'not-keywords': ['t0', 't3', 't4', 't5', 'moradia', 'paranhos', 'gondomar', 'valongo', 'maia', 'gondomar', 'mamede infesta', 'pedroso', 'voa de varzim', 'matosinhos', 'campanh', 'vila do conde', 'arcozelo'],
 
@@ -99,6 +96,27 @@ config = {
                     'element': '#offer-content',
                     'description-el': '#description',
                     'phone-el': '#phone_nr span.nr'
+                }
+            }
+        },
+        {
+            'name': 'Sapo',
+            'url': 'http://casa.sapo.pt/{{aim}}/{{type}}/{{min-rooms}}-ate-{{max-rooms}}/?sa=13&lp={{min-price}}&gp={{max-price}}&AOP=1',
+            'page-start': 1,
+            'page-max': 2,
+            'type': { 'flat': 'Apartamentos', 'house': 'Moradias' },
+            'aim': { 'rent': 'Alugar', 'buy': 'Venda' },
+            'list': {
+                'pages-list': '.paginador p a',
+                'element': '.mainContentBg .propertyList.hlisting',
+                'title-el': 'a:first-child .propertyNatLoc h2',
+                'url-el': 'a:first-child',
+                'date-el': '.propertyDate',
+                'price-el': '.propertyDetails span[itemprop="price"]',
+                'description-el': '.propertyDetails .propertyDescription',
+                'inside-item': {
+                    'element': '.mainContentBg',
+                    'description-el': '.detailDescription h2'
                 }
             }
         }

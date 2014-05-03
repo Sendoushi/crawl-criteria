@@ -53,6 +53,8 @@ HouseSearch.prototype._iterate = function (callback) {
     this._database = database;
     this._currentArr = [];
 
+    sysLog('info', 'Starting database ' + name);
+
     this._pageController(function (err) {
         if (err) {
             return callback(err);
@@ -196,6 +198,10 @@ HouseSearch.prototype._checkNumberPages = function () {
  * Iterate through the separate items
 */
 HouseSearch.prototype._iterateInside = function (i, callback) {
+    if (!this._currentArr[i]) {
+        return callback(null, this._currentArr);
+    }
+
     var searchCriteria = this._searchCriteria,
         url = this._currentArr[i].url,
         insideData;
