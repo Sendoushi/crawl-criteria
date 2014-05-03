@@ -20,28 +20,33 @@
     },
     "databases": [
         {
-            "name": "Sapo",
-            "param-sep": "?",
-            "url": "http://casa.sapo.pt/{{min-price}}{{param-sep}}{{max-price}}?{{nav-page}}",
-            "pages-list": {
-                "element": "",
-                "number-el": ""
+            "name": "BPIExpressoImobiliario",
+            "url": "http://bpiexpressoimobiliario.pt/{{aim}}/{{type}}/{{min-rooms}}-{{max-rooms}}/{{state}}?pricemax={{max-price}}&num=50&image=0&orderby=rel&pricemin={{min-price}}&page={{page}}",
+            "page-start": 1,
+            "page-max": 10,
+            "type": {
+                "flat": "apartamentos",
+                "house": ""
+            },
+            "aim": {
+                "rent": "arrendamento",
+                "buy": ""
             },
             "list": {
-                "element": "",
-                "title-el": "",
-                "base-url": "",
-                "url-el": "",
-                "area-el": "",
-                "date-el": "",
-                "description-el": "",
-                "price-el": "",
+                "pages-list": "#navigation_links #nvgl_pages a.page_number",
+                "element": "#resIni .ohidden.w100percent.cboth.mbot25.mleft10 .fleft.ohidden",
+                "title-el": "h2 .adLink",
+                "base-url": "http://bpiexpressoimobiliario.pt",
+                "url-el": "h2 .adLink",
+                "area-el": ".bbotlgray.ptop5.pbot7.mh65 .pleft5 .f9.pbot2",
+                "date-el": ".bbotlgray.ptop5.pbot7.mh65 .pleft5 .f9.pbot2",
+                "description-el": ".bbotlgray.ptop5.pbot7.mh65 .pleft5",
+                "price-el": ".fright.ohidden.mright10 .fright.bold.f12.mtop2",
                 "inside-item": {
-                    "element": "",
-                    "title-el": "",
-                    "url-el": "",
-                    "description-el": "",
-                    "price-el": "",
+                    "element": "#imo_detail #imo_description #imo_description_border",
+                    "area-el": ".bottom_dotted_border p + br + p + p",
+                    "date-el": ".bottom_dotted_border p + br + p + p + p + p + p + p + p",
+                    "description-el": ".bottom_dotted_border h4",
                     "phone-el": "",
                     "email-el": ""
                 }
@@ -49,3 +54,5 @@
         }
     ]
 }
+
+{

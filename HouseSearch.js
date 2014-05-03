@@ -36,7 +36,7 @@ HouseSearch.prototype.search = function (obj, callback) {
                 return callback(err);
             }
 
-            sysLog('info', '\nEnded search. Returning list');
+            sysLog('info', 'Ended search. Returning list');
 
             callback(null, this._dataList);
         }.bind(this));
@@ -50,25 +50,37 @@ HouseSearch.prototype._iterate = function (callback) {
     var database = this._databases[this._i],
         name = database.name || this._i;
 
-    this._currentArr = [];
     this._database = database;
+    this._currentArr = [];
 
-    this._pageController(function (err, list) {
+    this._pageController(function (err) {
         if (err) {
             return callback(err);
         }
 
-        // Populate datalist
-        this._dataList[name] = list;
-        this._i += 1;
+        // Redo with the inside pages
+        this._iterateInside(0, function (err, finalList) {
+            if (err) {
+                return callback(err);
+            }
 
-        // In case there are more databases
-        if (this._i < this._databases.length) {
-            return this._iterate(callback);
-        }
+            sysLog('info', 'Ended iteration inside');
 
-        // There are no more databases callback!
-        callback(null);
+            // Populate datalist
+            this._dataList[name] = finalList;
+            delete this._currentArr;
+            this._i += 1;
+
+            // In case there are more databases
+            if (this._i < this._databases.length) {
+                return this._iterate(callback);
+            }
+
+            // There are no more databases callback!
+            delete this._i;
+            callback(null);
+        }.bind(this));
+
     }.bind(this));
 };
 
@@ -93,71 +105,37 @@ HouseSearch.prototype._pageController = function (callback) {
         }
     }
 
-    this._currentPage = this._currentPage && Number(this._currentPage) + 1 || database['page-start'] || 1;
+    this._currentPage = this._currentPage && Number(this._currentPage) + 1 || Number(database['page-start']) || 1;
     this._maxPages = this._maxPages || this._currentPage;
-
-    // Return if already has done all the pages
-    if (this._currentPage > this._maxPages) {
-        return callback(null, this._currentArr);
-    }
 
     url = url.replace('{{page}}', this._currentPage);
 
-    sysLog('warn', '\nRequesting url: ' + url);
-
     setTimeout(function () {
-        this._request(url, function (err, items) {
-            this._currentArr = this._currentArr.concat(items);
+        // If already has done all the pages
+        if (this._currentPage > this._maxPages) {
+            return callback();
+        }
+
+        sysLog('warn', 'Requesting url: ' + url);
+        this._request(url, function (err) {
+            // Build list
+            this._currentArr = this._currentArr.concat(this._itemList());
+
             this._pageController(callback);
         }.bind(this));
     }.bind(this), searchCriteria.timer);
 };
 
 /*
- * Request page method
-*/
-HouseSearch.prototype._request = function (url, callback) {
-    request(url, function (err, response, page) {
-        if (!err && response.statusCode === 200) {
-            var regex;
-
-            // Only the content inside body is needed
-            page = page.substring(page.indexOf('<body'), page.indexOf('</body'));
-
-            // Remove all the scripts
-            regex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-            while (regex.test(page)) {
-                page = page.replace(regex, '');
-            }
-
-            // Remove all the iframes
-            regex = /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi;
-            while (regex.test(page)) {
-                page = page.replace(regex, '');
-            }
-
-            // Populate the html
-            $('html').html(page);
-
-            // Build list
-            return this._itemList(callback);
-        }
-
-        err = err || new Error('There was an error requesting the page: ' + url);
-        callback(err);
-    }.bind(this));
-};
-
-/*
  * Iterate through each element in page list
 */
-HouseSearch.prototype._itemList = function (callback) {
+HouseSearch.prototype._itemList = function () {
     var database = this._database,
         list = database.list,
         searchCriteria = this._searchCriteria,
         removeElements = this._removeElements,
-        hasNotKeywords = this._hasNotKeywords,
-        insideParams = this._insideParams,
+        keywords = this._keywords,
+        priceParams = this._priceParams,
         items = [],
         url,
         price,
@@ -187,13 +165,13 @@ HouseSearch.prototype._itemList = function (callback) {
         obj.price = typeof obj.price === 'object' && obj.price[0] || obj.price;
         obj.price = Number(obj.price);
 
-        if (!hasNotKeywords(searchCriteria['not-keywords'], obj) && insideParams(searchCriteria, obj)) {
+        if (!keywords(searchCriteria['not-keywords'], obj) && priceParams(searchCriteria, obj.price)) {
             items.push(obj);
         }
 
     });
 
-    callback(null, items);
+    return items;
 };
 
 /*
@@ -208,10 +186,109 @@ HouseSearch.prototype._checkNumberPages = function () {
     $(pagesList).each(function () {
         maxNumber = Number($(this).text());
 
-        that._maxPages = maxNumber > that._maxPages && maxNumber || that._maxPages;
+        that._maxPages = !isNaN(maxNumber) && maxNumber > that._maxPages && maxNumber || that._maxPages;
     });
 
     that._maxPages = that._maxPages > pagesMax && pagesMax || that._maxPages;
+};
+
+/*
+ * Iterate through the separate items
+*/
+HouseSearch.prototype._iterateInside = function (i, callback) {
+    var searchCriteria = this._searchCriteria,
+        url = this._currentArr[i].url,
+        insideData;
+
+    setTimeout(function () {
+        sysLog('warn', 'Requesting url: ' + url);
+
+        this._request(url, function (err) {
+            insideData = this._insideData();
+
+            if (!insideData) {
+                this._currentArr.splice(i, 1);
+                i -= 1;
+            } else {
+                // Populate array object
+                for (var key in insideData) {
+                    if (insideData.hasOwnProperty(key)) {
+                        this._currentArr[i][key] = insideData[key];
+                    }
+                }
+            }
+
+            // Advance to the next item
+            i += 1;
+
+            // In case there are more databases
+            if (i < this._currentArr.length) {
+                return this._iterateInside(i, callback);
+            }
+
+            // There are no more arrays callback!
+            callback(null, this._currentArr);
+        }.bind(this));
+    }.bind(this), searchCriteria.timer);
+};
+
+/*
+ * Get inside data
+*/
+HouseSearch.prototype._insideData = function () {
+    var list = this._database.list['inside-item'],
+        $this = $(list.element),
+        searchCriteria = this._searchCriteria,
+        removeElements = this._removeElements,
+        keywords = this._keywords,
+        obj;
+
+    obj = {
+        'area': list['area-el'] && list['area-el'] !== '' && removeElements($this.find(list['area-el']).text()),
+        'date': list['date-el'] && list['date-el'] !== '' && removeElements($this.find(list['date-el']).text()),
+        'description': list['description-el'] && list['description-el'] !== '' && removeElements($this.find(list['description-el']).text()),
+        'phone': list['phone-el'] && list['phone-el'] !== '' && removeElements($this.find(list['phone-el']).text()),
+        'email': list['email-el'] && list['email-el'] !== '' && removeElements($this.find(list['email-el']).text())
+    };
+
+    if (!keywords(searchCriteria['not-keywords'], obj) && keywords(searchCriteria.keywords, obj)) {
+        return obj;
+    }
+};
+
+// -------------------------------------------------
+
+/*
+ * Request page method
+*/
+HouseSearch.prototype._request = function (url, callback) {
+    request(url, function (err, response, page) {
+        if (!err && response.statusCode === 200) {
+            var regex;
+
+            // Only the content inside body is needed
+            page = page.substring(page.indexOf('<body'), page.indexOf('</body'));
+
+            // Remove all the scripts
+            regex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+            while (regex.test(page)) {
+                page = page.replace(regex, '');
+            }
+
+            // Remove all the iframes
+            regex = /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi;
+            while (regex.test(page)) {
+                page = page.replace(regex, '');
+            }
+
+            // Populate the html
+            $('html').html(page);
+        } else {
+            err = err || new Error('There was an error requesting the page: ' + url);
+        }
+
+        callback(err);
+    }.bind(this));
 };
 
 /*
@@ -236,38 +313,38 @@ HouseSearch.prototype._removeElements = function (str) {
 /*
  * Check if object has not keywords
 */
-HouseSearch.prototype._hasNotKeywords = function (notKeywords, obj) {
+HouseSearch.prototype._keywords = function (keywords, obj) {
     var item,
         key,
         i;
 
     for (key in obj) {
-        if (obj.hasOwnProperty(key)) {
+        if (obj.hasOwnProperty(key) && obj[key]) {
             item = obj[key].toString().toLowerCase();
 
             // Iterate all not keywords
-            for (i in notKeywords) {
-                if (item.replace(notKeywords[i].toString().toLowerCase()) !== item) {
+            for (i in keywords) {
+                if (item.replace(keywords[i].toString().toLowerCase()) !== item) {
                     return true;
                 }
             }
         }
     }
+
+    return false;
 };
 
 /*
- * Check if object has all the params
+ * Check if object has the right prices
 */
-HouseSearch.prototype._insideParams = function (searchCriteria, obj) {
+HouseSearch.prototype._priceParams = function (searchCriteria, price) {
     var minPrice = searchCriteria['min-price'],
-        maxPrice = searchCriteria['max-price'],
-        title = searchCriteria['title'],
-        description = searchCriteria['description'];
+        maxPrice = searchCriteria['max-price'];
 
     if (minPrice) {
         minPrice = Number(minPrice);
 
-        if (obj.price < minPrice) {
+        if (price < minPrice) {
             return false;
         }
     }
@@ -275,7 +352,7 @@ HouseSearch.prototype._insideParams = function (searchCriteria, obj) {
     if (maxPrice) {
         maxPrice = Number(maxPrice);
 
-        if (obj.price > maxPrice) {
+        if (price > maxPrice) {
             return false;
         }
     }
