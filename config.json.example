@@ -1,0 +1,51 @@
+{
+    "search-criteria": {
+        "min-price": 300,
+        "max-price": 450,
+
+        "min-rooms": "t1",
+        "max-rooms": "t2",
+
+        "state": "Porto",
+        "city": null,
+        "location": null,
+
+        "keywords": "garagem",
+        "not-keywords": "Paranhos",
+
+        "min-date": null,
+        "max-date": null,
+
+        "aim": "rent"
+    },
+    "databases": [
+        {
+            "name": "Sapo",
+            "param-sep": "?",
+            "url": "http://casa.sapo.pt/{{min-price}}{{param-sep}}{{max-price}}?{{nav-page}}",
+            "pages-list": {
+                "element": "",
+                "number-el": ""
+            },
+            "list": {
+                "element": "",
+                "title-el": "",
+                "base-url": "",
+                "url-el": "",
+                "area-el": "",
+                "date-el": "",
+                "description-el": "",
+                "price-el": "",
+                "inside-item": {
+                    "element": "",
+                    "title-el": "",
+                    "url-el": "",
+                    "description-el": "",
+                    "price-el": "",
+                    "phone-el": "",
+                    "email-el": ""
+                }
+            }
+        }
+    ]
+}
