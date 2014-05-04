@@ -1,58 +1,42 @@
 {
     "search-criteria": {
+        "timer": 1000,
+
         "min-price": 300,
         "max-price": 450,
 
-        "min-rooms": "t1",
-        "max-rooms": "t2",
+        "aim": "rent",
+        "type": "flat",
+        "min-rooms": "1",
+        "max-rooms": "2",
 
-        "state": "Porto",
-        "city": null,
-        "location": null,
+        "city": "london",
 
-        "keywords": "garagem",
-        "not-keywords": "Paranhos",
-
-        "min-date": null,
-        "max-date": null,
-
-        "aim": "rent"
+        "keywords": ["garage"],
+        "not-keywords": ["t0", "t3", "t4", "t5", "some location"]
     },
     "databases": [
         {
-            "name": "BPIExpressoImobiliario",
-            "url": "http://bpiexpressoimobiliario.pt/{{aim}}/{{type}}/{{min-rooms}}-{{max-rooms}}/{{state}}?pricemax={{max-price}}&num=50&image=0&orderby=rel&pricemin={{min-price}}&page={{page}}",
+            "name": "Something",
+            "url": "http://something.com/{{aim}}/{{type}}/t{{min-rooms}}-t{{max-rooms}}/{{city}}?pricemax={{max-price}}&num=50&image=0&orderby=rel&pricemin={{min-price}}&page={{page}}",
             "page-start": 1,
-            "page-max": 10,
-            "type": {
-                "flat": "apartamentos",
-                "house": ""
-            },
-            "aim": {
-                "rent": "arrendamento",
-                "buy": ""
-            },
+            "page-max": 20,
+            "page-gap": 1,
+            "type": { "flat": "flats", "house": "houses" },
+            "aim": { "rent": "renting", "buy": "buying"},
             "list": {
-                "pages-list": "#navigation_links #nvgl_pages a.page_number",
-                "element": "#resIni .ohidden.w100percent.cboth.mbot25.mleft10 .fleft.ohidden",
-                "title-el": "h2 .adLink",
-                "base-url": "http://bpiexpressoimobiliario.pt",
-                "url-el": "h2 .adLink",
-                "area-el": ".bbotlgray.ptop5.pbot7.mh65 .pleft5 .f9.pbot2",
-                "date-el": ".bbotlgray.ptop5.pbot7.mh65 .pleft5 .f9.pbot2",
-                "description-el": ".bbotlgray.ptop5.pbot7.mh65 .pleft5",
-                "price-el": ".fright.ohidden.mright10 .fright.bold.f12.mtop2",
+                "pages-list": "#navigation_links a.page_number",
+                "element": "#wrapper .elements-to-iterate",
+                "title-el": "h2",
+                "base-url": "http://something.com",
+                "url-el": "h2 a",
+                "description-el": ".description",
+                "price-el": ".price",
                 "inside-item": {
-                    "element": "#imo_detail #imo_description #imo_description_border",
-                    "area-el": ".bottom_dotted_border p + br + p + p",
-                    "date-el": ".bottom_dotted_border p + br + p + p + p + p + p + p + p",
-                    "description-el": ".bottom_dotted_border h4",
-                    "phone-el": "",
-                    "email-el": ""
+                    "element": "#wrapper .element-page-inside",
+                    "description-el": ".decription"
                 }
             }
         }
     ]
 }
-
-{

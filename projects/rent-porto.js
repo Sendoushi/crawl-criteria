@@ -21,7 +21,7 @@ config = {
         'city': 'porto',
 
         'keywords': ['garagem'],
-        'not-keywords': ['t0', 't3', 't4', 't5', 'moradia', 'paranhos', 'gondomar', 'valongo', 'maia', 'gondomar', 'mamede infesta', 'pedroso', 'voa de varzim', 'matosinhos', 'campanh', 'vila do conde', 'arcozelo']
+        'not-keywords': ['t0', 't3', 't4', 't5', 'moradia', 'paranhos', 'avintes', 'perosinho', 'canelas', 'santo tirso', 'paredes', 'os de ferreira', 'serezedo', 'carvalhos', 'lix da marinha', 'oliveira do douro', 'vilar do para', 'canelas', 'valadares', 'gondomar', 'valongo', 'maia', 'gondomar', 'mamede infesta', 'pedroso', 'voa de varzim', 'matosinhos', 'campanh', 'vila do conde', 'arcozelo']
     },
     'databases': [
         {
@@ -142,9 +142,9 @@ house.search(config, function (err, list) {
 
     // Logs the list object
     var fs = require('fs');
-    return fs.writeFile('./data-rent-porto', JSON.stringify(list, null, 4), function (err) {
+    fs.writeFile('./data-rent-porto', JSON.stringify(list, null, 4), function (err) {
         if (err) {
-            return console.log(err);
+            console.log(err);
         }
     });
 });

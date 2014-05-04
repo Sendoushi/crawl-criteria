@@ -2,8 +2,8 @@
 
 'use strict';
 
-var request = require('request'),
-    jsdom  = require('jsdom/lib/jsdom'),
+var jgo = require('jquerygo'),
+    jsdom  = require('jsdom'),
     window = jsdom.jsdom().parentWindow,
     $;
 
@@ -35,6 +35,9 @@ HouseSearch.prototype.search = function (obj, callback) {
             if (err) {
                 return callback(err);
             }
+
+            // Close phantom browser
+            jgo.close();
 
             sysLog('info', 'Ended search. Returning list');
 
@@ -262,33 +265,33 @@ HouseSearch.prototype._insideData = function () {
  * Request page method
 */
 HouseSearch.prototype._request = function (url, callback) {
-    request(url, function (err, response, page) {
-        if (!err && response.statusCode === 200) {
-            var regex;
+    // Visit the url
+    jgo.visit(url, function () {
+        jgo.waitForPage(function () {
+            jgo.getPage(function (page) {
+                jgo('body').html(function (htmlPage) {
+                    var regex;
 
-            // Only the content inside body is needed
-            page = page.substring(page.indexOf('<body'), page.indexOf('</body'));
+                    // Remove all the scripts
+                    regex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+                    while (regex.test(htmlPage)) {
+                        htmlPage = htmlPage.replace(regex, '');
+                    }
 
-            // Remove all the scripts
-            regex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-            while (regex.test(page)) {
-                page = page.replace(regex, '');
-            }
+                    // Remove all the iframes
+                    regex = /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi;
+                    while (regex.test(htmlPage)) {
+                        htmlPage = htmlPage.replace(regex, '');
+                    }
 
-            // Remove all the iframes
-            regex = /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi;
-            while (regex.test(page)) {
-                page = page.replace(regex, '');
-            }
+                    // Populate the html
+                    $('body').html(htmlPage);
 
-            // Populate the html
-            $('html').html(page);
-        } else {
-            err = err || new Error('There was an error requesting the page: ' + url);
-        }
-
-        callback(err);
-    }.bind(this));
+                    callback();
+                });
+            });
+        });
+    });
 };
 
 /*

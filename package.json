@@ -9,8 +9,7 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "request": "~2.34.0",
-    "jquery": "~2.1.1",
+    "jquerygo": "0.0.10",
     "jsdom": "~0.10.5"
   }
 }

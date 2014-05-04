@@ -2,6 +2,9 @@ House search
 
 =============
 
+To install:
+npm install
+
 ```js
 var config = require('./config.json'),
     HouseSearch = require('./HouseSearch'),
