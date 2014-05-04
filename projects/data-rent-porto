@@ -1,87 +1,686 @@
 {
     "BPIExpressoImobiliario": [
         {
-            "title": "Apartamento T2, Vila Nova de Gaia, Canidelo",
-            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Canidelo/a7043465",
-            "area": "Im�vel actualizado em: Sexta, 14 de Mar�o de 2014",
-            "date": "Refer�ncia: 9701",
-            "description": "Apartamento muito bem situado, em Canidelo, n� do Fojo, ao Burger King, perto ao acesso � A1, e Escola In�s de Castro, com transportes � porta. Tem �reas agrad�veis, vistas desafogadas, sala, cozinha espa�osa, lavandaria, despensa, banho completo, dois quartos, e arrumos no sot�o. N�o tem garagem, mas junto ao pr�dio tem muito aparcamento gr�tis. Condom�nio incluido, sem mobilia. Pede-se fiadores. <br/>Bem vindo ao universo da H. M. Pereira Imobili�ria !!! Estamos ao seu dispor desde 2005 em frente igreja de Mafamude, sito na Rua Raimundo de Carvalho n� 171, 2� SL 24 Mafamude, por tr�s do El Corte Ingl�s, a menos de 200m da esta��o de metro Jo�o de Deus ! Visite-nos ou contacte- nos ! Tel 22 015 38 35 | 91 366 82 72 - geral@hmpereira.pt | H. M.Pereira Imobili�ria Ami 6772 | www.hmpereira.pt",
-            "price": 325,
-            "phone": "",
-            "email": ""
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha/a7205179",
+            "description": "Excelente T1 com lugar de garagem e arrumos. Cozinha equipada com placa, forno, m�quina lou�a, frigor�fico combinado e microondas. Lavandaria com arm�rios.<br/>Varandas.<br/>Estores eletricos e aquecimento central. Caixilharia dupla.<br/>Condom�nio fechado com porteiro e videovigil�ncia 24 hrs.<br/>Campo t�nis e parque infantil, zonas ajardinadas. Sala condom�nio (excelente para festas)<br/>Para quem aprecia qualidade!<br/>Valor do condom�nio inclu�do<br/>Condi��es para arrendamento: pagamento de duas rendas, apresenta��o de recibos de vencimento e Declara��o de IRS com Nota de liquida��o. Fiadores com mesma documenta��o e prova de resid�ncia.;Valor de Renda: Mensal",
+            "price": 380
         },
         {
-            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude",
-            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude/a7144414",
-            "area": "Subtipo de im�vel: T2 COM BOAS �REAS. ...",
-            "date": "�rea bruta: 100 m2",
-            "description": "T2 COM MUITO BOAS �REAS, GARAGEM FECHADA, 2 CASAS DE BANHO, VARANDA, COZINHA EQUIPADA, ROUPEIRO.<br/>DISPON�VEL A PARTIR DE 1 DE MAIO.;Valor de Renda: Mensal",
-            "price": 375,
-            "phone": "",
-            "email": ""
+            "title": "Apartamento T2, Vila Nova de Gaia, Canidelo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Canidelo/a7043465",
+            "description": "Apartamento muito bem situado, em Canidelo, n� do Fojo, ao Burger King, perto ao acesso � A1, e Escola In�s de Castro, com transportes � porta. Tem �reas agrad�veis, vistas desafogadas, sala, cozinha espa�osa, lavandaria, despensa, banho completo, dois quartos, e arrumos no sot�o. N�o tem garagem, mas junto ao pr�dio tem muito aparcamento gr�tis. Condom�nio incluido, sem mobilia. Pede-se fiadores. <br/>Bem vindo ao universo da H. M. Pereira Imobili�ria !!! Estamos ao seu dispor desde 2005 em frente igreja de Mafamude, sito na Rua Raimundo de Carvalho n� 171, 2� SL 24 Mafamude, por tr�s do El Corte Ingl�s, a menos de 200m da esta��o de metro Jo�o de Deus ! Visite-nos ou contacte- nos ! Tel 22 015 38 35 | 91 366 82 72 - geral@hmpereira.pt | H. M.Pereira Imobili�ria Ami 6772 | www.hmpereira.pt",
+            "price": 325
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha/a7205177",
+            "description": "T1, MOBILADO, PR�XIMO DO ARRABIDA SHOPPING E DO EX-CARREFOUR.<br/>COZINHA KIT EQUIPADA COM FOG�O, PLACA.<br/>GARAGEM TIPO\"BOX\"<br/>CONDI��ES DE ARRENDAMENTO: 2 MESES+1 DE CAU��O.<br/>DOCUMENTOS INQUILINOS-IRS+NOTA LIQUIDA��O, RECIBOS DE ORDENADO,JUSTIFICATIVO DE MORADA ANTERIOR.<br/>FIADORES-OS MESMOS DOCUMENTOS DOS INQUILINOS.;Valor de Renda: Mensal",
+            "price": 370
         },
         {
             "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha e S�o Pedro da Afurada",
             "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha-e-Sao-Pedro-da-Afurada/a7172715",
-            "area": "Tipologia: T1",
-            "date": "Classifica��o Energ�tica: N�o aplic�vel.",
             "description": "T1 * Avenida da Rep�blica. Junto ao Corte Ingl�s. Boas �reas. Virado a Poente. Cozinha equipada. Arrumos. Lugar de garagem. Sem mob�lia. Consulte este e outros im�veis em www.casaecontratos.pt ou contacte-nos atrav�s do n.� 917 294 154",
-            "price": 350,
-            "phone": "",
-            "email": ""
+            "price": 350
         },
         {
             "title": "Apartamento T1, Porto, Ramalde",
             "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Ramalde/a7001151",
-            "area": "Tipologia: T1",
-            "date": "�rea terreno: 7 m2",
             "description": "MOBILADO. Condom�nio inclu�do. Sul/Poente.<br/>Sala comum 33 m2, suite 18 m2, 1 roupeiro, cozinha 5.5 m2, banho suite 4.5 m2.<br/>Varanda 7 m2.<br/>Lugar de garagem.<br/>Cozinha com piso em flutuante, paredes em material cer�mico, tampos em f�rmica, equipado com combinado, fog�o, m�quina de lavar roupa, m�quina de lavar lou�a.<br/>Aquecimento el�ctrico.",
-            "price": 450,
-            "phone": "",
-            "email": ""
+            "price": 450
         },
         {
-            "title": "Apartamento T2, Santo Tirso, S�o Martinho Campo",
-            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Santo-Tirso/Sao-Martinho-Campo/a6625250",
-            "area": "Im�vel actualizado em: Sexta,  2 de Maio de 2014",
-            "date": "�rea �til: 101 m2",
-            "description": "T2 duplex, cozinha equipada, condom�nio inclu�do, garagem individual .<br/>Certifica��o Erneg�tica Classe D.",
-            "price": 325,
-            "phone": "",
-            "email": ""
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude/a7144414",
+            "description": "T2 COM MUITO BOAS �REAS, GARAGEM FECHADA, 2 CASAS DE BANHO, VARANDA, COZINHA EQUIPADA, ROUPEIRO.<br/>DISPON�VEL A PARTIR DE 1 DE MAIO.;Valor de Renda: Mensal",
+            "price": 375
         },
         {
             "title": "Apartamento T1, Porto, Ramalde",
             "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Ramalde/a6958571",
-            "area": "Tipologia: T1",
-            "date": "�rea �til: 62 m2",
             "description": "Apartamento de tipologia T1 mobilado, de 2 frentes (Sul/Poente), em �ptimo estado de conserva��o, situado  em pr�dio de referencia no Foco.<br/>Disp�e de lugar de garagem.<br/>Ficando muito pr�ximo das principais entradas e sa�das da cidade.<br/>Marque hoje mesmo a sua visita! (Ref� APT2675)<br/>Tel 936 350 104",
-            "price": 450,
-            "phone": "",
-            "email": ""
+            "price": 450
+        },
+        {
+            "title": "Apartamento T2, Santo Tirso, S�o Martinho Campo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Santo-Tirso/Sao-Martinho-Campo/a6625250",
+            "description": "T2 duplex, cozinha equipada, condom�nio inclu�do, garagem individual .<br/>Certifica��o Erneg�tica Classe D.",
+            "price": 325
         },
         {
             "title": "Apartamento T1, Porto, Ramalde",
             "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Ramalde/a6256095",
-            "area": "Im�vel actualizado em: S�bado,  3 de Maio de 2014",
-            "date": "�rea bruta: 86 m2",
             "description": "POSSIBILIDADE DE ARRENDAMENTO DE CURTA DURA��O (2 OU 3 MESES) MOBILADO E EQUIPADO.</p><p>Apartamento de tipologia T1, de 2 frentes (Sul/Poente), com vistas de mar, em �ptimo estado de conserva��o, situado em pr�dio de referencia no Foco.<br/>Disp�e de lugar de garagem.<br/>Ficando muito pr�ximo das principais entradas e sa�das da cidade.<br/>Marque hoje mesmo a sua visita!",
-            "price": 440,
-            "phone": "",
-            "email": ""
+            "price": 440
         },
         {
             "title": "Apartamento T1, Vila Nova de Gaia, Mafamude",
             "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude/a7165776",
-            "area": "Subtipo de im�vel: T1 JUNTO AO CENTRO ...",
-            "date": "�rea bruta: 60 m2",
             "description": "T1 PR�XIMO DO CENTRO DE EMPREGO, AVENIDA DA REPUBLICA E DA LINHA DE METRO.<br/>BOAS �REAS.<br/>COZINHA EQUIPADA.<br/>LAREIRA.<br/>LUGAR DE GARAGEM NA CAVE;Valor de Renda: Mensal",
-            "price": 300,
-            "phone": "",
-            "email": ""
+            "price": 300
+        },
+        {
+            "title": "Apartamento T1, Porto, Bonfim",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Bonfim/a7140485",
+            "description": "Antas...</p><p>T1</p><p>Apartamento de qualidade mobilado e equipado. Som ambiente. Aquecimento central. Hidromassagem. Arrumo e garagem.</p><p>Áreas verdes.</p><p>Rigorosamente novo!",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T2, Porto, Ramalde",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Porto/Ramalde/a7140448",
+            "description": "Santa Luzia...</p><p>T2</p><p>Imóvel em bom estado de conservação.</p><p>Mobilado e equipado. Garagem.",
+            "price": 380
+        },
+        {
+            "title": "Apartamento T2, Pa�os de Ferreira, Pa�os de Ferreira",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Pacos-de-Ferreira/Pacos-de-Ferreira/a5038694",
+            "description": "T2 ao lago do Pingo Doce e Clinica Radelfe, cozinha nova com placa, forno e exaustor, 2 frentes, lareira, 2 varandas, lavandaria, suite, 2 roupeiros, pr�- intala��o de aquecimento central, video-porteiro, garagem individual. Valor do condominio inclu�do.<br/>Certifica��o Erneg�tica Classe C.",
+            "price": 325
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Canelas",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Canelas/a7095685",
+            "description": "T1 * Canelas. Junto � Serra de Canelas. Rua da Figueirinha. Impec�vel. Boas �reas. Sala com lareira. Vidros e caixilharia dupla. Varanda. Cozinha equipada. Pr�dio com jardim. lugar de garagem. Condom�nio Inclu�do. Consulte este e outros im�veis em www.casaecontratos.pt ou contacte-nos atrav�s do n.� 917 294 154",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T1, Porto, Bonfim",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Bonfim/a7140488",
+            "description": "Antas...</p><p>T1K</p><p>Junto à Praça Velasquez.</p><p>Apartamento de qualidade. Cozinha equipada. Piso em parquet. Porta de segurança. Roupeiro. Varanda. Garagem.</p><p>Metro. Transportes. Serviços.",
+            "price": 380
+        },
+        {
+            "title": "Apartamento T1, Porto, Bonfim",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Bonfim/a7140454",
+            "description": "Antas...</p><p>T1+1</p><p>Apartamento em local tranquilo. Zona das Antas. Praça Rainha Dª Amélia.</p><p>Poente.</p><p>Cozinha com lavandaria. Vidros duplos. Jardim do condomínio.</p><p>Nota: possibilidade de arrendar com garagem por 325€.",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Canidelo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Canidelo/a6686461",
+            "description": "Excelente apartamento T1 em Canidelo; frente virada a sul; boas �reas; 65m2 de �rea �til; suite; aquecimento e aspira��o central; sala de 22m2; cozinha equipada c/ placa, forno e combinado; lugar de garagem. Muito bem localizado.                                                Marque j� a sua visita!",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Oliveira do Douro",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Oliveira-do-Douro/a6643306",
+            "description": "T2 * Oliveira do Douro. Predio muito bem situado na quinta das liveiras, Condom�nio com amplo jardim � frente e atr�s, com limpeza e seguran�a di�rios. A 1min. da Ponte do Infante e do centro e a 5 da Arr�bida e do Freixo. Paragem em frente.  Apartamento em excelente estado de conserva�ao, nao necessita de qualquer obra ou pintura. Possui uma sala muito grande com varanda. Dois quartos, um � suite, uma cozinha equipada . lavandaria... Arrumos e lugar de garagem Virado para uma quinta urbana, � calmo e sem ruidos, ainda assim possui vidros duplos. Consulte este e outros im�veis em www.casaecontratos.pt ou contacte-nos atrav�s do n.� 917 294 154",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude/a7034191",
+            "description": "Apartamento  T2 em Vila Nova de Gaia - Mafamude para Arrendamento. T-2 Soares Dos Reis NOVO,com lugar de garagem,com cozinha equipada, placa, forno, combinado, estores eletricos, varanda, dois wc,no centro da cidade com tudo a porta. Classe Energ�tica: A ( Chave Nova - Media��o Imobili�ria, Lda )",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T2, Porto, Bonfim",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Porto/Bonfim/a7140453",
+            "description": "Antas...</p><p>T2</p><p>Zona da Praça Rainha Dª Amélia.</p><p>Cozinha equipada. Despensa. 2 wc´s completos. Lavandaria. Varanda. Garagem.</p><p>2 frentes.</p><p>Local tranquilo.",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, S�o Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Sao-Pedro-da-Afurada/a7128881",
+            "description": "Apartamento  T2 em Vila Nova de Gaia - S�o Pedro da Afurada para Arrendamento. Apartamento  T2 em Vila Nova de Gaia - S�o Pedro da Afurada para Arrendamento. T-2 mobilado no Arr�bida Shoping,com lugar de garagem e todo mobilado pronto habitar.</p><p> Classe Energ�tica: C ( Chave Nova - Media��o Imobili�ria, Lda )",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Canidelo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Canidelo/a7060919",
+            "description": "Apartamento T2 em V.N.Gaia, Canidelo. </p><p>Coz. com pavimento em granito preto. Equipada c/ placa, forno, combinado, m�q. lavar loi�a. m�q. lavar e secar roupa. <br/>Hall de entrada com pavimento em granito preto.<br/>1 quarto c/ closet c/ 4 bel�ssimos roupeiros. <br/>Vidros duplos. G�s canalizado. <br/>Aquecimento central que pode ser a g�s ou pela lareira. </p><p>Lugar de garagem fechada para 2 carros. </p><p>Condom�nio inclu�do. </p><p>Para mais informa��es, contacte:<br/>                        Rute Mendes<br/>                                       918 865 801 <br/>                                       rmtmds@gmail.com</p><p>Vila Azul, imobili�ria<br/>desde 1978</p><p>Uma boa equipa soluciona...",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T2, Porto, Ramalde",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Porto/Ramalde/a6932517",
+            "description": "Apartamento T2 com duas frentes.<br/>Cozinha com despensa, lavandaria, wc completo.<br/>Sala com 25m2, roupeiros, lugar de garagem.<br/>Junto a transportes, com�rcio e servi�os diversos.<br/>Marque visita!",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1, Porto, Cedofeita",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Cedofeita/a7032627",
+            "description": "Apartamento em bom estado.                                                           <br/>Boas �reas.                                                                                      <br/>Possibilidade de mobilar                                                                       <br/>Com lugar de garagem, sala com 20m2.<br/>Marque j� a sua visita.",
+            "price": 320
+        },
+        {
+            "title": "Apartamento T1, Porto, Cedofeita",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Cedofeita/a7140340",
+            "description": "Duplex...</p><p>T1+1</p><p>Baixa do Porto. Metro da Trindade.</p><p>Totalmnete mobilado e equipado. Aspiração central. Vidros duplos. Porta de segurança.</p><p>Piso em soalho.</p><p>Possibilidade de garagem por mais 50€.",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Canidelo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Canidelo/a7116221",
+            "description": "T1 * Impec�vel. Sala com lareira. Cozinha equipada. Lugar de garagem. Consulte este e outros im�veis em www.casaecontratos.pt ou contacte-nos atrav�s do n.� 917 294 154",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T1, Porto, Massarelos",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Massarelos/a7025279",
+            "description": "T1 Kit � Pra�a da Galiza<br/>Muito bem localizado, boas �reas.<br/>Exposto a Poente.                                                                                       <br/>Sem lugar de garagem.<br/>Sala com 16m2, cozinha equipada com fog�o e frigor�fico, despensa.<br/>Varanda com 6m2.<br/>Possibilidade de vender por 75.000€<br/>Marque j� a sua visita!!!",
+            "price": 380
+        },
+        {
+            "title": "Apartamento T1, Porto, Cedofeita, Sto Ildefonso, S�, Miragaia, S�o Nicola",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Cedofeita-Sto-Ildefonso-Se-Miragaia-Sao-Nicola/a6812467",
+            "description": "T1 * � Constitui��o. Recuado. Excelentes �reas. Terra�o. Semi - mobilado. Muito sol (Poente).Lavandaria.Com ou sem Lugar de garagem.Consulte este e outros im�veis em www.casaecontratos.pt ou contacte-nos atrav�s do n.� 917 294 154",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T1, Porto, Cedofeita, Sto Ildefonso, S�, Miragaia, S�o Nicola",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Cedofeita-Sto-Ildefonso-Se-Miragaia-Sao-Nicola/a7193542",
+            "description": "T1  * Junto ao metro da Casa da M�sica. Rua Vitorino Nem�sio. Aquecimento central. Cozinha equipada. Arrumos. Lugar de garagem. Consulte este e outros im�veis em www.casaecontratos.pt ou contacte-nos atrav�s do n.� 917 294 154",
+            "price": 440
+        },
+        {
+            "title": "Apartamento T1, Porto, Bonfim",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Bonfim/a7110228",
+            "description": "Apartamento T1 �s Antas junto ao Metro, com�rcio e servi�os.</p><p>Cozinha equipada<br/>Sala com varanda marquisada<br/>2 roupeiros<br/>Lugar de garagem<br/>Condom�nio inclu�do</p><p>Visite!",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1, Porto, Ramalde",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Ramalde/a6916367",
+            "description": "Apartamento novo, com cozinha equipada.                                               <br/>Aquecimento central.                                                                               <br/>Banheira de hidromassagem.                                                        <br/>Lugar de garagem e arrumos.<br/>Marque a sua visita.",
+            "price": 430
+        },
+        {
+            "title": "Apartamento T1, Porto, Lordelo do Ouro e Massarelos",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Lordelo-do-Ouro-e-Massarelos/a7144238",
+            "description": "T1 * Junto �s faculdades. Impec�vel. Cozinha equipada.( com m�quina de lavar e secar, placa, forno e frigorifico). Lugar de garagem. ***ARRENDA-SE SEM MOB�LIA*** Consulte este e outros im�veis em www.casaecontratos.pt ou contacte-nos atrav�s do n.� 917 294 154.",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T2, Porto, Ramalde",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Porto/Ramalde/a6837751",
+            "description": "T2 * Boavista. Junto � esta��o do metro de Francos. Com ou sem garagem individual. Consulte este e outros im�veis em www.casaecontratos.pt ou contacte-nos atrav�s do n.� 917 294 154",
+            "price": 375
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a7037242",
+            "description": "Excelente T1 em condom�nio fechado em zona residencial previlegiada com excentes acessibilidades �s vias r�pidas e a espa�os comerciais. Possui placa, forno, frigor�fico, aquecimento e lareira. Inclui garagem individual e condom�nio",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T1, Porto, Ramalde",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Ramalde/a7125883",
+            "description": "Habita��o Impec�vel mobilada e equipada localizada a cerca de 4/5 minutos a p� da Esta��o do Metro do Porto (Ramalde Viso), composta por: Hall de entrada - sala comum - quarto muito espa�oso - 1 banho completo - cozinha totalmente equipada - lavandaria - lugar de garagem - ...\r<br/>\r<br/>Acabamentos de Qualidade",
+            "price": 375
+        },
+        {
+            "title": "Apartamento T1, Porto, Cedofeita",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Cedofeita/a7120257",
+            "description": "T1 Boavista (Rua J�lio Dinis)ao Pal�cio, virado a Nascente, semi-mobilado, cozinha equipada, garagem, roupeiros.<br/>Valor 400€ com condominio incl�do no valor da renda.",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1+1, Vila Nova de Gaia, Oliveira do Douro",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1+1/Vila-Nova-de-Gaia/Oliveira-do-Douro/a6755274",
+            "description": "Apartamento T1+1, com 75 m2, situado junto ao Salvador Caetano, a 2 min da Av. da Republica. Possui 2 varandas. Excelente exposi��o solar. Possui lareira. Tem lugar de garagem. A zona tem servi�o de transportes publicos. Excelentes acessos rodovi�rios. Marque visita atrav�s do 227849590.",
+            "price": 310
+        },
+        {
+            "title": "Apartamento T2, Pa�os de Ferreira, Pa�os de Ferreira",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Pacos-de-Ferreira/Pacos-de-Ferreira/a6654008",
+            "description": "Se pretende arrendar apartamento T2 em Pa�os de Ferreira, eis a op��o que lhe apresentamos:</p><p>- Cozinha mobilada;<br/>- Lugar de garagem;<br/>- Junto ao Campo de Futebol de Pa�os de Ferreira.</p><p>Marque j� a sua visita!;Valor de Renda: Mensal",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T1, Porto, Lordelo do Ouro",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Lordelo-do-Ouro/a6704357",
+            "description": "Apartamento  T1 em Porto - Lordelo do Ouro para Arrendamento. Localiza-se na zona do Campo Alegre, com todo os servi�os, comercio e transporte publico na envolvente pr�xima.<br/>O apartamento tem 70m2 de �rea privativa e � composto por, Hall de entrada, sala comum com cerca de 25m2, cozinha e lavandaria independentes e equipadas, Hall �ntimo, 1 quarto e 1 casa de banho completa.<br/>Tem lugar de garagem para 1 carro e arrecada��o.<br/>O edif�cio beneficia de vigil�ncia 24H. Valor com condom�nio inclu�do.<br/>www.replicagold.pt Classe Energ�tica: B ( R�plica Gold - Habimaison, Med. Imobili�ria, Unip. Lda )",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, S�o Felix da Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Sao-Felix-da-Marinha/a7159338",
+            "description": "T1 c/ 80M2  - Sala com varanda, fog�o de sala, aquecimento central, lugar de garagem, a 200 metros da praia",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T1, Porto, Ramalde",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Ramalde/a6913270",
+            "description": "Bonito apartamento T1 no Foco. Com 60m2 de �rea, 2 frentes (S/P). Garagem. Mobilado. <br/>Certifica��o energ�tica Letra E.",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude/a7061024",
+            "description": "Apartamento T2 Laborim de Baixoem condom�nio fechado.</p><p>2 wc's (casa de banho principal e de servi�o), cozinha equipada s� com placa, forno, Siemens zona de alimenta��o com mesa em granito, lavandaria com esquentador Vulcano ventilado. </p><p>Sala com lareira e recuperador, quartos com ar condicionado.<br/>Quarto principal 17 m2 e varanda 4 m2.</p><p>1 lugar de garagem </p><p>Zona de lazer para crian�as.</p><p>Transportes p�blicos a 100 mts e metro a 500 mts.</p><p>Devido � altera��o recente da legisla��o de certifica��o energ�tica DL 58/2013, e ao elevado n�mero de processos em curso, a CE deste im�vel, encontra-se em fase de desenvolvimento.</p><p>Para mais informa��es ou marca��o de visitas por favor contatar Arrenda na Hora - Loja Gaia Centro atrav�s dos n.�s: 224059011 ou 910284131.",
+            "price": 360
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha/a7126870",
+            "description": "T1 pr�ximo � Media Markt  e Makro.\r<br/>\r<br/>Cozinha equipada com placa e forno; Aquecimento central.\r<br/>\r<br/>Despensa; Varanda em todas as divis�es\r<br/>\r<br/>Lugar de Garagem.",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Gulpilhares e Valadares",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Gulpilhares-e-Valadares/a4515814",
+            "description": "Apartamento T1 com 80m2 inserido em condom�nio fechado. Excelentes �reas. Boa localiza��o, a 500m da praia e a 50m dos acessos �s sa�das para a cidade. Duas frentes com orienta��o solar a poente/sul. Sala comum 25m2, cozinha 10m2 equipada com fog�o, forno, frigor�fico, m�quina de lavar lou�a e roupa. 1 quarto 20m2 e 1 wc completo. Piscina, court-de-t�nis, �reas ajardinadas e vigil�ncia nocturna. 1 lugar de garagem.Outros im�veis em www.predialfoz.com.",
+            "price": 420
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a7122763",
+            "description": "T2 NO ALTO DAS TORRES , BOAS AREAS , EM BOM ESTADO , COZINHA EQUIPADA ( PLACA , FORNO , MAQ DA ROUPA  ) , 2 FRENTES , LUGAR DE GARAGEM , CONDOMINIO INCLUIDO",
+            "price": 340
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude/a7140183",
+            "description": "Excelente T2 na Avenida da Republica,cozinha totalmente equipada com combinado,2 WC completos,Suite,Recuperador de calor,Banheira de Hidromassagem,secador de toalhas.<br/>Garagem individual.",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T1, Porto, Cedofeita, Sto Ildefonso, S�, Miragaia, S�o Nicola",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Cedofeita-Sto-Ildefonso-Se-Miragaia-Sao-Nicola/a7176343",
+            "description": "Apartamento T1+1 (c/ lugar de garagem)</p><p>Muito bem localizado ,a 20 metros da esta��o de metro de Faria Guimar�es-Porto",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, S�o Felix da Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Sao-Felix-da-Marinha/a6964562",
+            "description": "T2 no Edficiio Campo de Vales, localiza-se numa zona com espa�os comerciais a 15 minutos da zona Litoral, pr�ximo do Hotel Sol verde,  tem exposi��o solar virado a poente. Tem associado lugar de garagem.",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T1+1, Vila Nova de Gaia, Santa Marinha e S�o Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1+1/Vila-Nova-de-Gaia/Santa-Marinha-e-Sao-Pedro-da-Afurada/a6851524",
+            "description": "Apartamento T1+1 com Garagem Individual;* Recentemente restaurada;<br/>* Cozinha equipada com placa vitrocer�mica e forno;* Quartos em parquet;<br/>* Optima Localiza��o, centro de Gaia, ao lado do Hotel Meli�, perto do El Corte Ingl�s;* R�s-do-Ch�o com entrada independente;* 2 p�tios exteriores<br/>SEM GARAGEM 325 € - COM GARAGEM INDIVIDUAL 375 €",
+            "price": 325
+        },
+        {
+            "title": "Apartamento T2, Porto, Ramalde",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Porto/Ramalde/a6916844",
+            "description": "Apartamento T2 na Prelada, com 90m2 de �rea. 1 lugar de garagem.",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1, Porto, Cedofeita,Ildefonso,S�,Miragaia,Nicolau,Vit�ria",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/CedofeitaIldefonsoSeMiragaiaNicolauVitoria/a6718933",
+            "description": "Apartamento mobilado e cozinha equipada, na baixa do Porto (n�o tem garagem)<br/>Esta��o de metro a 650 metros.",
+            "price": 375
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6745031",
+            "description": "Apartamento T1+1,  como novo, em Vila Nova de Gaia com �ptima localiza��o. Com acesso directo � esta��o de metro de Santo Ov�dio e acesso privilegiado a auto-estradas. Cozinha equipada (electrodom�sticos novos), lavandaria e marquise. Sala e quarto com boas �reasl. Garagem fechada.<br/>Valor do arrendamento 385€.<br/>Visitas \"\"\" 937711777 - 227832703 - comercial@merida-imobiliaria.com",
+            "price": 385
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a7200044",
+            "description": "T2 PERTO DO HOSPITAL SANTOS SILVA E RTP , COZINHA COM PLACA FORNO FRIGORIFICO E MAQ DE LOU�A , LAVANDARIA DESPENSA VARANDA NA SALA , FOGAO DE SALA GARAGEM INDIVIDUAL CONDOMINIO INCLUIDO",
+            "price": 340
+        },
+        {
+            "title": "Apartamento T2, Paredes, Paredes",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Paredes/Paredes/a6076900",
+            "description": "T2 com cozinha euipada, mobilado e garagem individual. Junto � CP.<br/>Para mais informa��es e im�veis consulte WWW.NOBRECAPITAL.COM.",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a7118843",
+            "description": "Apartamento T2 com lugar de garagem 2 frentes com cerca de 100m2",
+            "price": 360
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Vilar-do-Paraiso/a6966358",
+            "description": "Apartamento T1 kit qualidade superior com as seguintes caracter�sticas:\r<br/>\r<br/>Garagem Fechada para 1 carro com liga��o de luz\r<br/>Cozinha mobilada / sem equipamento\r<br/>Aquecimento Central\r<br/>Varanda na sala\r<br/>Quarto com roupeiro embutido\r<br/>Wc completa\r<br/>Paineis solares",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Santa Marinha e S�o Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Santa-Marinha-e-Sao-Pedro-da-Afurada/a7114455",
+            "description": "Apartamento T2 voltado a Nascente,, com 95 m� �rea coberta, sala com 25m2, cozinha com placa e forno, quartos com 12m2, video porteiro e g�s canalizado, lugar de garagem, condominio com vigil�ncia 24 h, proximos  a transportes.<br/>Excelente localiza��o, a 5 min da cidade Porto.<br/>Para mais informa��es contacte-nos Tel. 226.175.689 / 917.694.446",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T1+1, Vila Nova de Gaia, Canidelo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1+1/Vila-Nova-de-Gaia/Canidelo/a6955993",
+            "description": "T1+1 com lugar de garagem, situado na Rua da B�lgica, em frente ao Campo de Futebol de Canidelo, Vila Nova de Gaia.<br/>Tem cozinha equipada com placa e forno.<br/>O edificio Praiamar III localiza-se pr�ximo de Supermercado, bancos, esta��o dos Correios, bombas de gasolina, escolas, transportes publicos, centro de saude etc.",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a7061599",
+            "description": "Apartamento T2 em Gaia para arrendar, Zona habitacional tranquila. Perto da A29 e do Hospital Eduardo Santos Silva. Paragem de Transportes p�blicos mesmo em frente ao Pr�dio. Pr�ximo de Escola, caf�s, florista, restaurantes e hipermercados. Com garagem e com f�cil acesso a estacionamento em frente ao Pr�dio. Obs: Sem elevador no piso.  Mais info: 937711777 - 227832703 - comercial@merida-imobiliaria.com",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Oliveira do Douro",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Oliveira-do-Douro/a6938667",
+            "description": "Excelente T1 muito bem localizado.<br/>Mobilado e equipado.<br/>Lugar de garagem.",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T2, Paredes, Paredes",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Paredes/Paredes/a6788998",
+            "description": "T2 com terra�o no centro da Cidade. Cozinha equipada e lugar de garagem.<br/>CERTIFICADO ENERG�TICO N� CE0000041071316; CLASSE ENERG�TICA 'C'; V�LIDO AT� 25-11-2020<br/>Para mais informa��es e im�veis consulte WWW.NOBRECAPITAL.COM",
+            "price": 330
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Oliveira do Douro",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Oliveira-do-Douro/a6849124",
+            "description": "Perto de super mercados,escolas,policia,auto-estrada e transportes p�blicos<br/> (A 5 min. de carro do centro de Gaia e a 10 min. do centro do Porto) </p><p> - Em excelente estado de conserva��o,<br/>luz natural o dia todo,em todas as divis�es<br/> (2 frentes e 2 varandas)<br/> - Cozinha completa<br/> - 2 quartos<br/> - 1 Casa de banho com janela<br/>- Vista fant�stica sobre o Porto<br/> - Lugar de garagem",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Gulpilhares",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Gulpilhares/a5419447",
+            "description": "ARRENDO T1 RECUADO - GAIA </p><p>- Muito bom estado<br/>- Todas as divis�es com acesso ao terra�o<br/>- Quarto c/roupeiro embutido<br/>- Cozinha equipada(micro-ondas,placa,forno,Maq.lavar roupa e combinado)<br/>- Lugar de garagem<br/>- Video porteiro<br/>- Pr�ximo de paragem de autocarro e acesso � auto-estrada<br/>- �rea comercial envolvente</p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha e S�o Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha-e-Sao-Pedro-da-Afurada/a6901618",
+            "description": "Apartamento T1 com lugar de garagem e terra�o. Para marca��o de visitas 919181850. Visite este e outros im�veis em www.ask4more.pt",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T2, Pa�os de Ferreira, Pa�os de Ferreira",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Pacos-de-Ferreira/Pacos-de-Ferreira/a7086990",
+            "description": "T2 com boas �reas, cozinha equipada com combinado, placa, forno e m�quina de lavar a loi�a, lugar de garagem,junto ao est�dio.  <br/>Para mais informa��es e im�veis consulte WWW.NOBRECAPITAL.COM",
+            "price": 320
+        },
+        {
+            "title": "Apartamento T1+1, Vila Nova de Gaia, Santa Marinha e S�o Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1+1/Vila-Nova-de-Gaia/Santa-Marinha-e-Sao-Pedro-da-Afurada/a6955992",
+            "description": "T1 +1 situado na Rua Dr. Alberto de Sousa Valente, perto do AKI e Mediamarket. <br/>Tem cozinha equipada com placa, forno e combinado, exaustor e caldeira.<br/>Tem roupeiro embutido, aquecimento central e lugar de garagem.<br/>Nota: As imagens apenas servem como refer�ncia",
+            "price": 340
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Madalena",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Madalena/a7131837",
+            "description": "ARRENDO T2- MADALENA - V. N. DE GAIA</p><p>- Cozinha equipada(placa, forno e exaustor)<br/>- Aquecimento central<br/>- Quartos com roupeiros embutidos <br/>- Garagem individual </p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T2+1, Vila Nova de Gaia, Santa Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2+1/Vila-Nova-de-Gaia/Santa-Marinha/a7143205",
+            "description": "T2+1 proximo dos Bombeiros de Coimbr�es, cozinha equipada, 2WCs, lugar de garagem. Marque j� visita. consulte este e outros im�veis no nosso site www.zonamais.net<br/>   Imobili�rio<br/>      Objectivo<br/>         Arrendamento<br/>      Im�vel<br/>         Apartamento<br/>            Tipologia<br/>               T2<br/>               +1<br/>            Piso<br/>               2�<br/>            Estado<br/>               Usado<br/>                  mais de 12 anos<br/>                  Apresenta��o<br/>                     Boa<br/>            �rea<br/>               �til<br/>                  de 81 a 100 m2 (95)<br/>            Edif�cio<br/>               Tipo Empreendimento<br/>                  Habita��o<br/>               N�mero de pisos<br/>                  4 a 6<br/>               Habita��es<br/>                  0 a 5<br/>               Elevadores<br/>                  Um<br/>               Isolamento<br/>                  T�rmico<br/>                  Ac�stico<br/>               Revestimento Exterior<br/>                  Litocer<br/>               Hall de Entrada<br/>                  Pavimento<br/>                     Tijoleira<br/>                  Paredes<br/>                     Pintadas<br/>                  Tecto<br/>                     Estucado<br/>               Vistas<br/>                  Panor�micas<br/>               Zona<br/>                  Acessos<br/>                     Comboio<br/>                     Transportes p�blicos<br/>                  Centralidade<br/>                     Centro da cidade<br/>                  Proximidade<br/>                     Escolas<br/>                     Jardins de inf�ncia<br/>                     Bombeiros<br/>                     Farm�cia<br/>                     Centros Comerciais<br/>                     Supermercado<br/>            Caracter�sticas<br/>               Frentes<br/>                  Duas<br/>               Exposi��o Solar<br/>                  Nascente<br/>                  Poente<br/>               Garagem<br/>                  Lugar<br/>                  N�mero de carros<br/>                     um<br/>                  �rea<br/>                     de 11 a 30 m2<br/>                  Local<br/>                     Cave<br/>                  Port�o Autom�tico<br/>               Caixilharia<br/>                  Alum�nio<br/>                  Estores<br/>                     PVC<br/>               Hall<br/>                  �rea (6)<br/>                  Pavimento<br/>                     Flutuante<br/>                  Paredes<br/>                     Pintadas<br/>                  Tecto<br/>                     Estucado<br/>                  Roupeiros<br/>               Sala<br/>                  �rea<br/>                     de 21 a 25 m2<br/>                  Pavimento<br/>                     Flutuante<br/>                  Paredes<br/>                     Pintadas<br/>                  Tecto<br/>                     Estucado<br/>                  Varanda<br/>               Cozinha<br/>                  �rea (12)<br/>                  Equipada<br/>                     Placa<br/>                     Forno<br/>                     M�quina de lavar loi�a<br/>                     Exaustor<br/>                  M�veis<br/>                     Lacados<br/>                  Tampo<br/>                     Granito<br/>                  Pavimento<br/>                     Tijoleira<br/>                  Paredes<br/>                     Azulejo<br/>                  Tecto<br/>                     Estucado<br/>                     Ponto de Luz<br/>                  Lavandaria<br/>                     Local<br/>               Quartos<br/>                  �reas (12)<br/>                  Pavimento<br/>                     Soalho de Madeira<br/>                  Paredes<br/>                     Pintadas<br/>                  Tecto<br/>                     Estucado<br/>                     Ponto de Luz<br/>                  Roupeiros<br/>                     Embutidos<br/>                  Quarto +1<br/>                     �rea (8)<br/>               Quartos de Banho<br/>                  �reas<br/>                     WC Servi�o (5)<br/>                     WC Completo (6)<br/>                  Equipamento<br/>                     Banheira de Hidromassagem<br/>                     M�vel de Apoio<br/>                        Madeira",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6964566",
+            "description": "Edificio Infante, localiza-se na Avenida da R�publica, com otimos acessos �s Pontes do Infante e Freixo e autoestrada, muito pr�ximo do com�rcio, de transportes publicos, inclusive o metro.<br/>Im�vel de tipologia T1 , com lugar de garagem e terra�o<br/>Equipados a nivel de cozinha com placa, forno, combinado e m�quina de lavar a Roupa.",
+            "price": 430
+        },
+        {
+            "title": "Apartamento T1+1, Vila Nova de Gaia, Canidelo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1+1/Vila-Nova-de-Gaia/Canidelo/a7063193",
+            "description": "ARRENDO T1+1 - CANIDELO - V. N.  GAIA</p><p>- Bom estado conserva��o<br/>- Varanda na sala<br/>- Sala com recuperador<br/>- Quarto com roupeiro<br/>- Cozinha equipada com forno e placa<br/>- Lavandaria ampla<br/>- Despensa <br/>- +1 com roupeiro<br/>- Lugar de garagem</p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 360
+        },
+        {
+            "title": "Apartamento T2+1, Vila Nova de Gaia, Canidelo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2+1/Vila-Nova-de-Gaia/Canidelo/a6208647",
+            "description": "ARRENDO T2+1 - CANIDELO - GAIA</p><p>- Optimos Acessos - N� do Fojo<br/>- Muito bom estado<br/>- Cozinha equipada com (placa, forno e combinado)<br/>- +1 com roupeiro<br/>- Sala com Varanda<br/>- Aquecimentro central<br/>- Lugar de Garagem</p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1, Porto, Aldoar, Foz do Douro e Nevogilde",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Aldoar-Foz-do-Douro-e-Nevogilde/a6922610",
+            "description": "T1 com 60 m�, terra�o com 50 m�, sala com 22 m�, quarto com roupeiro, 1 banho, cozinha equipada, pavimento em madeira, lugar garagem, 1 frente. Mobilado. <br/>Para mais informa��es contacte-nos Tel. 226175689 / 917694446",
+            "price": 430
+        },
+        {
+            "title": "Apartamento T1+1, Porto, Santo Ildefonso",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1+1/Porto/Santo-Ildefonso/a7137088",
+            "description": "Apartamento muito central muito perto do metro.<br/>Zona com com�rcio e bons acessos.<br/>T1+1 com boas �reas, o+1 tem 7m2.<br/>Lugar de garagem<br/>Condominio incluido<br/>Visite",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Canidelo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Canidelo/a7013261",
+            "description": "Apartamento tipologia T1, no edificio Quinta das Heras. O im�vel localiza-se na Rua da B�lgica entrada n.� 1958. O apartamento tem associado lugar de garagem.",
+            "price": 325
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6851464",
+            "description": "Arrenda-se apartamento T1 com 80m2: quarto c/ roupeiro,casa de banho completa,sala c/recuperador de calor,cozinha com placa vidrocer�mica,forno e m�quina lavar loi�a.. garagem, Bem estimado. Bons acessos � ponte do infante e Ponte do freixo. Junto � Rotunda do Real V�nicola perto de Supermercados  e Mcdonald's..<br/>.",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T2, Porto, Ramalde",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Porto/Ramalde/a6788355",
+            "description": "T2, 1� andar frente de gaveto, arm�rios embutidos, lugar de garagem, Ar condicionado quente / frio, varanda, solarengo. Para marca��o de visitas 919181850. Visite este e outros im�veis em www.ask4more.pt",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha/a6959592",
+            "description": "Fant�stico T1,  em zona excelente de Gaia, zona residencial e calma, mas muito central e perto de todos os servi�os. O apartamento est� como novo, sem marcas de uso, muito moderno e estecticamente atraente, tem bastante luz. Est� equipado com caldeira, placa e forno e tem arrumos. Tem aquecimento central e zona de lavandaria na cozinha. Tem lugar de garagem, elevadores, portas corta-fogo em todos os andares.",
+            "price": 425
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6955732",
+            "description": "OFERECEMOS 15 DIAS DE RENDA NA SUA NOVA CASA.<br/>Edificio Infante, localiza-se na Avenida da R�publica, com otimos acessos �s Pontes do Infante e Freixo e autoestrada, muito pr�ximo do com�rcio, de transportes publicos, inclusive o metro.<br/>Im�vel de tipologia T1 Kit, com lugar de garagem e equipado.<br/>Equipados a nivel de cozinha com placa, forno, combinado e m�quina de lavar a Roupa.",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Canidelo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Canidelo/a7017082",
+            "description": "Apartamento T1 em Canidelo em bom estado, com elevador. Apartamento mobilado, pavimento em soalho e um lugar de garagem.",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, S�o Felix da Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Sao-Felix-da-Marinha/a6325625",
+            "description": "ARRENDO T2 EM COND. FECHADO - S�O F�LIX MARINHA - GAIA</p><p>- Condominio Fechado<br/>- Varanda em todas as divis�es<br/>- Muito bom estado<br/>- Cozinha equipada com (placa, forno e combinado)<br/>- Quartos com Roupeiros embutidos<br/>- Aquecimentro central<br/>- Garagem Fechada para 2 carros</p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6348329",
+            "description": "Apartamento T2 para arrendamento com 85 m2 de �rea �til.<br/>-Pr�dio de Elevada Qualidade<br/>-Excelentes Localiza��o (a 15 metros da Rotunda Sto. Ov�deo) e Acessibilidades (autoestradas, metro e autocarro)<br/>-Com Alarme, Porteiro e Sistema de Videovigil�ncia<br/>-Com Lugar de garagem<br/>-Exposi��o solar ideal: Sul<br/>-Divis�es: Sala comum, hall, cozinha, lavandaria, dispensa, 2 quartos com roupeiros embutidos, wc.<br/>-Estado geral impec�vel.<br/>Para marca��o de visitas 919181850 ou 929443020. Visite este e outros im�veis em www.ask4more.pt",
+            "price": 425
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, S�o Felix da Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Sao-Felix-da-Marinha/a6964554",
+            "description": "Apartamento de tipologia T1, situado no edif�cio Quinta da Granja I.<br/>O im�vel � constitu�do pelas seguintes divis�es: sala com lareira e acesso a varanda, cozinha mobilada com zona de marquise , hall de entrada, quarto com roupeiro embutido e casa de banho com banheira.<br/>O im�vel tem associado lugar de garagem.<br/>O edif�cio Quinta da Granja I, localiza-se numa zona com bastante acessibilidades, espa�os comerciais, transportes p�blicos e espa�os verdes.",
+            "price": 320
+        },
+        {
+            "title": "Apartamento T2+1, Vila Nova de Gaia, Canelas",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2+1/Vila-Nova-de-Gaia/Canelas/a6851429",
+            "description": "caracter�sticas espec�ficas: 109 m� constru�dos, bom estado, disponibilidade 01/08/2012, r�s do ch�o, com elevador, equipamento: a casa est� mobilada, 2 quartos, 3 casas de banho, 1 roupeiro encastrado, pavimento de tijoleira<br/>equipamento, 1 lugar de garagem inclu�do no pre�o, a casa est� equipada com lareira, porteiro, observa��es: proximo das escolas e com transportes � porta,etc",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6955995",
+            "description": "T1 situado na Rua Padre Manuel Valente de Pinho Le�o, n.� 441, junto ao Parque da Lavandeira. Tem arm�rios embutidos e lugar de garagem.<br/>Bons acessos � Auto-Estrada, VL8, Corte-Ingl�s, Ponte do Infante e Av. da Rep�blica. A 10 min do Metro.",
+            "price": 325
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Santa Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Santa-Marinha/a5585767",
+            "description": "ARRENDO T2 - GAIA - Sta. MARINHA</p><p>- Fachadas orientadas a sul e a poente<br/>- 2 Lugares de garagem<br/>- Arrumos <br/>- Acesso a auto-estrada e transportes p�blicos<br/>- Zona Central </p><p>MARQUE VISITA! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6964567",
+            "description": "Edificio Infante, localiza-se na Avenida da R�publica, com otimos acessos �s Pontes do Infante e Freixo e autoestrada, muito pr�ximo do com�rcio, de transportes publicos, inclusive o metro.<br/>Im�vel de tipologia T1, com lugar de garagem e terra�o<br/>Equipados a nivel de cozinha com placa, forno, combinado e m�quina de lavar a Roupa.",
+            "price": 430
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, S�o Felix da Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Sao-Felix-da-Marinha/a5995885",
+            "description": "ARRENDO T2 - GAIA - S. F�LIX DA MARINHA</p><p>- Boas �reas<br/>- Sala c/  Varanda<br/>- Zona sossegada<br/>- Boas acessibilidades<br/>- Corredor com roupeiro embutido<br/>- Quartos com varanda<br/>- Aquecimento central<br/>- Garagem Fechada</p><p>MARQUE VISITA!<br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 335
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6955996",
+            "description": "T1 situado na Rua Estado da �ndia, n.� 490, em frente � Escola Almeida Garrett, pr�ximo do El Corte Ingl�s, metro, com�rcio, acessos �s autoestradas. Tem cozinha equipada com placa, forno, exaustor e esquentador. Tem 2 roupeiros embutidos. N�o tem lugar de garagem<br/>Para uma visita virtual ao im�vel por favor copie o seguinte link: http://3dsrv.com/E7D8i1dl",
+            "price": 325
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha/a5582530",
+            "description": "ARRENDO T1 C/GARAGEM - GAIA</p><p>- Garagem<br/>- Video porteiro<br/>- Roupeiros<br/>- Excelentes acessos e centro da cidade<br/>- Pr�ximo do Continente</p><p>MARQUE VISITA! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 320
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Canidelo",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Canidelo/a6955998",
+            "description": "Apartamento de tipologia T1, situado no Edificio Quinta das Heras, perto do P�o de A�ucar em Canidelo.<br/>O apartamento encontra-se equipado com placa, forno e exaustor.<br/>A fra��o tem associado lugar de garagem.<br/>Condominio fechado com zona de lazer e jardins. Bons acessos, transportes � porta, proximo de supermercado, escolas, correios e praias.",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha e S�o Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha-e-Sao-Pedro-da-Afurada/a7174649",
+            "description": "Apartamento T1 em Santa Marinha, Devesas, com lugar de garagem. Condom�nio inclu�do.",
+            "price": 320
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha e S�o Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha-e-Sao-Pedro-da-Afurada/a6955991",
+            "description": "T1 situado na Rua Dr. Alberto de Sousa Valente, perto do AKI e Mediamarket. Tem cozinha equipada com placa, forno e combinado, exaustor e caldeira. Tem roupeiro embutido, aquecimento central e lugar de garagem.<br/>Para uma visita virtual ao im�vel por favor carregue no link: http://3dsrv.com/9c1aejtr<br/>Nota: As imagens apenas servem como refer�ncia",
+            "price": 370
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Gulpilhares",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Gulpilhares/a7176634",
+            "description": "ARRENDO T1 MOBILADO - GULPILHARES - V.N.GAIA</p><p>- Excelente �rea 80m2<br/>- Cozinha totalmente equipada (forno,placa,micro-ondas,maq.loi�a/roupa e combinado)<br/>- Aquecimento Central<br/>- Sala com lareira<br/>- Cozinha com acesso a varanda<br/>- Garagem fechada <br/>- Bons acessos</p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 330
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha e S�o Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha-e-Sao-Pedro-da-Afurada/a6955962",
+            "description": "T1 kit, no 4� andar com elevador, roupeiro, lavandaria, varanda com a cozinha equipada com placa forno e combinado. <br/>O im�vel � constitu�do por, sala, cozinha kitchenette, quarto com roupeiro embutido e casa de banho completa.<br/>O im�vel localiza-se no edif�cio E�a de Queir�s, numa zona com acessibilidades pr�ximo do Arr�bida Shopping, acessos r�pidos �s principais vias.<br/>O im�vel tem associado lugar de garagem.",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6964563",
+            "description": "Edificio Infante, localiza-se na Avenida da R�publica, com otimos acessos �s Pontes do Infante e Freixo e autoestrada, muito pr�ximo do com�rcio, de transportes publicos, inclusive o metro.<br/>Im�vel de tipologia T1 Kit, com lugar de garagem e equipado.<br/>Equipados a nivel de cozinha com placa, forno, combinado e m�quina de lavar a Roupa.",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1+1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1+1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6851470",
+            "description": "Arrenda-se t1+1 entre o gaia shopping e o jardim soares dos reis com varanda, equipado e mobilado, lugar de garagem 2 carros.",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6851365",
+            "description": "Arrenda-se apartamento T/2 com garagem individual, junto a Santo Ovideo.",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Gulpilhares e Valadares",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Gulpilhares-e-Valadares/a6884850",
+            "description": "Apartamento T1 em Gulpilhares, Francelos com dois lugares de garagem. Cozinha equipada com placa, forno, frigorifico e m�quina. Dispon�vel no final de Mar�o.",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Serzedo e Perosinho",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Serzedo-e-Perosinho/a5375694",
+            "description": "Apartamento novo, com ilumina��o indireta atrav�s de sancas. <br/>Ch�o em madeira e carpintaria em faia.<br/>Uma das casas de banho equipada com banheira de hidromassagem<br/>Portadas duplas<br/>Garagem individual<br/>Em zona sossegada, o edif�cio Elite � servido por bons e f�ceis acessos � A1 e � A29, a cinco minutos do centro de Vila Nova de Gaia e a 20 minutos do centro do Porto.",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Canelas",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Canelas/a7174676",
+            "description": "Apartamento T2 em Canelas, Rechousa, pr�ximo do continente da rechousa � composto por 2 quartos com roupeiros embutidos com uma sala bastante espa�osa cozinha equipada com placa e forno e lavandaria com excelente arm�rio para arrumos e estendal de teto. O pre�o j� inclui condom�nio e lugar de garagem.<br/>Apartamento muito bem situado em zona comercial: farm�cia, talho, restaurantes, bancos, etc. e a 5 minutos de Sto. Ov�deo.",
+            "price": 340
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha e S�o Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha-e-Sao-Pedro-da-Afurada/a6788405",
+            "description": "Apartamnento T1 com lugar de garagem. Cozinha e lavandaria toda equipada. Quarto de dormir, sala e hall de entrada completamente mobilados.<br/>Transporte p�blico � porta. Bons acessos rodovi�rios (A1, etc). Muito pr�ximo do P�lo III - Campo Alegre, da Universidade do Porto. Para marca��o de visitas 919181850. Visite este e outros im�veis em www.ask4more.pt",
+            "price": 340
+        },
+        {
+            "title": "Apartamento T1+1, Vila Nova de Gaia, Gulpilhares e Valadares",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1+1/Vila-Nova-de-Gaia/Gulpilhares-e-Valadares/a7174658",
+            "description": "Apartamento T1+1 em Gulpilhares, Miramar, mobilado e com lugar de garagem.",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Santa Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Santa-Marinha/a6503653",
+            "description": "ARRENDO T2 NOVO - DEVESAS - V. N. DE GAIA</p><p>- Garagem fechada <br/>- Quartos com roupeiro revestido/embutido<br/>- Video porteiro<br/>- Roupeiro embutido no hall<br/>- Caldeira<br/>- Aquecimento central<br/>- Localizado no centro da cidade</p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6874980",
+            "description": "Arrenda-se apartamento T2 perto da Camara Municipal de Gaia, junto ao Metro.<br/>Totalmente restaurado. Cozinha equipada. Quartos com ch�o em madeira, disp�e de duas varandas. Apartamento com cerca de 90 m2, terceiro andar, sem elevador. N�o disp�e de garagem. Facilidade estacionamento. Junto a transportes. Para marca��o de visitas 919181850. Visite este e outros im�veis em www.ask4more.pt",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, S�o Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Sao-Pedro-da-Afurada/a6194314",
+            "description": "ARRENDO T2 - CANDAL - GAIA</p><p>- Garagem<br/>- cozinha com acesso � sala<br/>- quartos c/ roupeiros e grandes<br/>- Varanda na sala<br/>- lavandaria grande e solarenga<br/>- servido por com�rcio envolvente ( banco, restaura��o, lojas, etc...)<br/>- transportes � porta e acesso � auto-estrada<br/>- pr�ximo do centro comercial Arr�bida</p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, S�o Felix da Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Sao-Felix-da-Marinha/a6068456",
+            "description": "ARRENDO T2 - GAIA - S.F�LIX DA MARINHA</p><p>- Boas �reas<br/>- Sala c/  Varanda<br/>- Zona sossegada<br/>- Boas acessibilidades<br/>- Lugar Garagem </p><p>MARQUE VISITA!<br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T2, Vila Nova de Gaia, Valadares",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Valadares/a7202365",
+            "description": "ARRENDO T2- MADALENA - V. N. DE GAIA</p><p>- Exposi��o solar virado a sul, poente<br/>- Cozinha equipada(placa, forno, combinado, M�q. loi�a e exaustor)<br/>- Aquecimento central<br/>- Sala com Lareira<br/>- Varanda nos quartos<br/>- Quartos com roupeiros embutidos <br/>- Banheira de hidromassagem<br/>- Garagem individual </p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T2+1, Vila Nova de Gaia, Canelas",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2+1/Vila-Nova-de-Gaia/Canelas/a5343028",
+            "description": "ARRENDO T2+1 CANELAS - GAIA </p><p>- Excelente estado<br/>- Excelentes �reas<br/>- Aquecimento central<br/>- Aspira��o central <br/>- Acesso a transportes p�blicos<br/>- Garagem individual</p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 450
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha/a6503652",
+            "description": "ARRENDO T1 NOVO - DEVESAS - V. N. DE GAIA</p><p>- Garagem fechada<br/>- Quartos com roupeiro revestido/embutido<br/>- Video porteiro<br/>- Caldeira<br/>- Aquecimento central<br/>- Localizado no centro da cidade</p><p>MARQUE VISITA!!! <br/>www.domoversus.pt<br/>223754188 - 916323345",
+            "price": 400
+        },
+        {
+            "title": "Apartamento T1, Vila Nova de Gaia, Mafamude e Vilar do Para�so",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Mafamude-e-Vilar-do-Paraiso/a6788341",
+            "description": "Magnifico T1 muito amplo, mobilado e equipado, cozinha completa, maquina de lavar roupa, lugar de garagem, arrumos amplos, condominio incluido, ao Largo dos Aviadores, Vila Nova de Gaia tem todos os servi�os por perto, escolas, camara municipal, hospital, metro...Para marca��o de visitas 919181850 ou 929443020. Visite este e outros im�veis em www.ask4more.pt",
+            "price": 430
+        },
+        {
+            "title": "Apartamento T1+1, Vila Nova de Gaia, Avintes",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1+1/Vila-Nova-de-Gaia/Avintes/a6788459",
+            "description": "Apartamento t1+1 c/terra�o, arrumos e lugar de garagem, bons acabamentos e bem localizado. Para marca��o de visitas 919181850. Visite este e outros im�veis em www.ask4more.pt",
+            "price": 375
+        },
+        {
+            "title": "Apartamento T1, Porto, Cedofeita, Sto Ildefonso, S�, Miragaia, S�o Nicola",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Cedofeita-Sto-Ildefonso-Se-Miragaia-Sao-Nicola/a6788455",
+            "description": "T1 equipamento e completamente mobilado:<br/>Quarto: Roupeiro, cama de casal, 1 tv<br/>Sala: sofa-cama, cristaleira, movel sala, 1 tv<br/>Cozinha: fog�o + forno Meireles + maquina lavar roupa + frigorifico + microondas<br/>N�o tem lugar de garagem<br/>Para marca��o de visitas 919181850. Visite este e outros im�veis em www.ask4more.pt",
+            "price": 390
+        },
+        {
+            "title": "Apartamento T1, Porto, Cedofeita",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Cedofeita/a7169241",
+            "description": "Ang8830<br/>\"T1 Mobilado em Serpa Pinto\"<br/>-Apartamento T1 MOBILADO  para arrendar bem localizado � Constitui��o a poucos (12mn a p�)minutos do metro do Carolina;<br/>Tem de �rea �til 65 m2 mais varanda Caixilharia e vidros duplos, sala comum de 27m2 com piso em madeira, 1quarto com 12m2 com roupeiro embutido, cozinha mobilada e equipada com placa,frigorifico,exaustor,forno, lavandaria despensa.1 banho completo,Cilindro, condominio inclu�do no pre�o 1 lugar de garagem mais arrumos",
+            "price": 450
         }
     ],
     "Trovit": [],
     "Olx": [],
-    "Sapo": []
+    "Sapo": [],
+    "Imovirtual": []
 }

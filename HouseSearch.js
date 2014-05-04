@@ -107,7 +107,7 @@ HouseSearch.prototype._pageController = function (callback) {
         }
     }
 
-    this._currentPage = this._currentPage && Number(this._currentPage) + 1 || Number(database['page-start']) || 1;
+    this._currentPage = this._currentPage && Number(this._currentPage) + database['page-gap'] || Number(database['page-start']) || 1;
     this._maxPages = this._maxPages || this._currentPage;
 
     url = url.replace('{{page}}', this._currentPage);
@@ -158,8 +158,6 @@ HouseSearch.prototype._itemList = function () {
         obj = {
             'title': list['title-el'] && list['title-el'] !== '' && removeElements($this.find(list['title-el']).text()),
             'url': list['url-el'] && list['url-el'] !== '' && url + $this.find(list['url-el']).attr('href'),
-            'area': list['area-el'] && list['area-el'] !== '' && removeElements($this.find(list['area-el']).text()),
-            'date': list['date-el'] && list['date-el'] !== '' && removeElements($this.find(list['date-el']).text()),
             'description': list['description-el'] && list['description-el'] !== '' && removeElements($this.find(list['description-el']).text()),
             'price': price && price.match(/\d+/g) || 1
         };
@@ -250,11 +248,7 @@ HouseSearch.prototype._insideData = function () {
         obj;
 
     obj = {
-        'area': list['area-el'] && list['area-el'] !== '' && removeElements($this.find(list['area-el']).text()),
-        'date': list['date-el'] && list['date-el'] !== '' && removeElements($this.find(list['date-el']).text()),
-        'description': list['description-el'] && list['description-el'] !== '' && removeElements($this.find(list['description-el']).text()),
-        'phone': list['phone-el'] && list['phone-el'] !== '' && removeElements($this.find(list['phone-el']).text()),
-        'email': list['email-el'] && list['email-el'] !== '' && removeElements($this.find(list['email-el']).text())
+        'description': list['description-el'] && list['description-el'] !== '' && removeElements($this.find(list['description-el']).text())
     };
 
     if (!keywords(searchCriteria['not-keywords'], obj) && keywords(searchCriteria.keywords, obj)) {
