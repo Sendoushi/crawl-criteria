@@ -6,12 +6,11 @@ To install:
 npm install
 
 ```js
-var config = require('./config.json'),
-    HouseSearch = require('./HouseSearch'),
-    house = new HouseSearch();
+var Crawler = require('./Crawler'),
+    crawler = new Crawler();
 
 // Returns the data
-house.search(config, function (err, list) {
+crawler.search(searchCriteria, databases, function (err, list) {
     // In case there was an error requesting the data
     if (err) {
         throw err;

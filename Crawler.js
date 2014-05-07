@@ -13,11 +13,11 @@ function sysLog(env, msg) {
 
 function HouseSearch() {}
 
-HouseSearch.prototype.search = function (obj, callback) {
+HouseSearch.prototype.search = function (searchCriteria, databases, callback) {
     sysLog('info', 'Started searching...');
 
-    this._searchCriteria = obj['search-criteria'];
-    this._databases = obj.databases;
+    this._searchCriteria = searchCriteria;
+    this._databases = databases;
 
     if (!this._databases) {
         return callback(new Error('You need to set the databases'));
