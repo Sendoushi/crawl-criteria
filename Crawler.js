@@ -74,6 +74,9 @@ HouseSearch.prototype._iterate = function (callback) {
             // Populate datalist
             this._dataList[name] = finalList;
             delete this._currentArr;
+            delete this._currentPage;
+            delete this._maxPages;
+
             this._i += 1;
 
             // In case there are more databases
@@ -126,7 +129,7 @@ HouseSearch.prototype._pageController = function (callback) {
             // Build list
             this._currentArr = this._currentArr.concat(this._itemList());
 
-            this._pageController(callback);
+            callback();
         }.bind(this));
     }.bind(this), searchCriteria.timer);
 };

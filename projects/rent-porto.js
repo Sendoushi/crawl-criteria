@@ -3,12 +3,73 @@
 'use strict';
 
 var config,
-    HouseSearch = require('../HouseSearch'),
-    house = new HouseSearch();
+    searchCriteria,
+    databases,
+    Crawler = require('../Crawler'),
+    crawler = new Crawler();
+
+
+searchCriteria = {
+    'timer': 1000,
+
+    'search-modifiers': {
+        'min-price': 300,
+        'max-price': 450,
+
+        'aim': 'rent',
+        'type': 'flat',
+        'min-rooms': '1',
+        'max-rooms': '2',
+
+        'city': 'porto'
+    },
+
+    'keywords': ['garagem'],
+    'not-keywords': ['t0', 't3', 't4', 't5', 'moradia', 'paranhos', 'avintes', 'perosinho', 'canelas', 'santo tirso', 'paredes', 'os de ferreira', 'serezedo', 'carvalhos', 'lix da marinha', 'oliveira do douro', 'vilar do para', 'canelas', 'valadares', 'gondomar', 'valongo', 'maia', 'gondomar', 'mamede infesta', 'pedroso', 'voa de varzim', 'matosinhos', 'campanh', 'vila do conde', 'arcozelo']
+};
+
+databases = [
+    {
+        'name': 'BPIExpressoImobiliario',
+        'url': 'http://bpiexpressoimobiliario.pt/{{aim}}/{{type}}/t{{min-rooms}}-t{{max-rooms}}/{{city}}?pricemax={{max-price}}&num=50&image=0&orderby=rel&pricemin={{min-price}}&page={{page}}',
+        'page-start': 1,
+        'page-max': 20,
+        'page-gap': 1,
+        'page-modifiers': {
+            'type': { 'flat': 'apartamentos', 'house': '' },
+            'aim': { 'rent': 'arrendamento', 'buy': '' }
+        },
+        'pages-list': '#navigation_links #nvgl_pages a.page_number',
+        'list-elements': {
+            'el': '#resIni .ohidden.w100percent.cboth.mbot25.mleft10 .fleft.ohidden',
+            'title-el': 'h2 .adLink',
+            'base-url': 'http://bpiexpressoimobiliario.pt',
+            'url-el': 'h2 .adLink',
+            'description-el': '.bbotlgray.ptop5.pbot7.mh65 .pleft5',
+            'price-el': '.fright.ohidden.mright10 .fright.bold.f12.mtop2'
+        },
+        'inside-elements': {
+            'el': '#imo_detail #imo_description #imo_description_border',
+            'description-el': '.bottom_dotted_border h4'
+        }
+    }
+];
 
 config = {
     'search-criteria': {
         'timer': 1000,
+
+        'page-modifiers': {
+            'min-price': 300,
+            'max-price': 450,
+
+            'aim': 'rent',
+            'type': 'flat',
+            'min-rooms': '1',
+            'max-rooms': '2',
+
+            'city': 'porto'
+        },
 
         'min-price': 300,
         'max-price': 450,
@@ -28,7 +89,7 @@ config = {
             'name': 'BPIExpressoImobiliario',
             'url': 'http://bpiexpressoimobiliario.pt/{{aim}}/{{type}}/t{{min-rooms}}-t{{max-rooms}}/{{city}}?pricemax={{max-price}}&num=50&image=0&orderby=rel&pricemin={{min-price}}&page={{page}}',
             'page-start': 1,
-            'page-max': 20,
+            'page-max': 1 || 20,
             'page-gap': 1,
             'type': { 'flat': 'apartamentos', 'house': '' },
             'aim': { 'rent': 'arrendamento', 'buy': '' },
@@ -50,7 +111,7 @@ config = {
             'name': 'Trovit',
             'url': 'http://casa.trovit.pt/index.php/cod.search_homes/type.{{aim}}/what_d.{{city}}/page.{{page}}',
             'page-start': 1,
-            'page-max': 20,
+            'page-max': 1 || 20,
             'page-gap': 1,
             'type': { 'flat': '', 'house': '' },
             'aim': { 'rent': '2', 'buy': '1' },
@@ -71,7 +132,7 @@ config = {
             'name': 'Olx',
             'url': 'http://{{city}}.olx.pt/nf/{{type}}-p-{{page}}/type,{{aim}}',
             'page-start': 1,
-            'page-max': 20,
+            'page-max': 1 || 20,
             'page-gap': 1,
             'type': { 'flat': 'apartamento-casa-a-venda-cat-367', 'house': 'casas-moradias-para-arrendar-vender-cat-363' },
             'aim': { 'rent': '2', 'buy': '0' },
@@ -91,7 +152,7 @@ config = {
             'name': 'Sapo',
             'url': 'http://casa.sapo.pt/{{aim}}/{{type}}/t{{min-rooms}}-ate-t{{max-rooms}}/?sa=13&lp={{min-price}}&gp={{max-price}}&AOP=1',
             'page-start': 1,
-            'page-max': 20,
+            'page-max': 1 || 20,
             'page-gap': 1,
             'type': { 'flat': 'Apartamentos', 'house': 'Moradias' },
             'aim': { 'rent': 'Alugar', 'buy': 'Venda' },
@@ -112,7 +173,7 @@ config = {
             'name': 'Imovirtual',
             'url': 'http://www.imovirtual.com/imoveis/{{type}}/{{aim}}/-/{{city}}/{{city}}/size_from,{{min-rooms}},size_to,{{max-rooms}},price_from,{{min-price}},price_to,{{max-price}},search_page,{{page}}',
             'page-start': 0,
-            'page-max': 1000,
+            'page-max': 14 || 1000,
             'page-gap': 14,
             'type': { 'flat': 'apartamentos', 'house': '' },
             'aim': { 'rent': 'arrendar', 'buy': '' },
@@ -134,7 +195,7 @@ config = {
 };
 
 // Returns the data
-house.search(config, function (err, list) {
+crawler.search(config, function (err, list) {
     // In case there was an error requesting the data
     if (err) {
         return console.log(err);
