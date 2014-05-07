@@ -11,9 +11,9 @@ function sysLog(env, msg) {
     console.log('[' + env + '] ' + msg);
 }
 
-function HouseSearch() {}
+function Crawler() {}
 
-HouseSearch.prototype.search = function (searchCriteria, databases, callback) {
+Crawler.prototype.search = function (searchCriteria, databases, callback) {
     sysLog('info', 'Started searching...');
 
     this._searchCriteria = searchCriteria;
@@ -49,7 +49,7 @@ HouseSearch.prototype.search = function (searchCriteria, databases, callback) {
 /*
  * Iterate through the databases
 */
-HouseSearch.prototype._iterate = function (callback) {
+Crawler.prototype._iterate = function (callback) {
     var database = this._databases[this._i],
         name = database.name || this._i;
 
@@ -95,28 +95,10 @@ HouseSearch.prototype._iterate = function (callback) {
 /*
  * Controles each page of the database returning the list
 */
-HouseSearch.prototype._pageController = function (callback) {
-    var database = this._database,
-        searchCriteria = this._searchCriteria,
-        url = database.url.toLowerCase(),
-        searchKey,
-        key;
-
-    for (key in searchCriteria) {
-        searchKey = searchCriteria[key];
-        if (searchCriteria.hasOwnProperty(key) && searchCriteria[key] && searchCriteria[key] !== '') {
-            if (key !== 'keywords' && key !== 'not-keywords' && key !== 'aim' && key !== 'type') {
-                url = url.replace('{{' + key + '}}', searchKey.toString().toLowerCase());
-            } else if (key === 'aim' || key === 'type') {
-                url = url.replace('{{' + key + '}}', database[key][searchKey]);
-            }
-        }
-    }
-
-    this._currentPage = this._currentPage && Number(this._currentPage) + database['page-gap'] || Number(database['page-start']) || 1;
-    this._maxPages = this._maxPages || this._currentPage;
-
-    url = url.replace('{{page}}', this._currentPage);
+Crawler.prototype._pageController = function (callback) {
+    var searchCriteria = this._searchCriteria,
+        timeoutTime = searchCriteria.timer || 1000,
+        url = this._modifyUrl();
 
     setTimeout(function () {
         // If already has done all the pages
@@ -126,82 +108,68 @@ HouseSearch.prototype._pageController = function (callback) {
 
         sysLog('warn', 'Requesting url: ' + url);
         this._request(url, function (err) {
+            sysLog('info', 'Set max pages available');
+            this._checkNumberPages();
+
             // Build list
-            this._currentArr = this._currentArr.concat(this._itemList());
+            sysLog('info', 'Building object');
+            this._currentArr = this._currentArr.concat(this._buildObjects(this._database['list-elements']));
 
-            callback();
+            // Request one more page since the maxPages hasn't been met yet
+            this._pageController(callback);
         }.bind(this));
-    }.bind(this), searchCriteria.timer);
+    }.bind(this), timeoutTime);
 };
 
 /*
- * Iterate through each element in page list
+ * Modify Url with search criteria
 */
-HouseSearch.prototype._itemList = function () {
+Crawler.prototype._modifyUrl = function () {
     var database = this._database,
-        list = database.list,
         searchCriteria = this._searchCriteria,
-        removeElements = this._removeElements,
-        keywords = this._keywords,
-        priceParams = this._priceParams,
-        items = [],
-        url,
-        price,
-        $this,
-        obj;
+        url = database.url.toLowerCase(),
+        pageGap = Number(database['page-gap']) || 1,
+        pageStart = Number(database['page-start']) || 1,
+        searchModifiers = searchCriteria['search-modifiers'],
+        dbModifiers = database['page-modifiers'],
 
-    sysLog('info', 'Set max pages available');
-    this._checkNumberPages();
+        value,
+        key;
 
-    sysLog('info', 'Building object');
+    this._currentPage = this._currentPage && Number(this._currentPage) + pageGap || pageStart;
+    this._maxPages = this._maxPages || this._currentPage;
 
-    // Go through each element
-    $(list.element).each(function () {
-        $this = $(this);
-        url = list['base-url'] && list['base-url'] !== '' && list['base-url'] || '';
-        price = list['price-el'] && list['price-el'] !== '' && removeElements($this.find(list['price-el']).text());
+    url = url.replace('{{page}}', this._currentPage);
 
-        obj = {
-            'title': list['title-el'] && list['title-el'] !== '' && removeElements($this.find(list['title-el']).text()),
-            'url': list['url-el'] && list['url-el'] !== '' && url + $this.find(list['url-el']).attr('href'),
-            'description': list['description-el'] && list['description-el'] !== '' && removeElements($this.find(list['description-el']).text()),
-            'price': price && price.match(/\d+/g) || 1
-        };
+    // If the search criteria doesn't have any modifiers there is no need to continue
+    if (!searchModifiers) {
+        return url;
+    }
 
-        obj.price = typeof obj.price === 'object' && obj.price[0] || obj.price;
-        obj.price = Number(obj.price);
+    // Go through each key in the search criteria
+    for (key in searchModifiers) {
+        if (searchModifiers.hasOwnProperty(key) && searchModifiers[key] && searchModifiers[key] !== '') {
+            value = searchModifiers[key];
 
-        if (!keywords(searchCriteria['not-keywords'], obj) && priceParams(searchCriteria, obj.price)) {
-            items.push(obj);
+            // Check if there are database specifics for the key
+            if (dbModifiers.hasOwnProperty(key) && dbModifiers[key] && dbModifiers[key] !== '') {
+                if (dbModifiers[key].hasOwnProperty(value) && dbModifiers[key][value] && dbModifiers[key][value] !== '') {
+                    value = dbModifiers[key][value];
+                }
+            }
+
+            // Finally replace the url key
+            url = url.replace('{{' + key + '}}', value.toString().toLowerCase());
         }
+    }
 
-    });
-
-    return items;
-};
-
-/*
- * Checks for the max number of pages
-*/
-HouseSearch.prototype._checkNumberPages = function () {
-    var pagesList = this._database.list['pages-list'],
-        pagesMax = Number(this._database['page-max']),
-        that = this,
-        maxNumber;
-
-    $(pagesList).each(function () {
-        maxNumber = Number($(this).text());
-
-        that._maxPages = !isNaN(maxNumber) && maxNumber > that._maxPages && maxNumber || that._maxPages;
-    });
-
-    that._maxPages = that._maxPages > pagesMax && pagesMax || that._maxPages;
+    return url;
 };
 
 /*
  * Iterate through the separate items
 */
-HouseSearch.prototype._iterateInside = function (i, callback) {
+Crawler.prototype._iterateInside = function (i, callback) {
     if (!this._currentArr[i]) {
         return callback(null, this._currentArr);
     }
@@ -214,12 +182,14 @@ HouseSearch.prototype._iterateInside = function (i, callback) {
         sysLog('warn', 'Requesting url: ' + url);
 
         this._request(url, function (err) {
-            insideData = this._insideData();
+            insideData = this._buildObjects(this._database['inside-elements'], true);
 
             if (!insideData) {
                 this._currentArr.splice(i, 1);
                 i -= 1;
             } else {
+                insideData = insideData[0];
+
                 // Populate array object
                 for (var key in insideData) {
                     if (insideData.hasOwnProperty(key)) {
@@ -243,23 +213,82 @@ HouseSearch.prototype._iterateInside = function (i, callback) {
 };
 
 /*
- * Get inside data
+ * Iterate through each element in page list
 */
-HouseSearch.prototype._insideData = function () {
-    var list = this._database.list['inside-item'],
-        $this = $(list.element),
-        searchCriteria = this._searchCriteria,
-        removeElements = this._removeElements,
-        keywords = this._keywords,
-        obj;
-
-    obj = {
-        'description': list['description-el'] && list['description-el'] !== '' && removeElements($this.find(list['description-el']).text())
-    };
-
-    if (!keywords(searchCriteria['not-keywords'], obj) && keywords(searchCriteria.keywords, obj)) {
-        return obj;
+Crawler.prototype._buildObjects = function (listElements, checkKeywords) {
+    if (!listElements) {
+        return [];
     }
+
+    var database = this._database,
+        searchCriteria = this._searchCriteria,
+
+        notKeywords = searchCriteria['not-keywords'] || [],
+        keywords = searchCriteria.keywords || [],
+        baseUrl = database['base-url'],
+        $el = $(listElements.el || ''),
+
+        removeElements = this._removeElements,
+        keywordsFnc = this._keywords,
+        priceParams = this._priceParams,
+
+        items = [];
+
+    // Go through each element
+    $el.each(function () {
+        var key,
+            el,
+            obj = {},
+            $this = $(this);
+
+        for (key in listElements) {
+            if (listElements.hasOwnProperty(key) && listElements[key] && listElements[key] !== '' && key !== 'el') {
+                el = listElements[key];
+
+                if (key.replace('url-', '') !== key) {
+                    obj[key.replace('-el', '')] = $this.find(el).attr('href');
+                } else {
+                    obj[key.replace('-el', '')] = removeElements($this.find(el).text());
+                }
+            }
+        }
+
+        // In case the database needs a http:// base url
+        if (obj.url && baseUrl) {
+            obj.url = baseUrl + obj.url;
+        }
+
+        // Price related
+        obj.price = obj.price && obj.price.match(/\d+/g) || 1;
+        obj.price = typeof obj.price === 'object' && obj.price[0] || obj.price;
+        obj.price = Number(obj.price);
+
+        // Check if there are not-keywords and if the price is in the right range
+        if (!keywordsFnc(notKeywords, obj) && priceParams(searchCriteria, obj.price)) {
+            if (checkKeywords && keywordsFnc(keywords, obj) || !checkKeywords) {
+                items.push(obj);
+            }
+        }
+    });
+
+    return items;
+};
+
+/*
+ * Checks for the max number of pages
+*/
+Crawler.prototype._checkNumberPages = function () {
+    var pagesList = this._database['pages-list'],
+        pagesMax = Number(this._database['page-max']) || 20,
+        maxNumber = this._maxPages || 1,
+        num;
+
+    $(pagesList).each(function () {
+        num = Number($(this).text());
+        maxNumber = !isNaN(num) && num > maxNumber && num || maxNumber;
+    });
+
+    this._maxPages = maxNumber > pagesMax && pagesMax || maxNumber;
 };
 
 // -------------------------------------------------
@@ -267,7 +296,7 @@ HouseSearch.prototype._insideData = function () {
 /*
  * Request page method
 */
-HouseSearch.prototype._request = function (url, callback) {
+Crawler.prototype._request = function (url, callback) {
     // Visit the url
     jgo.visit(url, function () {
         jgo.waitForPage(function () {
@@ -300,7 +329,7 @@ HouseSearch.prototype._request = function (url, callback) {
 /*
  * Remove elements that are not needed
 */
-HouseSearch.prototype._removeElements = function (str) {
+Crawler.prototype._removeElements = function (str) {
     // Trim leading & trailing new lines and spaces
     str = str.replace(/^\s*/, '').replace(/\s*$/, '');
 
@@ -319,7 +348,7 @@ HouseSearch.prototype._removeElements = function (str) {
 /*
  * Check if object has not keywords
 */
-HouseSearch.prototype._keywords = function (keywords, obj) {
+Crawler.prototype._keywords = function (keywords, obj) {
     var item,
         key,
         i;
@@ -343,7 +372,7 @@ HouseSearch.prototype._keywords = function (keywords, obj) {
 /*
  * Check if object has the right prices
 */
-HouseSearch.prototype._priceParams = function (searchCriteria, price) {
+Crawler.prototype._priceParams = function (searchCriteria, price) {
     var minPrice = searchCriteria['min-price'],
         maxPrice = searchCriteria['max-price'];
 
@@ -366,4 +395,4 @@ HouseSearch.prototype._priceParams = function (searchCriteria, price) {
     return true;
 };
 
-module.exports = HouseSearch;
+module.exports = Crawler;

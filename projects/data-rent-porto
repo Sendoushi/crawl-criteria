@@ -1,77 +1,52 @@
 {
     "BPIExpressoImobiliario": [
         {
+            "title": "Apartamento T1, Porto, Bonfim",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Bonfim/a7207773",
+            "description": "Área: 55 m² |  2014-05-07 <br/>| Frontal - Soc. Mediação Imobiliária, Lda.</p><p>  <br/>- Ver todos os imóveis</p><p>        T1 na Avenida Fernão de Magalhães.<br/>Completamente remodelado.<br/>Cozinha totalmente equipada.                                                                   <br/>1 Frente, sala com 20m2, cozinha com 10m2.<br/>Varanda com 6m2. <br/>Livre a (...)",
+            "price": 350
+        },
+        {
             "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha",
             "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha/a7205179",
             "description": "Excelente T1 com lugar de garagem e arrumos. Cozinha equipada com placa, forno, máquina louça, frigorífico combinado e microondas. Lavandaria com armários.<br/>Varandas.<br/>Estores eletricos e aquecimento central. Caixilharia dupla.<br/>Condomínio fechado com porteiro e videovigilância 24 hrs.<br/>Campo ténis e parque infantil, zonas ajardinadas. Sala condomínio (excelente para festas)<br/>Para quem aprecia qualidade!<br/>Valor do condomínio incluído<br/>Condições para arrendamento: pagamento de duas rendas, apresentação de recibos de vencimento e Declaração de IRS com Nota de liquidação. Fiadores com mesma documentação e prova de residência.;Valor de Renda: Mensal",
-            "price": 380
+            "price": 1
+        },
+        {
+            "title": "Apartamento T1, Porto, Cedofeita",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Cedofeita/a7203139",
+            "description": "Área: 65 m² |  2014-05-04 <br/>| Iniciolar - Soc. Mediação Imobiliária, Lda.</p><p>  <br/>- Ver todos os imóveis</p><p>        Apartamento T1, localizado entre Cedofeita e a Praça da República. Habitação composta por hall de entrada, sala com varanda, cozinha, despensa, banho completo e quarto com varanda. Marque já a sua visita!!! Certificado energé (...)",
+            "price": 300
+        },
+        {
+            "title": "Apartamento T1, Porto, Bonfim",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Porto/Bonfim/a7183611",
+            "description": "2014-04-25 <br/>| CENTURY 21 Invicta</p><p>  <br/>- Ver todos os imóveis</p><p>        Concelho: Porto Freguesia: Bonfim -rea: 55 Preço de Arrendamento: 350€",
+            "price": 350
+        },
+        {
+            "title": "Apartamento T2+1, Porto, Bonfim",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2+1/Porto/Bonfim/a5891601",
+            "description": "2014-04-24 <br/>| Forum Casa</p><p>  <br/>- Ver todos os imóveis</p><p>        T2+1 em bom estado de conservação.<br/>Tel. 936 350 104",
+            "price": 400
         },
         {
             "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha",
             "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha/a7205177",
             "description": "T1, MOBILADO, PRÓXIMO DO ARRABIDA SHOPPING E DO EX-CARREFOUR.<br/>COZINHA KIT EQUIPADA COM FOGÃO, PLACA.<br/>GARAGEM TIPO\"BOX\"<br/>CONDIÇÕES DE ARRENDAMENTO: 2 MESES+1 DE CAUÇÃO.<br/>DOCUMENTOS INQUILINOS-IRS+NOTA LIQUIDAÇÃO, RECIBOS DE ORDENADO,JUSTIFICATIVO DE MORADA ANTERIOR.<br/>FIADORES-OS MESMOS DOCUMENTOS DOS INQUILINOS.;Valor de Renda: Mensal",
-            "price": 370
-        }
-    ],
-    "Trovit": [],
-    "Olx": [
-        {
-            "title": "Arrenda-se Apartamento T1 c/ lugar garagem - às An...",
-            "url": "http://portocity.olx.pt/arrenda-se-apartamento-t1-c-lugar-garagem-as-antas-porto-iid-452434361",
-            "description": "Aluga-se Apartamento T1 grande com lugar de garagem. Apartamento muito solarengo, não mobilado, no centro do Porto - zona das antas.</p><p>Fica a 10 minutos a pé do pólo universitário.</p><p>Localiza-se em zona sossegada em prédio por cima de galeria comercial com supermercado Pingo Doce, banco, cafés, igreja, lavandarias e vários serviços.</p><p>Tem uma vasta variedade de transportes públicos à porta. </p><p>Encontra-se disponível para visita através do contacto abaixo indicado.</p><p> </p><p> Tipologia: T1</p><p> Casas de Banho: 1",
-            "price": 370
+            "price": 1
         },
         {
-            "title": "T2 Condomínio privado-àguas Santas",
-            "url": "http://aguassantas.olx.pt/t2-condominio-privado-aguas-santas-iid-455137197",
-            "description": "Condomínio privado muito discreto e recente<br/>com parque infantil e jardim<br/>garagem fechada<br/>varanda<br/>lavandaria<br/>sala com 28 m2<br/>roupeiros embutidos<br/>excelente acessibilidades para as principais vias<br/>venha visitar</p><p>Refª 007</p><p> </p><p> Tipologia: T2<br/>Casas de Banho: 2<br/>Metros quadrados: 100</p><p> Condição: Renovado<br/>Certificado Energético: A",
-            "price": 450
-        },
-        {
-            "title": "Arrendo T1 Rio Tinto Mobilado",
-            "url": "http://riotinto-porto.olx.pt/arrendo-t1-rio-tinto-mobilado-iid-455133497",
-            "description": "Hall, Quarto em parquet flutuante, Roupeiro embutido, Cozinha independente, Marquise independente, WC, Sala, Lugar de garagem<br/>Eletrodomésticos: Exaustor, Fogão, Frigorifico, Máquina lavar roupa<br/>Outros Equipamentos: Intercomunicadores / Ligação TV<br/>Edifício: Elevador / Ascensor<br/>Caracterização da Zona Envolvente:<br/>Autocarro, Bancos, Biblioteca, Bombeiros, Centro Comercial, Centro de Enfermagem,<br/>Centro Saúde, Cinema, Complexo Desportivo, Creche, Escola Primária, Escola Secundária<br/>Estação de Metro - À porta, Farmácia, Finanças, Ginásio, Jardim Público, <br/>P. Estacionamento, Polícia – PSP.</p><p> </p><p> Tipologia: T1<br/>Casas de Banho: 1<br/>Metros quadrados: 77</p><p> Mobilado: Mobilado </p><p>Condição: Renovado",
-            "price": 385
-        }
-    ],
-    "Sapo": [
-        {
-            "title": "",
-            "url": "http://gespub.casa.sapo.pt/v3/webinterface/client/counter.aspx?p=286920&c=1&MCA=1&TW=195&BU=2&l=http%3a%2f%2fcasa.sapo.pt%2fApartamento-T2-Alugar-Vila-Nova-de-Gaia-Santa-Marinha-e-Sao-Pedro-da-Afurada-Arrabida-(Santa-Marinha)-perto.Escola%2cTransportes-Publicos%2cPolicia-tem.Vista-para-Cidade%2cEstacionamento-Ar-Livre-24a6fa9b-4921-4327-b7ec-a2110e67d5b7.html%3fpn%3d1%26g3pid%3d286920",
-            "description": "Apartamento T2 com 98m2 (fracção CK) e lugar de garagem (fracção AQ), constituído por sala comum, cozinha, despensa, marquise, 1 WC e 2 quartos. Aquecimento de águas por termoacumulador.O apartamento tem 3 frentes: nascente, sul e poente.Sala: 27m2; Quarto Q1: 17m2; Quarto Q2: 12m2O apartamento situa-se junto ao Arrábida Shopping (400m) e ao supermercado Continente (300m). Os acessos à A1/IC1/Ponte da Arrábida encontram-se a 1km.Os 2 quartos estão orientados a nascente e têm uma vista alargada sobre a cidade do Porto.A cozinha e a marquise encontram-se orientadas a sul. No caso da marquise esta orientação facilita bastante a secagem da roupa.A sala (com 1 janela + uma porta-janela de acesso à varanda) encontra-se orientada a poente.",
-            "price": 350
-        },
-        {
-            "title": "",
-            "url": "http://gespub.casa.sapo.pt/v3/webinterface/client/counter.aspx?p=288569&c=1&MCA=1&TW=195&BU=2&l=http%3a%2f%2fcasa.sapo.pt%2fApartamento-T2-Alugar-Vila-Nova-de-Gaia-Canidelo-Quatro-Caminhos-perto.Centro-da-Cidade%2cPolicia%2cEscola-com.Jardim-tem.Vista-para-Mar%2cEstacionamento-Coberto%2cGaragem%2cVarandas-bb35d220-18aa-494d-9091-59b2381d6fa6.html%3fpn%3d1%26g3pid%3d288569",
-            "description": "Excelente apartamento, localizado em zona de bons acessos e serviços, lugar de garagem, varandas, possibilidade de arrendamento jovem.",
-            "price": 350
-        },
-        {
-            "title": "",
-            "url": "http://casa.sapo.pt/Apartamento-T1-Alugar-Vila-Nova-de-Gaia-Canidelo-Quatro-Caminhos-tem.Garagem-e7ed683b-7dde-47ae-9915-92804fabe362.html?pn=1",
-            "description": "Apartamento tipologia T1, no edificio Quinta das Heras. O imóvel localiza-se na Rua da Bélgica entrada n.º 1958. O apartamento tem associado lugar de garagem.",
-            "price": 325
-        },
-        {
-            "title": "",
-            "url": "http://casa.sapo.pt/Apartamento-T1-Alugar-Porto-Bonfim-Fernao-de-Magalhaes-perto.Transportes-Publicos,Centro-da-Cidade,Escola-tem.Varandas,Garagem,Transportes-publicos,Varanda-677264fe-4acb-11e3-996a-000c2997a1bf.html?pn=1#360Photo",
-            "description": "Apartamento T1, acabado totalmente de ser remodelado, bem localizado, situado numa rua transversal à Avenida Fernão de Magalhaes, no Porto. Cozinha mobilada e equipada com electrodomésticos. Sala e quarto em soalho flutuante. Possui elevador. Não tem garagem.Zona bem servida de transportes públicos. Possui varanda. Clique para efectuar visita virtual OU VISITE http://3dsrv.com/563Cjyb1 .",
+            "title": "Apartamento T2, Vila Nova de Gaia, Vilar de Andorinho",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T2/Vila-Nova-de-Gaia/Vilar-de-Andorinho/a7140491",
+            "description": "Área: 97 m² |  2014-04-16 <br/>| Century 21 / Habinédita</p><p>  <br/>- Ver todos os imóveis</p><p>        Vilar de Andorinho...</p><p>T2</p><p>Apartamento em óptimas condições de habitabilidade na zona habitacional Vila D´Este.</p><p>Cozinha com lavandaria e despensa. 2 roupeiros. Porta de segurança. Varanda.</p><p> (...)",
             "price": 300
         },
         {
-            "title": "",
-            "url": "http://casa.sapo.pt/Apartamento-T2-Alugar-Vila-Nova-de-Gaia-Santa-Marinha-e-Sao-Pedro-da-Afurada-Continente-(Santa-Marinha)-perto.Transportes-Publicos,Centro-da-Cidade,Policia,Hospital,Escola-tem.Varandas-398423d9-6dfa-4c98-8a4a-ae04deb8ca90.html?pn=1",
-            "description": "Excelente T2+1 totalmente recuperado, com ótima localização junto as zonas comerciais, com garagem individual.Exige-se fiador.Contacto:937342498",
-            "price": 350
-        }
-    ],
-    "Imovirtual": [
-        {
-            "title": "T1 Cedofeita - Serpa Pinto ( Mobilado )",
-            "url": "http://www.imovirtual.com/imoveis/apartamentos/t1-cedofeita-serpa-pinto-mobilado/1887855/",
-            "description": "Descrição do imóvelT1, muito bem localizado próximo ao quartel militar da Constituição,, com hall, quarto, sala, cozinha equipada, wc completo com luz natural, lavandaria, varanda/marquise, totalmente mobilado e equipado, com electrodomésticos,3 roupeiros embutidos; tem garagem p/ 1 carro, arrumos, apartamento espaçoso, com 2 frentes (nascente e sul), com muita luz, 5º andar de prédio pequeno e sossegado; condomínio incluído; junto de muito comércio e todos os serviços; a 5 min a pé da Rotunda da Boavista e metro Carolina Michaelis; paragem STC em frente, autocarros para Hospital Santo António, Fac Medicina e Farmácia; tb próx Pólo Universitário Campo Alegre. Possibilidade de arrendar s/ garagem",
-            "price": 450
+            "title": "Apartamento T1, Vila Nova de Gaia, Santa Marinha e São Pedro da Afurada",
+            "url": "http://bpiexpressoimobiliario.pt/Apartamento/T1/Vila-Nova-de-Gaia/Santa-Marinha-e-Sao-Pedro-da-Afurada/a7172715",
+            "description": "T1 * Avenida da República. Junto ao Corte Inglês. Boas áreas. Virado a Poente. Cozinha equipada. Arrumos. Lugar de garagem. Sem mobília. Consulte este e outros imóveis em www.casaecontratos.pt ou contacte-nos através do n.º 917 294 154",
+            "price": 1
         }
     ]
 }
