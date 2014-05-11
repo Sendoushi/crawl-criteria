@@ -4,12 +4,12 @@
 
 var searchCriteria,
     databases,
-    Crawler = require('../Crawler'),
+    Crawler = require('../../Crawler'),
     crawler = new Crawler();
 
 
 searchCriteria = {
-    'timer': 1000,
+    'timer': 500,
 
     'search-modifiers': {
         'min-price': 300,
@@ -24,7 +24,7 @@ searchCriteria = {
     },
 
     'keywords': ['garagem'],
-    'not-keywords': ['t0', 't3', 't4', 't5', 'moradia', 'paranhos', 'avintes', 'espinho', 'perosinho', 'canelas', 'santo tirso', 'paredes', 'os de ferreira', 'serezedo', 'carvalhos', 'lix da marinha', 'oliveira do douro', 'vilar do para', 'canelas', 'valadares', 'gondomar', 'valongo', 'maia', 'gondomar', 'mamede infesta', 'pedroso', 'voa de varzim', 'matosinhos', 'campanh', 'vila do conde', 'arcozelo']
+    'not-keywords': ['t0', 't3', 't4', 't5', 'moradia', 'ismai', 'ermesinde', 'paranhos', 'avintes', 'espinho', 'antas', 'perosinho', 'canelas', 'santo tirso', 'paredes', 'os de ferreira', 'serezedo', 'carvalhos', 'a da palmeira', 'lix da marinha', 'oliveira do douro', 'vilar do para', 'canelas', 'valadares', 'gondomar', 'valongo', 'maia', 'gondomar', 'mamede infesta', 'pedroso', 'voa de varzim', 'matosinhos', 'campanh', 'senhora da hora', 'vermoim', 'aldoar', 'rechousa', 'rio tinto', 'vila do conde', 'arcozelo', 'lavra', 'pedrou', 'fanzeres']
 };
 
 databases = [
@@ -34,7 +34,7 @@ databases = [
         'base-url': 'http://bpiexpressoimobiliario.pt',
         'page-ready-time': 1,
         'page-start': 1,
-        'page-max': 20,
+        'page-max': 10,
         'page-gap': 1,
         'page-modifiers': {
             'type': { 'flat': 'apartamentos', 'house': '' },
@@ -50,15 +50,16 @@ databases = [
         },
         'inside-elements': {
             'el': '#imo_detail #imo_description #imo_description_border',
-            'description-el': '.bottom_dotted_border h4'
+            'description-el': '.bottom_dotted_border h4',
+            'img-el': '#imo_imgs #img_table #bimganchor #big_img'
         }
     },
     {
         'name': 'Trovit',
         'url': 'http://casa.trovit.pt/index.php/cod.search_homes/type.{{aim}}/what_d.{{city}}/page.{{page}}',
-        'page-ready-time': 500,
+        'page-ready-time': 250,
         'page-start': 1,
-        'page-max': 20,
+        'page-max': 10,
         'page-gap': 1,
         'page-modifiers': {
             'type': { 'flat': '', 'house': '' },
@@ -74,15 +75,16 @@ databases = [
         },
         'inside-elements': {
             'el': '#show_imovel .show_main_holder',
-            'description-el': '#detalhes .textos .descricao'
+            'description-el': '#detalhes .textos .descricao',
+            'img-el': '#description p a img'
         }
     },
     {
         'name': 'Olx',
         'url': 'http://{{city}}.olx.pt/nf/{{type}}-p-{{page}}/type,{{aim}}',
-        'page-ready-time': 500,
+        'page-ready-time': 250,
         'page-start': 1,
-        'page-max': 20,
+        'page-max': 10,
         'page-gap': 1,
         'page-modifiers': {
             'type': { 'flat': 'apartamento-casa-a-venda-cat-367', 'house': 'casas-moradias-para-arrendar-vender-cat-363' },
@@ -97,15 +99,16 @@ databases = [
         },
         'inside-elements': {
             'el': '#offer-content',
-            'description-el': '#description'
+            'description-el': '#description',
+            'img-el': '#offer_galery p #objpic'
         }
     },
     {
         'name': 'Sapo',
         'url': 'http://casa.sapo.pt/{{aim}}/{{type}}/t{{min-rooms}}-ate-t{{max-rooms}}/?sa=13&lp={{min-price}}&gp={{max-price}}&AOP=1',
-        'page-ready-time': 500,
+        'page-ready-time': 250,
         'page-start': 1,
-        'page-max': 20,
+        'page-max': 10,
         'page-gap': 1,
         'page-modifiers': {
             'type': { 'flat': 'Apartamentos', 'house': 'Moradias' },
@@ -121,15 +124,17 @@ databases = [
         },
         'inside-elements': {
             'el': '.mainContentBg',
-            'description-el': '.detailDescription h2'
+            'description-el': '.detailDescription h2',
+            'img-el': '#divPhotos .detailMediaDisplay #ImgSlide2'
         }
     },
     {
         'name': 'Imovirtual',
         'url': 'http://www.imovirtual.com/imoveis/{{type}}/{{aim}}/-/{{city}}/{{city}}/size_from,{{min-rooms}},size_to,{{max-rooms}},price_from,{{min-price}},price_to,{{max-price}},search_page,{{page}}',
-        'page-ready-time': 500,
+        'base-url': 'http://www.imovirtual.com/',
+        'page-ready-time': 250,
         'page-start': 0,
-        'page-max': 1000,
+        'page-max': 500,
         'page-gap': 14,
         'page-modifiers': {
             'type': { 'flat': 'apartamentos', 'house': '' },
@@ -139,20 +144,24 @@ databases = [
         'list-elements': {
             'el': '#content_results #resultlist .new_offer',
             'title-el': '.new_offertitle a',
-            'base-url': 'http://www.imovirtual.com/',
             'url-el': '.new_offertitle a',
             'description-el': '.new_offerlocation',
             'price-el': '.new_details .details_container .new_price .new_value'
         },
         'inside-elements': {
             'el': '#offer',
-            'description-el': '#content-narrow #attributes_visual + div'
+            'description-el': '#content-narrow #attributes_visual + div',
+            'img-el': '#offer_galery #objpic'
         }
     }
 ];
 
 // Returns the data
-crawler.search(searchCriteria, databases, function (err, list) {
+crawler.search({
+    searchCriteria: searchCriteria,
+    databases: databases,
+    notInside: false
+}, function (err, list) {
     // In case there was an error requesting the data
     if (err) {
         return console.log(err);

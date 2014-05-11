@@ -8,8 +8,7 @@ var phantom = require('node-phantom'),
     async = require('async'),
     jsdom  = require('jsdom'),
     window = jsdom.jsdom().parentWindow,
-    $,
-    ph;
+    $;
 
 function sysLog(env, msg) {
     console.log('[' + env + '] ' + msg);
@@ -17,8 +16,13 @@ function sysLog(env, msg) {
 
 function Crawler() {}
 
-Crawler.prototype.search = function (searchCriteria, databases, callback) {
+Crawler.prototype.search = function (obj, callback) {
     sysLog('info', 'Started searching...');
+
+    var databases = obj.databases,
+        searchCriteria = obj.searchCriteria,
+        notInside = obj.notInside,
+        that = this;
 
     if (!databases) {
         return callback(new Error('You need to set the databases'));
@@ -28,8 +32,8 @@ Crawler.prototype.search = function (searchCriteria, databases, callback) {
         return callback(new Error('You need to set the search params'));
     }
 
-    var that = this;
     this._searchCriteria = searchCriteria;
+    this._notInside = notInside;
     this._databases = databases;
 
     async.series([
@@ -42,38 +46,21 @@ Crawler.prototype.search = function (searchCriteria, databases, callback) {
             });
         },
         function (callback) {
-            // Create connection
-            phantom.create(function (err, phWf) {
-                if (err) {
-                    return callback(err);
-                }
-
-                ph = phWf;
-                callback();
-            }, { phantomPath: phantomjs.path });
-        },
-        function (callback) {
             sysLog('info', 'Started requesting the databases');
 
             // Request the databases
             that._dataList = {};
             that._i = 0;
             that._iterate(callback);
-        },
-        function (callback) {
-            // Close phantom browser
-            ph.exit();
-
-            sysLog('info', 'Ended search. Returning list');
-
-            callback(null, that._dataList);
         }
     ], function (err, results) {
         if (err) {
             return callback(err);
         }
 
-        callback(null, results[3]);
+        sysLog('info', 'Ended search. Returning list');
+
+        callback(null, that._dataList);
     });
 };
 
@@ -92,6 +79,18 @@ Crawler.prototype._iterate = function (callback) {
     this._pageController(function (err) {
         if (err) {
             return callback(err);
+        }
+
+        // Checks if it doesn't want to iterate in the inside pages
+        if (this._notInside) {
+            // Populate datalist
+            this._dataList[name] = this._currentArr;
+            delete this._currentArr;
+            delete this._currentPage;
+            delete this._maxPages;
+            delete this._i;
+
+            return callback();
         }
 
         // Redo with the inside pages
@@ -117,7 +116,7 @@ Crawler.prototype._iterate = function (callback) {
 
             // There are no more databases callback!
             delete this._i;
-            callback(null);
+            callback();
         }.bind(this));
 
     }.bind(this));
@@ -191,6 +190,8 @@ Crawler.prototype._modifyUrl = function () {
             }
 
             // Finally replace the url key
+            url = url.replace('{{' + key + '}}', value.toString().toLowerCase());
+            // In case there is more than just one
             url = url.replace('{{' + key + '}}', value.toString().toLowerCase());
         }
     }
@@ -274,12 +275,15 @@ Crawler.prototype._buildObjects = function (listElements, checkKeywords) {
             obj = {},
             $this = $(this);
 
+
         for (key in listElements) {
             if (listElements.hasOwnProperty(key) && listElements[key] && listElements[key] !== '' && key !== 'el') {
                 el = listElements[key];
 
                 if (key.replace('url-', '') !== key) {
                     obj[key.replace('-el', '')] = $this.find(el).attr('href');
+                } else if (key.replace('img-', '') !== key) {
+                    obj[key.replace('-el', '')] = $this.find(el).attr('src');
                 } else {
                     obj[key.replace('-el', '')] = removeElements($this.find(el).text());
                 }
@@ -330,9 +334,27 @@ Crawler.prototype._checkNumberPages = function () {
  * Request page method
 */
 Crawler.prototype._request = function (url, pageReady, callback) {
+    var ph;
+
     async.waterfall([
+        // Create connection
+        // TODO: Why does phantom need to re-create? Crashes otherwise
+        function (callback) {
+            phantom.create(function (err, phWf) {
+                if (err) {
+                    return callback(err);
+                }
+
+                ph = phWf;
+                callback();
+            }, { phantomPath: phantomjs.path });
+        },
         // Create the page
-        ph.createPage,
+        function (callback) {
+            ph.createPage(function (err, page) {
+                callback(err, page);
+            });
+        },
         // Open url
         function (page, callback) {
             page.open(url, function (err, status) {
@@ -350,6 +372,12 @@ Crawler.prototype._request = function (url, pageReady, callback) {
             page.evaluate(function () {
                 return document.querySelector('body').innerHTML;
             }, callback);
+        },
+        // Close phantom
+        function (htmlPage, callback) {
+            // Close phantom browser
+            ph.exit();
+            callback(null, htmlPage);
         }
     ], function (err, htmlPage) {
         var regex;
