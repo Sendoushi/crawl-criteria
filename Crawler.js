@@ -1,11 +1,15 @@
 /*jslint nomen: true, node: true*/
+/* global document */
 
 'use strict';
 
-var jgo = require('jquerygo'),
+var phantom = require('node-phantom'),
+    phantomjs = require('phantomjs'),
+    async = require('async'),
     jsdom  = require('jsdom'),
     window = jsdom.jsdom().parentWindow,
-    $;
+    $,
+    ph;
 
 function sysLog(env, msg) {
     console.log('[' + env + '] ' + msg);
@@ -16,34 +20,61 @@ function Crawler() {}
 Crawler.prototype.search = function (searchCriteria, databases, callback) {
     sysLog('info', 'Started searching...');
 
-    this._searchCriteria = searchCriteria;
-    this._databases = databases;
-
-    if (!this._databases) {
+    if (!databases) {
         return callback(new Error('You need to set the databases'));
     }
 
-    // Initialize js dom
-    jsdom.jQueryify(window, 'http://code.jquery.com/jquery.js', function () {
-        $ = window.jQuery;
+    if (!searchCriteria) {
+        return callback(new Error('You need to set the search params'));
+    }
 
-        sysLog('info', 'Started iterating through the databases');
+    var that = this;
+    this._searchCriteria = searchCriteria;
+    this._databases = databases;
 
-        this._dataList = {};
-        this._i = 0;
-        this._iterate(function (err) {
-            if (err) {
-                return callback(err);
-            }
+    async.series([
+        function (callback) {
+            // Initialize js dom
+            jsdom.jQueryify(window, 'http://code.jquery.com/jquery.js', function () {
+                $ = window.jQuery;
 
+                callback();
+            });
+        },
+        function (callback) {
+            // Create connection
+            phantom.create(function (err, phWf) {
+                if (err) {
+                    return callback(err);
+                }
+
+                ph = phWf;
+                callback();
+            }, { phantomPath: phantomjs.path });
+        },
+        function (callback) {
+            sysLog('info', 'Started requesting the databases');
+
+            // Request the databases
+            that._dataList = {};
+            that._i = 0;
+            that._iterate(callback);
+        },
+        function (callback) {
             // Close phantom browser
-            jgo.close();
+            ph.exit();
 
             sysLog('info', 'Ended search. Returning list');
 
-            callback(null, this._dataList);
-        }.bind(this));
-    }.bind(this));
+            callback(null, that._dataList);
+        }
+    ], function (err, results) {
+        if (err) {
+            return callback(err);
+        }
+
+        callback(null, results[3]);
+    });
 };
 
 /*
@@ -98,7 +129,8 @@ Crawler.prototype._iterate = function (callback) {
 Crawler.prototype._pageController = function (callback) {
     var searchCriteria = this._searchCriteria,
         timeoutTime = searchCriteria.timer || 1000,
-        url = this._modifyUrl();
+        url = this._modifyUrl(),
+        pageReady = Number(this._database['page-ready-time']) || 1;
 
     setTimeout(function () {
         // If already has done all the pages
@@ -107,7 +139,7 @@ Crawler.prototype._pageController = function (callback) {
         }
 
         sysLog('warn', 'Requesting url: ' + url);
-        this._request(url, function (err) {
+        this._request(url, pageReady, function (err) {
             sysLog('info', 'Set max pages available');
             this._checkNumberPages();
 
@@ -176,12 +208,13 @@ Crawler.prototype._iterateInside = function (i, callback) {
 
     var searchCriteria = this._searchCriteria,
         url = this._currentArr[i].url,
+        pageReady = Number(this._database['page-ready-time']) || 1,
         insideData;
 
     setTimeout(function () {
         sysLog('warn', 'Requesting url: ' + url);
 
-        this._request(url, function (err) {
+        this._request(url, pageReady, function (err) {
             insideData = this._buildObjects(this._database['inside-elements'], true);
 
             if (!insideData) {
@@ -296,33 +329,46 @@ Crawler.prototype._checkNumberPages = function () {
 /*
  * Request page method
 */
-Crawler.prototype._request = function (url, callback) {
-    // Visit the url
-    jgo.visit(url, function () {
-        jgo.waitForPage(function () {
-            jgo.getPage(function (page) {
-                jgo('body').html(function (htmlPage) {
-                    var regex;
-
-                    // Remove all the scripts
-                    regex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-                    while (regex.test(htmlPage)) {
-                        htmlPage = htmlPage.replace(regex, '');
-                    }
-
-                    // Remove all the iframes
-                    regex = /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi;
-                    while (regex.test(htmlPage)) {
-                        htmlPage = htmlPage.replace(regex, '');
-                    }
-
-                    // Populate the html
-                    $('body').html(htmlPage);
-
-                    callback();
-                });
+Crawler.prototype._request = function (url, pageReady, callback) {
+    async.waterfall([
+        // Create the page
+        ph.createPage,
+        // Open url
+        function (page, callback) {
+            page.open(url, function (err, status) {
+                callback(err, page);
             });
-        });
+        },
+        // Wait for page ready
+        function (page, callback) {
+            setTimeout(function () {
+                callback(null, page);
+            }, pageReady);
+        },
+        // Retrieve body html
+        function (page, callback) {
+            page.evaluate(function () {
+                return document.querySelector('body').innerHTML;
+            }, callback);
+        }
+    ], function (err, htmlPage) {
+        var regex;
+
+        // Remove all the scripts
+        regex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
+        while (regex.test(htmlPage)) {
+            htmlPage = htmlPage.replace(regex, '');
+        }
+
+        // Remove all the iframes
+        regex = /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi;
+        while (regex.test(htmlPage)) {
+            htmlPage = htmlPage.replace(regex, '');
+        }
+
+        // Populate the html
+        $('body').html(htmlPage);
+        callback();
     });
 };
 

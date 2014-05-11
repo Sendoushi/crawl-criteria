@@ -32,6 +32,7 @@ databases = [
         'name': 'BPIExpressoImobiliario',
         'url': 'http://bpiexpressoimobiliario.pt/{{aim}}/{{type}}/t{{min-rooms}}-t{{max-rooms}}/{{city}}?pricemax={{max-price}}&num=50&image=0&orderby=rel&pricemin={{min-price}}&page={{page}}',
         'base-url': 'http://bpiexpressoimobiliario.pt',
+        'page-ready-time': 1,
         'page-start': 1,
         'page-max': 20,
         'page-gap': 1,
@@ -55,6 +56,7 @@ databases = [
     {
         'name': 'Trovit',
         'url': 'http://casa.trovit.pt/index.php/cod.search_homes/type.{{aim}}/what_d.{{city}}/page.{{page}}',
+        'page-ready-time': 500,
         'page-start': 1,
         'page-max': 20,
         'page-gap': 1,
@@ -78,6 +80,7 @@ databases = [
     {
         'name': 'Olx',
         'url': 'http://{{city}}.olx.pt/nf/{{type}}-p-{{page}}/type,{{aim}}',
+        'page-ready-time': 500,
         'page-start': 1,
         'page-max': 20,
         'page-gap': 1,
@@ -100,6 +103,7 @@ databases = [
     {
         'name': 'Sapo',
         'url': 'http://casa.sapo.pt/{{aim}}/{{type}}/t{{min-rooms}}-ate-t{{max-rooms}}/?sa=13&lp={{min-price}}&gp={{max-price}}&AOP=1',
+        'page-ready-time': 500,
         'page-start': 1,
         'page-max': 20,
         'page-gap': 1,
@@ -123,6 +127,7 @@ databases = [
     {
         'name': 'Imovirtual',
         'url': 'http://www.imovirtual.com/imoveis/{{type}}/{{aim}}/-/{{city}}/{{city}}/size_from,{{min-rooms}},size_to,{{max-rooms}},price_from,{{min-price}},price_to,{{max-price}},search_page,{{page}}',
+        'page-ready-time': 500,
         'page-start': 0,
         'page-max': 1000,
         'page-gap': 14,
