@@ -1,6 +1,12 @@
 /*jslint nomen: true, node: true*/
 /* global document */
 
+// TODO: Price filter is not working
+// TODO: Price filter should only happen if it has "price-el"
+// TODO: List of filters?
+// TODO: Check if keywords are working
+// TODO: Whenever it doesn't have an element, do random string
+
 'use strict';
 
 var phantom = require('node-phantom'),
@@ -218,7 +224,7 @@ Crawler.prototype._iterateInside = function (i, callback) {
         this._request(url, pageReady, function (err) {
             insideData = this._buildObjects(this._database['inside-elements'], true);
 
-            if (!insideData) {
+            if (!insideData || insideData.length === 0) {
                 this._currentArr.splice(i, 1);
                 i -= 1;
             } else {
