@@ -1,18 +1,16 @@
 {
-    "name": "node-crawler",
-
-    "version": "0.0.1",
-    "description": "",
-    "main": "Crawler.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "BSD-2-Clause",
-    "dependencies": {
-        "jsdom": "~0.10.5",
-        "async": "~0.8.0",
-        "phantomjs": "~1.9.7-5",
-        "node-phantom": "~0.2.5"
-    }
+  "name": "node-crawler",
+  "version": "0.0.1",
+  "description": "",
+  "main": "Crawler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "async": "~0.8.0",
+    "jsdom": "~0.10.5",
+    "phridge": "^0.1.4"
+  }
 }

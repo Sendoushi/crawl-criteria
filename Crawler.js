@@ -9,8 +9,7 @@
 
 'use strict';
 
-var phantom = require('node-phantom'),
-    phantomjs = require('phantomjs'),
+var phridge = require("phridge"),
     async = require('async'),
     jsdom  = require('jsdom'),
     window = jsdom.jsdom().parentWindow,
@@ -270,7 +269,6 @@ Crawler.prototype._buildObjects = function (listElements, checkKeywords) {
 
         removeElements = this._removeElements,
         keywordsFnc = this._keywords,
-        priceParams = this._priceParams,
 
         items = [];
 
@@ -302,12 +300,12 @@ Crawler.prototype._buildObjects = function (listElements, checkKeywords) {
         }
 
         // Price related
-        obj.price = obj.price && obj.price.match(/\d+/g) || 1;
-        obj.price = typeof obj.price === 'object' && obj.price[0] || obj.price;
-        obj.price = Number(obj.price);
+        // obj.price = obj.price && obj.price.match(/\d+/g) || 1;
+        // obj.price = typeof obj.price === 'object' && obj.price[0] || obj.price;
+        // obj.price = Number(obj.price);
 
-        // Check if there are not-keywords and if the price is in the right range
-        if (!keywordsFnc(notKeywords, obj) && priceParams(searchCriteria, obj.price)) {
+        // Check if there are not-keywords
+        if (!keywordsFnc(notKeywords, obj)) {
             if (checkKeywords && keywordsFnc(keywords, obj) || !checkKeywords) {
                 items.push(obj);
             }
@@ -340,52 +338,19 @@ Crawler.prototype._checkNumberPages = function () {
  * Request page method
 */
 Crawler.prototype._request = function (url, pageReady, callback) {
-    var ph;
-
-    async.waterfall([
-        // Create connection
-        // TODO: Why does phantom need to re-create? Crashes otherwise
-        function (callback) {
-            phantom.create(function (err, phWf) {
-                if (err) {
-                    return callback(err);
-                }
-
-                ph = phWf;
-                callback();
-            }, { phantomPath: phantomjs.path });
-        },
-        // Create the page
-        function (callback) {
-            ph.createPage(function (err, page) {
-                callback(err, page);
+    phridge.spawn()
+    .then(function (phantom) {
+        return phantom.openPage(url);
+    })
+    .then(function (page) {
+        return page.run(function () {
+            return this.evaluate(function () {
+                return document.body.innerHTML;
             });
-        },
-        // Open url
-        function (page, callback) {
-            page.open(url, function (err, status) {
-                callback(err, page);
-            });
-        },
-        // Wait for page ready
-        function (page, callback) {
-            setTimeout(function () {
-                callback(null, page);
-            }, pageReady);
-        },
-        // Retrieve body html
-        function (page, callback) {
-            page.evaluate(function () {
-                return document.querySelector('body').innerHTML;
-            }, callback);
-        },
-        // Close phantom
-        function (htmlPage, callback) {
-            // Close phantom browser
-            ph.exit();
-            callback(null, htmlPage);
-        }
-    ], function (err, htmlPage) {
+        });
+    })
+    .finally(phridge.disposeAll)
+    .done(function (htmlPage) {
         var regex;
 
         // Remove all the scripts
@@ -403,6 +368,8 @@ Crawler.prototype._request = function (url, pageReady, callback) {
         // Populate the html
         $('body').html(htmlPage);
         callback();
+    }, function (err) {
+        throw err;
     });
 };
 
