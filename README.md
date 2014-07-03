@@ -1,7 +1,5 @@
 # Crawler
 
-=============
-
 Retrieve data from different databases using html elements to gather the information you need.
 It iterates navigation pages and inside pages. (check the examples)
 
