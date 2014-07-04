@@ -16,14 +16,25 @@ npm install
 var Crawler = require('./Crawler'),
     crawler = new Crawler();
 
-// Returns the data
-crawler.search(searchCriteria, databases, function (err, list) {
+// You may iterate through databases
+crawler.iterate(searchCriteria, databases, function (err, list) {
     // In case there was an error requesting the data
     if (err) {
         throw err;
     }
 
-    // Logs the list object
+    // Logs the list from all databases
+    console.log(list);
+});
+
+// Or you may just ask for a single database
+crawler.search(searchCriteria, database, function (err, list) {
+    // In case there was an error requesting the data
+    if (err) {
+        throw err;
+    }
+
+    // Logs the list from the single database
     console.log(list);
 });
 ```
@@ -33,5 +44,5 @@ Check the folder examples for examples on how to use.
 
 ##### Rent porto example
 ```
-node examples/rent-porto/rent-porto.js
+cd examples/rent-porto && node rent-porto.js
 ```
