@@ -83,18 +83,22 @@ module.exports = (function () {
         var val = result[filter].toLowerCase(),
             hasKeywords = 0,
             keyword,
+            alreadyTrue,
             d,
             e;
 
         for (d = 0; d < filterObj.has.length; d += 1) {
             keyword = filterObj.has[d].toLowerCase();
             keyword = keyword.split('||');
+            alreadyTrue = false;
 
-            for (e = e; e < keyword.length; e += 1) {
-                if (val.replace(keyword[e]) !== val) {
+            for (e = 0; e < keyword.length; e += 1) {
+                if (val.replace(keyword[e]) !== val && !alreadyTrue) {
                     hasKeywords += 1;
+                    alreadyTrue = true;
                 }
             }
+
         }
 
         if (filterObj.has.length === hasKeywords) {
