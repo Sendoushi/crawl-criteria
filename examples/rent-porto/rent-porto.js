@@ -5,7 +5,7 @@
         Crawler = require('../../Crawler'),
         crawler = new Crawler(),
 
-        hasKey = ['garagem'],
+        hasKey = ['garagem||garagens'],
         hasNotKey = ['sem garagem', 't0', 't1', 't4', 't5', 'moradia', 'ismai', 'valbom', 'trofa', 'canaveses', 'areosa', 'gulpilhares', 'ermesinde', 'paranhos', 'avintes', 'espinho', 'antas', 'perosinho', 'canelas', 'santo tirso', 'paredes', 'os de ferreira', 'serezedo', 'carvalhos', 'a da palmeira', 'lix da marinha', 'oliveira do douro', 'vilar do para', 'canelas', 'valadares', 'gondomar', 'valongo', 'maia', 'gondomar', 'mamede infesta', 'mamede de infesta', 'pedroso', 'voa de varzim', 'matosinhos', 'campanh', 'senhora da hora', 'vermoim', 'aldoar', 'rechousa', 'rio tinto', 'vila do conde', 'arcozelo', 'lavra', 'pedrou', 'fanzeres'],
         minPrice = 400,
         maxPrice = 700,

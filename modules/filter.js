@@ -83,15 +83,17 @@ module.exports = (function () {
         var val = result[filter].toLowerCase(),
             hasKeywords = 0,
             keyword,
-            d;
-
-        // TODO: These should have the possibility of: ||
+            d,
+            e;
 
         for (d = 0; d < filterObj.has.length; d += 1) {
             keyword = filterObj.has[d].toLowerCase();
+            keyword = keyword.split('||');
 
-            if (val.replace(keyword) !== val) {
-                hasKeywords += 1;
+            for (e = e; e < keyword.length; e += 1) {
+                if (val.replace(keyword[e]) !== val) {
+                    hasKeywords += 1;
+                }
             }
         }
 
