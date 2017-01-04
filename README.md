@@ -1,3 +1,9 @@
+# Deprecated
+
+No longer using or maintaining this.
+
+--------------------------
+
 # Crawler
 
 Retrieve data from different databases using html elements to gather the information you need.
