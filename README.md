@@ -1,54 +1,77 @@
-# Deprecated
+# MrCrowley
 
-No longer using or maintaining this.
+Retrieve data from different websites using html elements to gather the information you need.
 
---------------------------
+[![Build Status](https://travis-ci.org/Sendoushi/mrcrowley.svg?branch=master)](https://travis-ci.org/Sendoushi/mrcrowley)
 
-# Crawler
+----------
 
-Retrieve data from different databases using html elements to gather the information you need.
-It iterates navigation pages and inside pages. (check the examples)
+## Installation
 
-This module is still a little bit buggy. In part because of Phantomjs.
+- Install [node](http://nodejs.org)
 
-### Install
+```sh
+cd <project_folder>
+npm init # If you don't have a package.json already
+npm install --save-dev mrcrowley
 ```
-sudo npm install jsdom
-npm install
+
+----------
+
+## Usage
+
+#### Core usage
+
+I still have to document how you can `require` and use the `core` directly but just so that you know, you can do it and the results are based on `promises`.
+
+#### CLI
+
+Set a `.crawl.json` and run all the tasks you want when you pass it to `mrcrowley`.<br>
+
+**Note:**
+Any kind of path should be absolute or relative to the place the script is called.
+
+```sh
+node <mrcrowley_path> --config=<config_src>
 ```
 
-### Usage
-```js
-var Crawler = require('./Crawler'),
-    crawler = new Crawler();
+##### Example
 
-// You may iterate through databases
-crawler.iterate(searchCriteria, databases, function (err, list) {
-    // In case there was an error requesting the data
-    if (err) {
-        throw err;
-    }
+```sh
+node ./node_modules/mrcrowley/dist/index.js --config=".crawl.json"
 
-    // Logs the list from all databases
-    console.log(list);
-});
+# Or for ES6... You will need babel-core in the dependencies and ES2015 preset setup in your .babelrc
+node ./node_modules/mrcrowley/src/index.js --compilers js:babel-core/register --config=".crawl.json"
+```
 
-// Or you may just ask for a single database
-crawler.search(searchCriteria, database, function (err, list) {
-    // In case there was an error requesting the data
-    if (err) {
-        throw err;
-    }
+-------------------
 
-    // Logs the list from the single database
-    console.log(list);
-});
+## Configuration
+
+```json
+{
+    "projectId": "<project_id>",
+    "projectName": "<project_name>",
+    "throttle": 1000,
+    "data": [{
+        "src": ["<url_path>"],
+        "name": "<request_name>",
+        "modifiers": {
+            "<query_var_in_url>": ["<var_to_replace>"]
+        },
+        "retrieve": {
+            "<name>": {
+                "selector": "<html_selector>",
+                // If not provided, text content will be returned
+                "attribute": "<attribute_to_retrieve>",
+                // Ignore data with a regex pattern
+                "ignore": ["<regex_pattern_to_ignore>"]
+            }
+        }
+    }]
+}
 ```
 
 ### Examples
-Check the folder examples for examples on how to use.
+Go under the [src/_test/data](src/_test/data) folder and check the `*.json`.
 
-##### Rent porto example
-```
-cd examples/rent-porto && node rent-porto.js
-```

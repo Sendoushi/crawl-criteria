@@ -1,18 +1,10 @@
-lib-cov
-*.seed
-*.log
-*.csv
-*.dat
-*.out
-*.pid
-*.gz
+.DS_Store
+.vscode
+.idea
 
-pids
-logs
-results
-
-npm-debug.log
 node_modules
+bower_components
+vendor
 
-locales
-config.json
+*.log
+*.log.*

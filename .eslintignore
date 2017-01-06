@@ -1,0 +1,10 @@
+**/*.ico
+**/*.png
+**/*.gif
+**/*.jpg
+**/*.html
+**/*.php
+**/*.twig
+**/.*
+node_modules
+dist/*

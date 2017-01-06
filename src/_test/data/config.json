@@ -1,0 +1,36 @@
+{
+    "projectId": "test",
+    "projectName": "Test",
+    "throttle": 2000,
+    "data": [
+        {
+            "src": "http://www.brainjar.com/java/host/test.html",
+            "name": "Simple test html",
+            "retrieve": {
+                "content": {
+                    "selector": "body p"
+                }
+            }
+        }, {
+            "src": "http://www.brainjar.com/java/host/test.html",
+            "name": "Simple test html",
+            "retrieve": {
+                "meta": {
+                    "selector": "meta",
+                    "attribute": "content"
+                }
+            }
+        }, {
+            "src": "https://www.npmjs.com/search?q={{query}}",
+            "modifiers": {
+                "query": ["foo"]
+            },
+            "retrieve": {
+                "title": {
+                    "selector": "h3 a",
+                    "ignore": ["foo"]
+                }
+            }
+        }
+    ]
+}
