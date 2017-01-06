@@ -52,15 +52,18 @@ mrcrowley --config=<config_json_src> --save=<file_to_save_src>
         "retrieve": {
             "<name>": {
                 "selector": "<html_selector>",
-                // If not provided, text content will be returned
                 "attribute": "<attribute_to_retrieve>",
-                // Ignore data with a regex pattern
                 "ignore": ["<regex_pattern_to_ignore>"]
             }
         }
     }]
 }
 ```
+
+**Notes:**
+
+- `attribute`: If not provided, text content will be returned. Optional key.
+- `ignore`: Ignore results with a regex pattern. Optional key.
 
 ### Examples
 Go under the [src/_test/data](src/_test/data) folder and check the `*.json`.
