@@ -44,5 +44,9 @@
     "tough-cookie": "^2.3.2",
     "yargs": "^6.3.0"
   },
-  "keywords": []
+  "keywords": [
+    "crawler",
+    "scraper",
+    "spider"
+  ]
 }
