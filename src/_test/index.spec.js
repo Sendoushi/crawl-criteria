@@ -1,11 +1,14 @@
 'use strict';
 /* global describe it before after beforeEach afterEach Promise */
 
+import fs from 'fs';
 import { expect } from 'chai';
 import { __testMethods__ as fns } from '../index.js';
 
 // --------------------------------
 // Variables
+
+const testPath = './src/_test/data/tmp.json';
 
 // --------------------------------
 // Functions
@@ -116,6 +119,59 @@ describe('scraper.index', () => {
                 done();
             })
             .catch(done);
+        });
+
+        it('should save to a file', function (done) {
+            const configObj = require('./data/config.json');
+
+            // We need some time for this one to be well tested...
+            this.timeout(60000);
+
+            fns.run(configObj, testPath)
+            .then(() => {
+                const data = require(testPath.replace('src/_test/', ''));
+
+                expect(data).to.be.an('object');
+                expect(data).to.have.keys(['projectId', 'projectName', 'throttle', 'data', 'result']);
+                expect(data.projectId).to.be.a('string');
+                expect(data.projectName).to.be.a('string');
+                expect(data.throttle).to.be.a('number');
+                expect(data.data).to.be.an('array');
+                expect(data.data.length).to.eql(3);
+
+                data.data.forEach(val => {
+                    expect(val).to.be.an('object');
+                    expect(val).to.contain.keys(['src', 'retrieve']);
+                    expect(val.src).to.be.a('string');
+                    expect(val.retrieve).to.be.an('object');
+                });
+
+                expect(data.result).to.be.a('array');
+                expect(data.result.length).to.eql(3);
+
+                data.result.forEach(val => {
+                    expect(val).to.be.an('object');
+                    expect(val).to.contain.keys(['src', 'retrieve', 'name', 'result']);
+                    expect(val.src).to.be.a('string');
+                    expect(val.retrieve).to.be.an('object');
+                    expect(val.name).to.be.a('string');
+                    expect(val.result).to.be.an('array');
+
+                    val.result.forEach(res => {
+                        expect(res).to.be.an('object');
+                        expect(res).to.contain.keys(['src', 'result']);
+                        expect(res.src).to.be.a('string');
+                        expect(res.result).to.be.an('object');
+                    });
+                });
+
+                done();
+            })
+            .catch(done);
+        });
+
+        after(() => {
+            fs.existsSync(testPath) && fs.unlink(testPath);
         });
     });
 

@@ -11,9 +11,8 @@ Retrieve data from different websites using html elements to gather the informat
 - Install [node](http://nodejs.org)
 
 ```sh
-cd <project_folder>
-npm init # If you don't have a package.json already
-npm install --save-dev mrcrowley
+npm install -g mrcrowley
+mrcrowley --config="/home/user/.crawl.json" --save="/home/user/crawlResults.json"
 ```
 
 ----------
@@ -32,16 +31,7 @@ Set a `.crawl.json` and run all the tasks you want when you pass it to `mrcrowle
 Any kind of path should be absolute or relative to the place the script is called.
 
 ```sh
-node <mrcrowley_path> --config=<config_src>
-```
-
-##### Example
-
-```sh
-node ./node_modules/mrcrowley/dist/index.js --config=".crawl.json"
-
-# Or for ES6... You will need babel-core in the dependencies and ES2015 preset setup in your .babelrc
-node ./node_modules/mrcrowley/src/index.js --compilers js:babel-core/register --config=".crawl.json"
+mrcrowley --config=<config_json_src> --save=<file_to_save_src>
 ```
 
 -------------------

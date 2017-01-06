@@ -3,13 +3,14 @@
 'use strict';
 /* global Promise */
 
+import fs from 'fs';
 import path from 'path';
 import { argv } from 'yargs';
 import jsdom from 'jsdom';
 import resourceLoader from 'jsdom/lib/jsdom/browser/resource-loader';
 import toughCookie from 'tough-cookie';
 import isArray from 'lodash/isArray.js';
-import { isUrl, contains } from './utils.js';
+import { isUrl, contains, getPwd } from './utils.js';
 import { get as configGet } from './config.js';
 
 //-------------------------------------
@@ -250,7 +251,7 @@ const gatherData = (data = [], throttle, i = 0, dataResult = []) => {
  * @param {object|string} config
  * @returns {promise}
  */
-const run = (config) => {
+const run = (config, file) => {
     config = configGet(config);
 
     // Lets gather data from the src
@@ -259,6 +260,9 @@ const run = (config) => {
         // Cache the result
         config.result = data;
 
+        // Save the file
+        file && fs.writeFileSync(getPwd(file), JSON.stringify(config, null, 4), { encoding: 'utf-8' });
+
         resolve(config);
     }));
 };
@@ -266,7 +270,9 @@ const run = (config) => {
 //-------------------------------------
 // Runtime
 
-argv && argv.config && run(argv.config);
+if (argv && argv.config) {
+    run(argv.config, argv.save);
+}
 export { run, getUrl, getDom };
 
 // Essentially for testing purposes

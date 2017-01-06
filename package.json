@@ -9,6 +9,9 @@
   "authors": [
     "Joel Santos <joel@sendoushi.com>"
   ],
+  "bin": {
+    "mrcrowley": "./dist/index.js"
+  },
   "main": "./dist/index.js",
   "engines": {
     "node": ">=6"
