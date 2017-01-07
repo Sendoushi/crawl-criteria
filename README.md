@@ -63,6 +63,7 @@ mrcrowley --config=<config_json_src> --save=<file_to_save_src>
 **Notes:**
 
 - `retrieve`: Besides using a simplified `retrieve` you may also nest it to get contained data
+
     ```json
     {
         "src": ["..."],
