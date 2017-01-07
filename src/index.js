@@ -31,6 +31,8 @@ const getQueriedUrls = (data) => {
         throw new Error('A source string is needed to query url');
     }
 
+    // TODO: What about modifiers combinations?
+
     const keyModifiers = Object.keys(data.modifiers || []);
     if (!keyModifiers || !keyModifiers.length) {
         return [data.src];
@@ -135,6 +137,60 @@ const getDom = (src, type = 'url', throttle = 1000) => new Promise((resolve, rej
 });
 
 /**
+ * Gets scrap from element
+ *
+ * @param {element} parentEl
+ * @param {object} data
+ * @returns {object}
+ */
+const getScrap = ($, parentEl, data = {}) => {
+    if (!parentEl || !parentEl.find) {
+        throw new Error('A compliant parent element is needed to get the scrap');
+    }
+
+    const retrieve = data.retrieve || {};
+    const retrieveKeys = Object.keys(retrieve);
+    const results = {};
+
+    // Lets iterate the retrieve requests
+    for (let c = 0; c < retrieveKeys.length; c += 1) {
+        const key = retrieveKeys[c];
+        const req = retrieve[key];
+        const els = parentEl.find(req.selector);
+        const nested = req.retrieve;
+        const attr = req.attribute;
+        const ignore = req.ignore;
+        const result = [];
+
+        // Lets go per element...
+        for (let d = 0; d < els.length; d += 1) {
+            const el = els[d];
+            let single;
+
+            if (nested) {
+                if (!$ || !$.find) {
+                    throw new Error('A compliant $ is needed to get the scrap of nested');
+                }
+
+                // No need to go for the content if it gots nested
+                // Lets get the nested then
+                single = getScrap($, $(el), req);
+                result.push(single);
+            } else {
+                // No nested, get content!
+                single = !!attr ? el.getAttribute(attr) : el.textContent;
+                !contains(ignore, single) && result.push(single);
+            }
+        }
+
+        // Lets take care of ignore and finallycache it...
+        results[key] = result;
+    }
+
+    return results;
+};
+
+/**
  * Gets single data
  *
  * @param {object} data
@@ -158,35 +214,12 @@ const getSingle = (data = [], throttle, i = 0, dataArr = []) => {
 
     // Make the request and get back
     return getDom(data[i].src, 'url', throttle).then(singleDom => {
-        const $ = singleDom.window.$;
-        const retrieve = data[i].retrieve || {};
-        const retrieveKeys = Object.keys(retrieve);
-        const results = {};
-
-        // Lets iterate the retrieve requests
-        for (let c = 0; c < retrieveKeys.length; c += 1) {
-            const key = retrieveKeys[c];
-            const attr = retrieve[key].attribute;
-            const result = [];
-            const els = $.find(retrieve[key].selector);
-            const ignore = retrieve[key].ignore;
-
-            // Lets go per element...
-            for (let d = 0; d < els.length; d += 1) {
-                const el = els[d];
-                const single = !!attr ? el.getAttribute(attr) : el.textContent;
-
-                !contains(ignore, single) && result.push(single);
-            }
-
-            // Lets take care of ignore and finallycache it...
-            results[key] = result;
-        }
+        const el = singleDom.window.$;
 
         // Cache url data
         dataArr.push({
             src: data[i].src,
-            result: results
+            result: getScrap(el, el, data[i])
         });
 
         // Lets get the next one in the promise
@@ -276,4 +309,4 @@ if (argv && argv.config) {
 export { run, getUrl, getDom };
 
 // Essentially for testing purposes
-export const __testMethods__ = { run, gatherData, getSingle, getDom, getUrl, getQueriedUrls };
+export const __testMethods__ = { run, gatherData, getSingle, getDom, getScrap, getUrl, getQueriedUrls };

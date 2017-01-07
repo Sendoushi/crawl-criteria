@@ -62,6 +62,24 @@ mrcrowley --config=<config_json_src> --save=<file_to_save_src>
 
 **Notes:**
 
+- `retrieve`: Besides using a simplified `retrieve` you may also nest it to get contained data
+    ```json
+    {
+        "src": ["..."],
+        "retrieve": {
+            "<name>": {
+                "selector": "<parent_html_selector>",
+                "retrieve": {
+                    "<name>": {
+                        "selector": "<child_html_selector>",
+                        "attribute": "<attribute_to_retrieve>",
+                        "ignore": ["<regex_pattern_to_ignore>"]
+                    }
+                }
+            }
+        }
+    }
+    ```
 - `attribute`: If not provided, text content will be returned. Optional key.
 - `ignore`: Ignore results with a regex pattern. Optional key.
 

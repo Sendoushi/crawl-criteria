@@ -41,7 +41,7 @@ describe('scraper.index', () => {
                 expect(data.projectName).to.be.a('string');
                 expect(data.throttle).to.be.a('number');
                 expect(data.data).to.be.an('array');
-                expect(data.data.length).to.eql(3);
+                expect(data.data).to.have.length.above(2);
 
                 data.data.forEach(val => {
                     expect(val).to.be.an('object');
@@ -51,7 +51,7 @@ describe('scraper.index', () => {
                 });
 
                 expect(data.result).to.be.a('array');
-                expect(data.result.length).to.eql(3);
+                expect(data.result).to.have.length.above(2);
 
                 data.result.forEach(val => {
                     expect(val).to.be.an('object');
@@ -88,7 +88,7 @@ describe('scraper.index', () => {
                 expect(data.projectName).to.be.a('string');
                 expect(data.throttle).to.be.a('number');
                 expect(data.data).to.be.an('array');
-                expect(data.data.length).to.eql(3);
+                expect(data.data).to.have.length.above(2);
 
                 data.data.forEach(val => {
                     expect(val).to.be.an('object');
@@ -98,7 +98,7 @@ describe('scraper.index', () => {
                 });
 
                 expect(data.result).to.be.a('array');
-                expect(data.result.length).to.eql(3);
+                expect(data.result).to.have.length.above(2);
 
                 data.result.forEach(val => {
                     expect(val).to.be.an('object');
@@ -137,7 +137,7 @@ describe('scraper.index', () => {
                 expect(data.projectName).to.be.a('string');
                 expect(data.throttle).to.be.a('number');
                 expect(data.data).to.be.an('array');
-                expect(data.data.length).to.eql(3);
+                expect(data.data).to.have.length.above(2);
 
                 data.data.forEach(val => {
                     expect(val).to.be.an('object');
@@ -147,7 +147,7 @@ describe('scraper.index', () => {
                 });
 
                 expect(data.result).to.be.a('array');
-                expect(data.result.length).to.eql(3);
+                expect(data.result).to.have.length.above(2);
 
                 data.result.forEach(val => {
                     expect(val).to.be.an('object');
@@ -503,6 +503,56 @@ describe('scraper.index', () => {
             .catch(done);
         });
 
+        it('should get nested data', function (done) {
+            this.timeout(60000);
+
+            fns.getSingle([
+                {
+                    src: 'http://www.brainjar.com/java/host/test.html',
+                    retrieve: {
+                        body: {
+                            selector: 'body',
+                            retrieve: {
+                                content: {
+                                    selector: 'p'
+                                }
+                            }
+                        }
+                    }
+                }
+            ])
+            .then(data => {
+                expect(data).to.be.an('array');
+                expect(data.length).to.eql(1);
+
+                data.forEach(result => {
+                    expect(result).to.be.an('object');
+                    expect(result).to.have.keys(['src', 'result']);
+                    expect(result.src).to.be.a('string');
+                    expect(result.src).to.contain('brainjar.com/java/host/test');
+
+                    expect(result.result).to.be.an('object');
+                    expect(result.result).to.have.keys(['body']);
+                    expect(result.result.body).to.be.an('array');
+                    expect(result.result.body.length).to.eql(1);
+
+                    result.result.body.forEach(actualResult => {
+                        expect(actualResult).to.be.an('object');
+                        expect(actualResult).to.have.keys(['content']);
+                        expect(actualResult.content).to.be.an('array');
+                        expect(actualResult.content.length).to.eql(1);
+
+                        actualResult.content.forEach(content => {
+                            expect(content).to.be.a('string');
+                        });
+                    });
+                });
+
+                done();
+            })
+            .catch(done);
+        });
+
         it('should get multiple urls', function (done) {
             this.timeout(60000);
 
@@ -697,6 +747,143 @@ describe('scraper.index', () => {
             fns.getUrl({})
             .then(() => { done('It shouldn\'t have errored'); })
             .catch(done.bind(null, null));
+        });
+    });
+
+    // getScrap
+    describe('getScrap', () => {
+        it('should get simple data', function (done) {
+            this.timeout(10000);
+
+            fns.getDom('http://www.brainjar.com/java/host/test.html', 'url').then(singleDom => {
+                const el = singleDom.window.$;
+                const result = fns.getScrap(el, el, {
+                    retrieve: {
+                        content: {
+                            selector: 'body p'
+                        }
+                    }
+                });
+
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['content']);
+                expect(result.content).to.be.an('array');
+
+                result.content.forEach(content => {
+                    expect(content).to.be.a('string');
+                });
+
+                done();
+            })
+            .catch(done);
+        });
+
+        it('should not error without $ and without nested data', function (done) {
+            this.timeout(10000);
+
+            fns.getDom('http://www.brainjar.com/java/host/test.html', 'url').then(singleDom => {
+                const el = singleDom.window.$;
+                const result = fns.getScrap(null, el, {
+                    retrieve: {
+                        content: {
+                            selector: 'body p'
+                        }
+                    }
+                });
+
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['content']);
+                expect(result.content).to.be.an('array');
+
+                result.content.forEach(content => {
+                    expect(content).to.be.a('string');
+                });
+
+                done();
+            })
+            .catch(done);
+        });
+
+        it('should get empty without data', () => {
+            const result = fns.getScrap(null, { find: () => {} });
+
+            expect(result).to.be.an('object');
+            expect(Object.keys(result).length).to.eql(0);
+        });
+
+        it('should get nested data', function (done) {
+            this.timeout(10000);
+
+            fns.getDom('http://www.brainjar.com/java/host/test.html', 'url').then(singleDom => {
+                const el = singleDom.window.$;
+                const result = fns.getScrap(el, el, {
+                    retrieve: {
+                        body: {
+                            selector: 'body',
+                            retrieve: {
+                                content: {
+                                    selector: 'p'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['body']);
+                expect(result.body).to.be.an('array');
+                expect(result.body.length).to.eql(1);
+
+                result.body.forEach(actualResult => {
+                    expect(actualResult).to.be.an('object');
+                    expect(actualResult).to.have.keys(['content']);
+                    expect(actualResult.content).to.be.an('array');
+                    expect(actualResult.content.length).to.eql(1);
+
+                    actualResult.content.forEach(content => {
+                        expect(content).to.be.a('string');
+                    });
+                });
+
+                done();
+            })
+            .catch(done);
+        });
+
+        it('should error without $ and with nested data', function (done) {
+            this.timeout(10000);
+
+            fns.getDom('http://www.brainjar.com/java/host/test.html', 'url').then(singleDom => {
+                const el = singleDom.window.$;
+                try {
+                    fns.getScrap(null, el, {
+                        retrieve: {
+                            body: {
+                                selector: 'body',
+                                retrieve: {
+                                    content: {
+                                        selector: 'p'
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    done('It should\'ve errored');
+                } catch (err) {
+                    done();
+                }
+            })
+            .catch(() => done());
+        });
+
+        it('should error without a compliant parent element', done => {
+            try {
+                fns.getScrap({});
+                done('It should\'ve errored');
+            } catch (err) {
+                done();
+            }
         });
     });
 
@@ -913,6 +1100,10 @@ describe('scraper.index', () => {
 
             expect(result[0]).to.eql('foo/foo');
             expect(result[1]).to.eql('foo/bar');
+        });
+
+        it.skip('should succeed with a queried source with multiple modifiers', () => {
+
         });
     });
 });
