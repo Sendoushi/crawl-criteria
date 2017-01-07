@@ -44,7 +44,7 @@ mrcrowley --config=<config_json_src> --save=<file_to_save_src>
     "projectName": "<project_name>",
     "throttle": 1000,
     "data": [{
-        "src": ["<url_path>"],
+        "src": "<url_path>",
         "name": "<request_name>",
         "modifiers": {
             "<query_var_in_url>": ["<var_to_replace>"]
@@ -66,7 +66,7 @@ mrcrowley --config=<config_json_src> --save=<file_to_save_src>
 
     ```json
     {
-        "src": ["..."],
+        "src": "...",
         "retrieve": {
             "<name>": {
                 "selector": "<parent_html_selector>",
