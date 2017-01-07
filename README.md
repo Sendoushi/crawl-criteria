@@ -62,7 +62,7 @@ mrcrowley --config=<config_json_src> --save=<file_to_save_src>
 
 **Notes:**
 
-- `retrieve`: Besides using a simplified `retrieve` you may also nest it to get contained data
+- `retrieve`: Besides the simplified version, you may also nest it to get contained data
 
     ```json
     {
@@ -83,6 +83,21 @@ mrcrowley --config=<config_json_src> --save=<file_to_save_src>
     ```
 - `attribute`: If not provided, text content will be returned. Optional key.
 - `ignore`: Ignore results with a regex pattern. Optional key.
+- `"<var_to_replace>"`: It can also be an object with keys `min` (it will default to `0`) and `max` (it will default to `10`)
+
+    ```json
+    {
+        "src": "...",
+        "modifiers": {
+            "<query_var_in_url>": ["<var_to_replace>"],
+            "<limit_var_in_url>": [{
+                "min": 0,
+                "max": 10
+            }]
+        },
+        "retrieve": {}
+    }
+    ```
 
 ### Examples
 Go under the [src/_test/data](src/_test/data) folder and check the `*.json`.

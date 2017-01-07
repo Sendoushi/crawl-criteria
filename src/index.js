@@ -10,6 +10,7 @@ import jsdom from 'jsdom';
 import resourceLoader from 'jsdom/lib/jsdom/browser/resource-loader';
 import toughCookie from 'tough-cookie';
 import isArray from 'lodash/isArray.js';
+import flattenDeep from 'lodash/flattenDeep.js';
 import { isUrl, contains, getPwd } from './utils.js';
 import { get as configGet } from './config.js';
 
@@ -39,11 +40,25 @@ const getQueriedUrls = (data) => {
     }
 
     const urls = keyModifiers.map(key => data.modifiers[key].map(modifier => {
-        const actualSrc = data.src.replace(new RegExp(`\{\{${key}\}\}`, 'g'), modifier);
-        return actualSrc;
-    })).reduce((a, b) => a.concat(b)).filter(val => !!val);
+        const actualSrcs = [];
 
-    return urls;
+        if (typeof modifier === 'object') {
+            const min = modifier.min || 0;
+            const max = modifier.max || 10;
+
+            for (let i = min; i < max + 1; i += 1) {
+                actualSrcs.push(data.src.replace(new RegExp(`\{\{${key}\}\}`, 'g'), i));
+            }
+        } else {
+            // Now for the general rule string
+            actualSrcs.push(data.src.replace(new RegExp(`\{\{${key}\}\}`, 'g'), modifier));
+        }
+
+        return actualSrcs;
+    }))
+    .filter(val => !!val);
+
+    return flattenDeep(urls);
 };
 
 /**

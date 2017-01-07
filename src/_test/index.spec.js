@@ -1103,7 +1103,48 @@ describe('scraper.index', () => {
         });
 
         it.skip('should succeed with a queried source with multiple modifiers', () => {
+            const result = fns.getQueriedUrls({
+                src: 'foo/{{query}}/{{limit}}',
+                modifiers: {
+                    query: ['foo', 'bar'],
+                    limit: [0, 1, 2]
+                }
+            });
+            expect(result).to.be.an('array');
+            expect(result.length).to.eql(2);
 
+            result.forEach(url => {
+                expect(url).to.be.a('string');
+            });
+
+            expect(result).to.have.members([
+                'foo/foo/0',
+                'foo/foo/1',
+                'foo/foo/2',
+                'foo/bar/0',
+                'foo/bar/1',
+                'foo/bar/2'
+            ]);
+        });
+
+        it('should succeed with a queried source with limiters', () => {
+            const result = fns.getQueriedUrls({
+                src: 'foo/{{limit}}',
+                modifiers: {
+                    limit: [{
+                        min: 0,
+                        max: 10
+                    }]
+                }
+            });
+            expect(result).to.be.an('array');
+            expect(result.length).to.eql(11);
+
+            // Lets actually check the urls
+            for (let i = 0; i < 11; i += 1) {
+                expect(result[i]).to.be.a('string');
+                expect(result[i]).to.eql(`foo/${i}`);
+            }
         });
     });
 });
