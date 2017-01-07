@@ -1,11 +1,8 @@
-#!/usr/bin/env node
-
 'use strict';
 /* global Promise */
 
 import fs from 'fs';
 import path from 'path';
-import { argv } from 'yargs';
 import jsdom from 'jsdom';
 import resourceLoader from 'jsdom/lib/jsdom/browser/resource-loader';
 import toughCookie from 'tough-cookie';
@@ -318,9 +315,6 @@ const run = (config, file) => {
 //-------------------------------------
 // Runtime
 
-if (argv && argv.config) {
-    run(argv.config, argv.save);
-}
 export { run, getUrl, getDom };
 
 // Essentially for testing purposes

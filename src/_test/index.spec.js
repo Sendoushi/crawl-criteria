@@ -722,6 +722,8 @@ describe('scraper.index', () => {
 
     // getUrl
     describe('getUrl', () => {
+        it.skip('should check if url is 404 and ignore it', () => {});
+
         it('should get an url markup', function (done) {
             this.timeout(60000);
 
@@ -889,6 +891,8 @@ describe('scraper.index', () => {
 
     // getDom
     describe('getDom', () => {
+        it.skip('should check if url is 404 and ignore it', () => {});
+
         it('should get a window with DOM using url', function (done) {
             this.timeout(60000);
 
