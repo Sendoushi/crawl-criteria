@@ -1095,6 +1095,7 @@ describe('scraper.index', () => {
                 src: 'foo/{{query}}',
                 modifiers: { query: ['foo', 'bar'] }
             });
+
             expect(result).to.be.an('array');
             expect(result.length).to.eql(2);
 
@@ -1106,7 +1107,7 @@ describe('scraper.index', () => {
             expect(result[1]).to.eql('foo/bar');
         });
 
-        it.skip('should succeed with a queried source with multiple modifiers', () => {
+        it('should succeed with a queried source with multiple modifiers', () => {
             const result = fns.getQueriedUrls({
                 src: 'foo/{{query}}/{{limit}}',
                 modifiers: {
@@ -1114,8 +1115,9 @@ describe('scraper.index', () => {
                     limit: [0, 1, 2]
                 }
             });
+
             expect(result).to.be.an('array');
-            expect(result.length).to.eql(2);
+            expect(result.length).to.eql(6);
 
             result.forEach(url => {
                 expect(url).to.be.a('string');
@@ -1149,6 +1151,25 @@ describe('scraper.index', () => {
                 expect(result[i]).to.be.a('string');
                 expect(result[i]).to.eql(`foo/${i}`);
             }
+        });
+    });
+
+    // getUrlConfig
+    describe('getUrlConfig', () => {
+        it('should return a config', () => {
+            const result = fns.getUrlConfig();
+
+            expect(result).to.be.an('object');
+            expect(result).to.contain.keys(['userAgent', 'cookieJar', 'agentOptions', 'defaultEncoding']);
+        });
+    });
+
+    // getUserAgent
+    describe('getUserAgent', () => {
+        it('should get a random userAgent', () => {
+            const result = fns.getUserAgent();
+
+            expect(result).to.be.a('string');
         });
     });
 });
