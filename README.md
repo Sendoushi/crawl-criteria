@@ -31,8 +31,13 @@ Set a `.crawl.json` and run all the tasks you want when you pass it to `mrcrowle
 Any kind of path should be absolute or relative to the place the script is called.
 
 ```sh
-mrcrowley --config=<config_json_src> --save=<file_to_save_src>
+mrcrowley --config=<config_json_src> --output=<file_to_save_src> --force=<false|true>
 ```
+
+**Notes:**
+- `<config_json_src>`: Path to the config json for crawling. It is required
+- `<file_to_save_src>`: Path for the file you want to have the results. For now, only `json` is supported. It is required
+- `force`: It forces to create a new output. If false and the output file exists, it will just update. It will default to `false`
 
 -------------------
 
@@ -42,10 +47,12 @@ mrcrowley --config=<config_json_src> --save=<file_to_save_src>
 {
     "projectId": "<project_id>",
     "projectName": "<project_name>",
-    "throttle": 1000,
     "data": [{
         "src": "<url_path>",
         "name": "<request_name>",
+        "throttle": 2000,
+        "enableJs": false,
+        "waitFor": "<html_selector>",
         "modifiers": {
             "<query_var_in_url>": ["<var_to_replace>"]
         },
@@ -83,7 +90,9 @@ mrcrowley --config=<config_json_src> --save=<file_to_save_src>
     ```
 - `attribute`: If not provided, text content will be returned. Optional key.
 - `ignore`: Ignore results with a regex pattern. Optional key.
-- `"<var_to_replace>"`: It can also be an object with keys `min` (it will default to `0`) and `max` (it will default to `10`)
+- `enableJs`: Javascript isn't enable by default for security reasons. Use this if you really need it
+- `waitFor`: Usually used with `enableJs`. If the sources uses javascript to render, you may `waitFor` the selector to be present. It will only wait `10` seconds
+- `<var_to_replace>`: It can also be an object with keys `min` (it will default to `0`) and `max` (it will default to `10`)
 
     ```json
     {

@@ -1,7 +1,6 @@
 'use strict';
 /* global Promise */
 
-import fs from 'fs';
 import path from 'path';
 import jsdom from 'jsdom';
 import resourceLoader from 'jsdom/lib/jsdom/browser/resource-loader';
@@ -9,8 +8,11 @@ import toughCookie from 'tough-cookie';
 import isArray from 'lodash/isArray.js';
 import merge from 'lodash/merge.js';
 import flattenDeep from 'lodash/flattenDeep.js';
-import { isUrl, contains, getPwd } from './utils.js';
+import { send } from './mailbox.js';
+import { isUrl, contains } from './utils.js';
 import { get as configGet } from './config.js';
+
+const MIN_UPDATE_DIFF = 518400000; // 7 days
 
 //-------------------------------------
 // Functions
@@ -207,9 +209,11 @@ const getUrl = (url) => new Promise((resolve, reject) => {
  * @param {string} src
  * @param {string} type
  * @param {int} throttle
+ * @param {boolean} enableJs
+ * @param {string} waitFor
  * @returns {promise}
  */
-const getDom = (src, type = 'url', throttle = 2000) => new Promise((resolve, reject) => {
+const getDom = (src, type = 'url', throttle = 2000, enableJs = false, waitFor) => new Promise((resolve, reject) => {
     if (typeof src !== 'string') {
         throw new Error('A source needs to be provided');
     }
@@ -222,27 +226,42 @@ const getDom = (src, type = 'url', throttle = 2000) => new Promise((resolve, rej
     // First the throttle so it doesn't make the request before
     setTimeout(() => {
         // Prepare for possible errors
-        const virtualConsole = jsdom.createVirtualConsole();
+        const virtualConsole = enableJs ? jsdom.createVirtualConsole() : undefined;
         const errors = [];
         const logs = [];
         const warns = [];
 
-        virtualConsole.on('jsdomError', error => { errors.push(error); });
-        virtualConsole.on('error', error => { errors.push(error); });
-        virtualConsole.on('log', log => { logs.push(log); });
-        virtualConsole.on('warn', warn => { warns.push(warn); });
+        if (enableJs) {
+            virtualConsole.on('jsdomError', error => { errors.push(error); });
+            virtualConsole.on('error', error => { errors.push(error); });
+            virtualConsole.on('log', log => { logs.push(log); });
+            virtualConsole.on('warn', warn => { warns.push(warn); });
+        }
 
         const config = merge(getUrlConfig(), {
             virtualConsole,
             scripts: ['http://code.jquery.com/jquery.min.js'],
             features: {
-                FetchExternalResources: ['script', 'link'],
-                ProcessExternalResources: ['script'],
-                SkipExternalResources: false
+                FetchExternalResources: enableJs ? ['script'] : [],
+                ProcessExternalResources: enableJs ? ['script'] : [],
+                SkipExternalResources: !enableJs
             },
             done: (err, window) => {
                 if (err) { return reject(err); }
-                resolve({ window, errors, logs, warns });
+
+                // Set the timer for evaluation
+                const setTime = (selector, time, i = 0) => {
+                    setTimeout(() => {
+                        if (selector && window.$.find(selector).length === 0 && i < 10) {
+                            return setTime(selector, time, i + 1);
+                        }
+
+                        resolve({ window, errors, logs, warns });
+                    }, time);
+                };
+
+                // Wait for selector to be available
+                setTime(waitFor, waitFor ? 1000 : 1);
             }
         });
 
@@ -273,7 +292,7 @@ const getScrap = ($, parentEl, data = {}) => {
         const key = retrieveKeys[c];
         const req = retrieve[key];
         // So that we avoid possible crawling issues
-        const els = parentEl.find(`${req.selector}:not([rel="nofollow"])`);
+        const els = parentEl.find(`${req.selector}`);
         const nested = req.retrieve;
         const attr = req.attribute;
         const ignore = req.ignore;
@@ -289,11 +308,21 @@ const getScrap = ($, parentEl, data = {}) => {
                     throw new Error('A compliant $ is needed to get the scrap of nested');
                 }
 
+                // Ignore if the element has some "nofollow"
+                if (el.getAttribute('rel') === 'nofollow') {
+                    continue;
+                }
+
                 // No need to go for the content if it gots nested
                 // Lets get the nested then
                 single = getScrap($, $(el), req);
                 result.push(single);
             } else {
+                // Ignore if the element has some "nofollow"
+                if (el.getAttribute('rel') === 'nofollow') {
+                    continue;
+                }
+
                 // No nested, get content!
                 single = !!attr ? el.getAttribute(attr) : el.textContent;
                 !contains(ignore, single) && result.push(single);
@@ -311,110 +340,164 @@ const getScrap = ($, parentEl, data = {}) => {
  * Gets single data
  *
  * @param {object} data
- * @param {object} retrieve
- * @param {int} throttle
- * @param {int} i
- * @param {array} dataArr
  * @return {promise}
  */
-const getSingle = (data = [], throttle, i = 0, dataArr = []) => {
+const getSingle = (data = []) => {
     if (!isArray(data)) {
         return new Promise(() => {
             throw new Error('Data needs to exist and be an array');
         });
     }
 
-    // Maybe there is no more data so... lets inform
-    if (!data[i] || !data[i].src) {
-        return new Promise(resolve => resolve(dataArr));
+    if (!data.length) {
+        return new Promise(resolve => resolve(data));
     }
 
-    // Make the request and get back
-    return getDom(data[i].src, 'url', throttle).then(singleDom => {
-        const el = singleDom.window.$;
+    // Lets go per each data member
+    const promises = [];
+    data.forEach((item) => {
+        // Lets check if we are still in the diff time
+        if (!item.src || item.updatedAt && (Date.now() - item.updatedAt < MIN_UPDATE_DIFF)) {
+            return;
+        }
 
-        // Cache url data
-        dataArr.push({
-            src: data[i].src,
-            result: getScrap(el, el, data[i])
+        // Make the request and get back
+        const promise = getDom(item.src, 'url', item.throttle, item.enableJs, item.waitFor).then(singleDom => {
+            const el = singleDom.window.$;
+
+            // Cache data
+            item.result = getScrap(el, el, item);
+            item.updatedAt = (new Date()).getTime();
+
+            // Remove retrieve we no longer need it
+            delete item.retrieve;
         });
 
-        // Lets get the next one in the promise
-        const next = getSingle(data, throttle, i += 1, dataArr);
-        return next;
+        promises.push(promise);
     });
+
+    return Promise.all(promises)
+    .then(() => data);
 };
 
 /**
  * Gather data
  *
  * @param {array} data
- * @param {number} throttle
- * @param {int} i
- * @param {array} dataResult
  * @returns {promise}
  */
-const gatherData = (data = [], throttle, i = 0, dataResult = []) => {
-    if (!data[i]) {
-        // Maybe there is no more data so... lets inform
-        return new Promise(resolve => resolve(dataResult));
-    }
-
-    if (!data[i] || typeof data[i] !== 'object') {
+const gatherData = (data = []) => {
+    if (!isArray(data)) {
         return new Promise(() => {
-            throw new Error('A data object is required to get the url');
+            throw new Error('Data needs to exist and be an array');
         });
     }
 
-    if (!data[i].src || typeof data[i].src !== 'string') {
-        return new Promise(() => {
-            throw new Error('A src is required to get the url');
-        });
+    if (!data.length) {
+        return new Promise(resolve => resolve());
     }
 
-    // Lets make the name right
-    data[i].name = data[i].name || path.basename(data[i].src);
+    // Lets go per each data member
+    const promises = [];
+    data.forEach((item) => {
+        let promise;
 
-    // Create the expected object
-    const urls = getQueriedUrls(data[i]).map(url => ({
-        src: url, retrieve: data[i].retrieve
-    }));
+        if (!item || typeof item !== 'object') {
+            promise = new Promise(() => {
+                throw new Error('A data object is required to get the url');
+            });
+            promises.push(promise);
 
-    // Make the single request
-    return getSingle(urls, throttle)
-    .then(result => {
-        // Cache the result
-        data[i].result = result;
+            return;
+        }
 
-        // Cache data
-        dataResult.push(data[i]);
+        if (!item.src || typeof item.src !== 'string') {
+            promise = new Promise(() => {
+                throw new Error('A src is required to get the url');
+            });
+            promises.push(promise);
 
-        // Lets get the next one in the promise
-        const next = gatherData(data, throttle, i += 1, dataResult);
-        return next;
+            return;
+        }
+
+        // Lets make the name right
+        item.name = item.name || path.basename(item.src);
+
+        // Create the expected object
+        const urls = getQueriedUrls(item).map(url => ({
+            src: url, retrieve: item.retrieve
+        }));
+
+        // Cache the urls
+        item.results = urls;
+
+        // Make the single request
+        promise = getSingle(item.results).then(() => {
+            /* eslint-disable prefer-arrow-callback */
+            send('output.type', (type) => {
+                // No promises doesn't need cache, it will improve performance
+                if (type !== 'promise') { return; }
+
+                // Results are already cached since the project
+                // is using object/array references
+
+                // Save data to output
+                // TODO: ...
+            });
+            /* eslint-enable prefer-arrow-callback */
+
+            return data;
+        });
+
+        promises.push(promise);
     });
+
+    return Promise.all(promises)
+    .then(() => data);
 };
 
 /**
  * Initialize scraper
  *
- * @param {object|string} config
+ * @param {object|string} baseConfig
  * @returns {promise}
  */
-const run = (config, file) => {
-    config = configGet(config);
+const run = (baseConfig) => {
+    const promise = new Promise((resolve) => {
+        send('output.getFile', (fileData) => {
+            const config = configGet(baseConfig);
 
-    // Lets gather data from the src
-    return gatherData(config.data, config.throttle)
-    .then(data => new Promise((resolve) => {
-        // Cache the result
-        config.result = data;
+            // Lets merge the data
+            fileData && fileData.data && fileData.data.forEach(nItem => config.data.forEach(oItem => {
+                if (oItem.src === nItem.src) { oItem.results = nItem.results; }
+            }));
 
-        // Save the file
-        file && fs.writeFileSync(getPwd(file), JSON.stringify(config, null, 4), { encoding: 'utf-8' });
+            // Save the first data...
+            send('output.save', config);
 
-        resolve(config);
-    }));
+            resolve(config);
+        });
+    })
+    .then(config => {
+        const gatherPromise = gatherData(config.data)
+        .then(() => new Promise((resolve) => {
+            send('output.type', (type) => {
+                // No promises doesn't need cache, it will improve performance
+                if (type === 'promise') { return resolve(config); }
+
+                // Results are already cached since the project
+                // is using object/array references
+
+                // Save the output
+                send('output.save', config);
+                resolve();
+            });
+        }));
+
+        return gatherPromise;
+    });
+
+    return promise;
 };
 
 //-------------------------------------

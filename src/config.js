@@ -6,13 +6,16 @@ import { readFile, getPwd } from './utils.js';
 const STRUCT = Joi.object().keys({
     projectId: Joi.string().default('projectname'),
     projectName: Joi.string().default('Project Name'),
-    throttle: Joi.number().default(1000),
     data: Joi.array().items(Joi.object().keys({
         src: Joi.string().required(),
         name: Joi.string(),
+        throttle: Joi.number().default(2000),
         modifiers: Joi.object(),
-        retrieve: Joi.object().required()
-    })).default([])
+        enableJs: Joi.boolean().default(false),
+        waitFor: Joi.string(),
+        retrieve: Joi.object().required(),
+        result: Joi.object()
+    })).required()
 }).required();
 
 //-------------------------------------
@@ -64,4 +67,4 @@ const get = (config) => {
 export { get };
 
 // Essentially for testing purposes
-export const __testMethods__ = { get };
+export const __testMethods__ = { get, verify };

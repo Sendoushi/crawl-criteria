@@ -4,6 +4,7 @@
 /* global Promise */
 
 import { argv } from 'yargs';
+import { set } from '../output.js';
 import { run } from '../index.js';
 
 //-------------------------------------
@@ -13,14 +14,25 @@ import { run } from '../index.js';
  * Helper for the cli
  */
 const help = () => {
-    // TODO: What about the help? Use commander and maybe get rid of yargs
+    let tmpl = '';
+
+    tmpl += 'Usage: mrcrowley [options]\n\n';
+    tmpl += 'Options:\n\n';
+    tmpl += '  --config=<path>        Config file. Required\n';
+    tmpl += '  --output=<path>        File where you want to save the results. Only `json` is supported. Required\n';
+    tmpl += '  --force=<false|true>   Forces to create a new output. When false and the output exists, it will update\n';
+
+    /* eslint-disable no-console */
+    console.log(tmpl);
+    /* eslint-enable no-console */
 };
 
 //-------------------------------------
 // Runtime
 
-if (argv && argv.config) {
-    run(argv.config, argv.save);
+if (argv && argv.config && argv.output) {
+    set(argv.output, argv.force);
+    run(argv.config);
 } else {
     help();
 }

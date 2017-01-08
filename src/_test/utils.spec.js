@@ -10,7 +10,7 @@ import { __testMethods__ as fns } from '../utils.js';
 // --------------------------------
 // Functions
 
-describe('audit.utils', () => {
+describe('mrcrowley.utils', () => {
     // readFile
     describe('readFile', () => {
         it('should load file', () => {
@@ -20,7 +20,7 @@ describe('audit.utils', () => {
 
             result = JSON.parse(result);
             expect(result).to.be.an('object');
-            expect(result).to.have.all.keys(['projectId', 'projectName', 'data', 'throttle']);
+            expect(result).to.have.all.keys(['projectId', 'projectName', 'data']);
             expect(result.data).to.be.an('array');
         });
 

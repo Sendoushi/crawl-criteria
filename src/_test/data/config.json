@@ -1,7 +1,6 @@
 {
     "projectId": "test",
     "projectName": "Test",
-    "throttle": 2000,
     "data": [
         {
             "src": "http://www.brainjar.com/java/host/test.html",
@@ -34,14 +33,17 @@
                 }
             }
         }, {
-            "src": "https://www.npmjs.com/search?q={{query}}",
+            "src": "https://www.sendoushi.com/{{query}}",
+            "enableJs": true,
+            "waitFor": "#content",
+            "throttle": 3000,
             "modifiers": {
-                "query": ["foo"]
+                "query": ["posts/projects"]
             },
             "retrieve": {
                 "title": {
-                    "selector": "h3 a",
-                    "ignore": ["foo"]
+                    "selector": ".post-item-title",
+                    "ignore": ["Prokofiev"]
                 }
             }
         }

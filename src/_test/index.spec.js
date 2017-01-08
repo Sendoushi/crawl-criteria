@@ -3,12 +3,17 @@
 
 import fs from 'fs';
 import { expect } from 'chai';
+import { getPwd } from '../utils.js';
+import { set } from '../output.js';
 import { __testMethods__ as fns } from '../index.js';
 
 // --------------------------------
 // Variables
 
-const testPath = './src/_test/data/tmp.json';
+const pathTmp = './src/_test/data/tmp.json';
+const pathConfig = './src/_test/data/config.json';
+const pwdTmp = getPwd(pathTmp);
+const pwdConfig = getPwd(pathConfig);
 
 // --------------------------------
 // Functions
@@ -16,15 +21,25 @@ const testPath = './src/_test/data/tmp.json';
 // --------------------------------
 // Suite of tests
 
-describe('scraper.index', () => {
+describe('mrcrowley.index', () => {
+    beforeEach(() => {
+        set();
+    });
+
+    afterEach(() => {
+        if (fs.existsSync(pwdTmp)) {
+            // Delete so that we can require it again
+            delete require.cache[require.resolve(pwdTmp)];
+            // fs.unlink(pwdTmp);
+        }
+    });
+
     // run
     describe('run', () => {
         it('should error without a valid config', (done) => {
-            try {
-                fns.run(false).then(() => done('It should\'ve errored'));
-            } catch (err) {
-                done();
-            }
+            fns.run(false)
+            .then(() => done('It should\'ve errored'))
+            .catch(() => done());
         });
 
         it('should run with a config source', function (done) {
@@ -36,36 +51,34 @@ describe('scraper.index', () => {
             fns.run(configSrc)
             .then(data => {
                 expect(data).to.be.an('object');
-                expect(data).to.have.keys(['projectId', 'projectName', 'throttle', 'data', 'result']);
+                expect(data).to.have.keys(['projectId', 'projectName', 'data']);
                 expect(data.projectId).to.be.a('string');
                 expect(data.projectName).to.be.a('string');
-                expect(data.throttle).to.be.a('number');
                 expect(data.data).to.be.an('array');
+                expect(data.data).to.have.length.above(2);
+
+                expect(data.data).to.be.a('array');
                 expect(data.data).to.have.length.above(2);
 
                 data.data.forEach(val => {
                     expect(val).to.be.an('object');
-                    expect(val).to.contain.keys(['src', 'retrieve']);
+                    expect(val).to.contain.keys([
+                        'src', 'name', 'retrieve', 'throttle', 'enableJs', 'results'
+                    ]);
                     expect(val.src).to.be.a('string');
-                    expect(val.retrieve).to.be.an('object');
-                });
-
-                expect(data.result).to.be.a('array');
-                expect(data.result).to.have.length.above(2);
-
-                data.result.forEach(val => {
-                    expect(val).to.be.an('object');
-                    expect(val).to.contain.keys(['src', 'retrieve', 'name', 'result']);
-                    expect(val.src).to.be.a('string');
-                    expect(val.retrieve).to.be.an('object');
+                    expect(val.src).to.have.length.above(0);
                     expect(val.name).to.be.a('string');
-                    expect(val.result).to.be.an('array');
+                    expect(val.retrieve).to.be.an('object');
+                    expect(val.throttle).to.be.a('number');
+                    expect(val.enableJs).to.be.a('boolean');
 
-                    val.result.forEach(res => {
+                    expect(val.results).to.be.an('array');
+                    val.results.forEach(res => {
                         expect(res).to.be.an('object');
-                        expect(res).to.contain.keys(['src', 'result']);
+                        expect(res).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
+                        expect(res.updatedAt).to.be.a('number');
                     });
                 });
 
@@ -75,7 +88,7 @@ describe('scraper.index', () => {
         });
 
         it('should run with a config object', function (done) {
-            const configObj = require('./data/config.json');
+            const configObj = require(pwdConfig);
 
             // We need some time for this one to be well tested...
             this.timeout(60000);
@@ -83,36 +96,34 @@ describe('scraper.index', () => {
             fns.run(configObj)
             .then(data => {
                 expect(data).to.be.an('object');
-                expect(data).to.have.keys(['projectId', 'projectName', 'throttle', 'data', 'result']);
+                expect(data).to.have.keys(['projectId', 'projectName', 'data']);
                 expect(data.projectId).to.be.a('string');
                 expect(data.projectName).to.be.a('string');
-                expect(data.throttle).to.be.a('number');
                 expect(data.data).to.be.an('array');
+                expect(data.data).to.have.length.above(2);
+
+                expect(data.data).to.be.a('array');
                 expect(data.data).to.have.length.above(2);
 
                 data.data.forEach(val => {
                     expect(val).to.be.an('object');
-                    expect(val).to.contain.keys(['src', 'retrieve']);
+                    expect(val).to.contain.keys([
+                        'src', 'name', 'retrieve', 'throttle', 'enableJs', 'results'
+                    ]);
                     expect(val.src).to.be.a('string');
-                    expect(val.retrieve).to.be.an('object');
-                });
-
-                expect(data.result).to.be.a('array');
-                expect(data.result).to.have.length.above(2);
-
-                data.result.forEach(val => {
-                    expect(val).to.be.an('object');
-                    expect(val).to.contain.keys(['src', 'retrieve', 'name', 'result']);
-                    expect(val.src).to.be.a('string');
-                    expect(val.retrieve).to.be.an('object');
+                    expect(val.src).to.have.length.above(0);
                     expect(val.name).to.be.a('string');
-                    expect(val.result).to.be.an('array');
+                    expect(val.retrieve).to.be.an('object');
+                    expect(val.throttle).to.be.a('number');
+                    expect(val.enableJs).to.be.a('boolean');
 
-                    val.result.forEach(res => {
+                    expect(val.results).to.be.an('array');
+                    val.results.forEach(res => {
                         expect(res).to.be.an('object');
-                        expect(res).to.contain.keys(['src', 'result']);
+                        expect(res).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
+                        expect(res.updatedAt).to.be.a('number');
                     });
                 });
 
@@ -122,56 +133,51 @@ describe('scraper.index', () => {
         });
 
         it('should save to a file', function (done) {
-            const configObj = require('./data/config.json');
+            const configObj = require(pwdConfig);
+            set(pwdTmp);
 
             // We need some time for this one to be well tested...
             this.timeout(60000);
 
-            fns.run(configObj, testPath)
+            fns.run(configObj)
             .then(() => {
-                const data = require(testPath.replace('src/_test/', ''));
+                const data = require(pwdTmp);
 
                 expect(data).to.be.an('object');
-                expect(data).to.have.keys(['projectId', 'projectName', 'throttle', 'data', 'result']);
+                expect(data).to.have.keys(['projectId', 'projectName', 'data']);
                 expect(data.projectId).to.be.a('string');
                 expect(data.projectName).to.be.a('string');
-                expect(data.throttle).to.be.a('number');
                 expect(data.data).to.be.an('array');
+                expect(data.data).to.have.length.above(2);
+
+                expect(data.data).to.be.a('array');
                 expect(data.data).to.have.length.above(2);
 
                 data.data.forEach(val => {
                     expect(val).to.be.an('object');
-                    expect(val).to.contain.keys(['src', 'retrieve']);
+                    expect(val).to.contain.keys([
+                        'src', 'name', 'retrieve', 'throttle', 'enableJs', 'results'
+                    ]);
                     expect(val.src).to.be.a('string');
-                    expect(val.retrieve).to.be.an('object');
-                });
-
-                expect(data.result).to.be.a('array');
-                expect(data.result).to.have.length.above(2);
-
-                data.result.forEach(val => {
-                    expect(val).to.be.an('object');
-                    expect(val).to.contain.keys(['src', 'retrieve', 'name', 'result']);
-                    expect(val.src).to.be.a('string');
-                    expect(val.retrieve).to.be.an('object');
+                    expect(val.src).to.have.length.above(0);
                     expect(val.name).to.be.a('string');
-                    expect(val.result).to.be.an('array');
+                    expect(val.retrieve).to.be.an('object');
+                    expect(val.throttle).to.be.a('number');
+                    expect(val.enableJs).to.be.a('boolean');
 
-                    val.result.forEach(res => {
+                    expect(val.results).to.be.an('array');
+                    val.results.forEach(res => {
                         expect(res).to.be.an('object');
-                        expect(res).to.contain.keys(['src', 'result']);
+                        expect(res).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
+                        expect(res.updatedAt).to.be.a('number');
                     });
                 });
 
                 done();
             })
             .catch(done);
-        });
-
-        after(() => {
-            fs.existsSync(testPath) && fs.unlink(testPath);
         });
     });
 
@@ -203,7 +209,7 @@ describe('scraper.index', () => {
                 expect(data.length).to.eql(1);
 
                 data.forEach(result => {
-                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'result']);
+                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'results']);
                     expect(result.src).to.be.a('string');
                     expect(result.name).to.be.a('string');
                     expect(result.retrieve).to.be.an('object');
@@ -211,16 +217,17 @@ describe('scraper.index', () => {
                     expect(result.retrieve.content).to.be.an('object');
                     expect(result.retrieve.content).to.have.keys(['selector']);
                     expect(result.retrieve.content.selector).to.be.a('string');
-                    expect(result.result).to.be.an('array');
-                    expect(result.result.length).to.eql(1);
+                    expect(result.results).to.be.an('array');
+                    expect(result.results.length).to.eql(1);
 
-                    result.result.forEach(val => {
+                    result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['content']);
                         expect(val.result.content).to.be.an('array');
+                        expect(val.updatedAt).to.be.a('number');
 
                         val.result.content.forEach(valResult => {
                             expect(valResult).to.be.a('string');
@@ -254,7 +261,7 @@ describe('scraper.index', () => {
             }];
 
             // We need some time for this one to be well tested...
-            this.timeout(20000);
+            this.timeout(60000);
 
             fns.gatherData(config)
             .then((data) => {
@@ -262,23 +269,24 @@ describe('scraper.index', () => {
                 expect(data.length).to.eql(2);
 
                 data.forEach(result => {
-                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'result']);
+                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'results']);
                     expect(result.src).to.be.a('string');
                     expect(result.name).to.be.a('string');
                     expect(result.retrieve).to.be.an('object');
                     expect(result.retrieve).to.have.keys(['content']);
                     expect(result.retrieve.content).to.be.an('object');
                     expect(result.retrieve.content.selector).to.be.a('string');
-                    expect(result.result).to.be.an('array');
-                    expect(result.result.length).to.eql(1);
+                    expect(result.results).to.be.an('array');
+                    expect(result.results.length).to.eql(1);
 
-                    result.result.forEach(val => {
+                    result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['content']);
                         expect(val.result.content).to.be.an('array');
+                        expect(val.updatedAt).to.be.a('number');
 
                         val.result.content.forEach(valResult => {
                             expect(valResult).to.be.a('string');
@@ -293,13 +301,15 @@ describe('scraper.index', () => {
 
         it('should get queried data', function (done) {
             const config = [{
-                src: 'https://www.npmjs.com/search?q={{query}}',
+                src: 'https://www.sendoushi.com/posts/single/{{query}}',
+                enableJs: true,
+                waitFor: '.list-posts-view',
                 modifiers: {
-                    query: ['foo', 'bar']
+                    query: ['prokofiev', 'vii']
                 },
                 retrieve: {
                     title: {
-                        selector: 'h3 a'
+                        selector: '.single-title'
                     }
                 }
             }];
@@ -313,7 +323,7 @@ describe('scraper.index', () => {
                 expect(data.length).to.eql(1);
 
                 data.forEach(result => {
-                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'result', 'modifiers']);
+                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'results', 'modifiers', 'enableJs', 'waitFor']);
                     expect(result.src).to.be.a('string');
                     expect(result.name).to.be.a('string');
                     expect(result.retrieve).to.be.an('object');
@@ -329,16 +339,17 @@ describe('scraper.index', () => {
                         expect(val).to.be.a('string');
                     });
 
-                    expect(result.result).to.be.an('array');
-                    expect(result.result.length).to.eql(2);
+                    expect(result.results).to.be.an('array');
+                    expect(result.results.length).to.eql(2);
 
-                    result.result.forEach(val => {
+                    result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['title']);
                         expect(val.result.title).to.be.an('array');
+                        expect(val.updatedAt).to.be.a('number');
 
                         val.result.title.forEach(valResult => {
                             expect(valResult).to.be.a('string');
@@ -353,25 +364,33 @@ describe('scraper.index', () => {
 
         it('should ignore results', function (done) {
             const config = [{
-                src: 'https://www.npmjs.com/search?q=foo',
+                src: 'https://www.sendoushi.com/posts/projects',
+                enableJs: true,
+                waitFor: '.list-posts-view',
                 retrieve: {
                     title: {
-                        selector: 'h3 a',
-                        ignore: ['foo']
+                        selector: '.post-item-title',
+                        ignore: ['Prokofiev']
                     }
                 }
             }];
 
             // We need some time for this one to be well tested...
-            this.timeout(20000);
+            this.timeout(50000);
 
-            fns.gatherData(config)
+            (new Promise(resolve => {
+                setTimeout(() => {
+                    // Wait some time so that the servers "calm" down
+                    resolve();
+                }, 10000);
+            }))
+            .then(fns.gatherData.bind(null, config))
             .then((data) => {
                 expect(data).to.be.an('array');
                 expect(data.length).to.eql(1);
 
                 data.forEach(result => {
-                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'result']);
+                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'results', 'waitFor', 'enableJs']);
                     expect(result.src).to.be.a('string');
                     expect(result.name).to.be.a('string');
                     expect(result.retrieve).to.be.an('object');
@@ -385,20 +404,21 @@ describe('scraper.index', () => {
                         expect(val).to.be.a('string');
                     });
 
-                    expect(result.result).to.be.an('array');
-                    expect(result.result.length).to.eql(1);
+                    expect(result.results).to.be.an('array');
+                    expect(result.results.length).to.eql(1);
 
-                    result.result.forEach(val => {
+                    result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['title']);
                         expect(val.result.title).to.be.an('array');
+                        expect(val.updatedAt).to.be.a('number');
 
                         val.result.title.forEach(valResult => {
                             expect(valResult).to.be.a('string');
-                            expect(valResult).to.not.contain('foo');
+                            expect(valResult.toLowerCase()).to.not.contain('prokofiev');
                         });
                     });
                 });
@@ -422,6 +442,12 @@ describe('scraper.index', () => {
 
     // getSingle
     describe('getSingle', () => {
+        beforeEach(function (done) {
+            this.timeout(6000);
+
+            setTimeout(done, 5000);
+        });
+
         it('should get single data', function (done) {
             this.timeout(60000);
 
@@ -441,12 +467,14 @@ describe('scraper.index', () => {
 
                 data.forEach(result => {
                     expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result']);
+                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
                     expect(result.src).to.be.a('string');
                     expect(result.src).to.contain('brainjar.com/java/host/test');
                     expect(result.result).to.be.an('object');
                     expect(result.result).to.have.keys(['content']);
                     expect(result.result.content).to.be.an('array');
+                    expect(result.updatedAt).to.be.a('number');
+                    expect(result.result.content).to.have.length.above(0);
 
                     result.result.content.forEach(content => {
                         expect(content).to.be.a('string');
@@ -481,13 +509,16 @@ describe('scraper.index', () => {
 
                 data.forEach(result => {
                     expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result']);
+                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
                     expect(result.src).to.be.a('string');
                     expect(result.src).to.contain('brainjar.com/java/host/test');
                     expect(result.result).to.be.an('object');
                     expect(result.result).to.have.keys(['content', 'meta']);
                     expect(result.result.content).to.be.an('array');
                     expect(result.result.meta).to.be.an('array');
+                    expect(result.updatedAt).to.be.a('number');
+                    expect(result.result.content).to.have.length.above(0);
+                    expect(result.result.meta).to.have.length.above(0);
 
                     result.result.content.forEach(content => {
                         expect(content).to.be.a('string');
@@ -527,9 +558,10 @@ describe('scraper.index', () => {
 
                 data.forEach(result => {
                     expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result']);
+                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
                     expect(result.src).to.be.a('string');
                     expect(result.src).to.contain('brainjar.com/java/host/test');
+                    expect(result.updatedAt).to.be.a('number');
 
                     expect(result.result).to.be.an('object');
                     expect(result.result).to.have.keys(['body']);
@@ -580,20 +612,23 @@ describe('scraper.index', () => {
 
                 data.forEach(result => {
                     expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result']);
+                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
                     expect(result.src).to.be.a('string');
                     expect(result.src).to.contain('brainjar.com/java/host/test');
                     expect(result.result).to.be.an('object');
+                    expect(result.updatedAt).to.be.a('number');
                 });
 
                 expect(data[0].result).to.have.keys(['content']);
                 expect(data[0].result.content).to.be.an('array');
+                expect(data[0].result.content).to.have.length.above(0);
                 data[0].result.content.forEach(content => {
                     expect(content).to.be.a('string');
                 });
 
                 expect(data[1].result).to.have.keys(['meta']);
                 expect(data[1].result.meta).to.be.an('array');
+                expect(data[1].result.meta).to.have.length.above(0);
                 data[1].result.meta.forEach(meta => {
                     expect(meta).to.be.a('string');
                 });
@@ -623,12 +658,14 @@ describe('scraper.index', () => {
 
                 data.forEach(result => {
                     expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result']);
+                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
                     expect(result.src).to.be.a('string');
                     expect(result.src).to.contain('brainjar.com/java/host/test');
                     expect(result.result).to.be.an('object');
                     expect(result.result).to.have.keys(['meta']);
                     expect(result.result.meta).to.be.an('array');
+                    expect(result.updatedAt).to.be.a('number');
+                    expect(result.result.meta).to.have.length.above(0);
 
                     result.result.meta.forEach(meta => {
                         expect(meta).to.be.a('string');
@@ -645,11 +682,13 @@ describe('scraper.index', () => {
 
             fns.getSingle([
                 {
-                    src: 'https://www.npmjs.com/search?q=foo',
+                    src: 'https://www.sendoushi.com/posts/projects',
+                    enableJs: true,
+                    waitFor: '.list-posts-view',
                     retrieve: {
                         title: {
-                            selector: 'h3 a',
-                            ignore: ['foo']
+                            selector: '.post-item-title',
+                            ignore: ['Prokofiev']
                         }
                     }
                 }
@@ -660,16 +699,20 @@ describe('scraper.index', () => {
 
                 data.forEach(result => {
                     expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result']);
+                    expect(result).to.have.keys(['src', 'result', 'enableJs', 'updatedAt', 'waitFor']);
                     expect(result.src).to.be.a('string');
-                    expect(result.src).to.contain('npmjs.com/search');
+                    expect(result.src).to.contain('sendoushi.com/posts');
+                    expect(result.enableJs).to.be.a('boolean');
+                    expect(result.enableJs).to.eql(true);
+                    expect(result.updatedAt).to.be.a('number');
                     expect(result.result).to.be.an('object');
                     expect(result.result).to.have.keys(['title']);
                     expect(result.result.title).to.be.an('array');
+                    expect(result.result.title).to.have.length.above(1);
 
                     result.result.title.forEach(title => {
                         expect(title).to.be.a('string');
-                        expect(title).to.not.contain('foo');
+                        expect(title.toLowerCase()).to.not.contain('prokofiev');
                     });
                 });
 
@@ -690,11 +733,12 @@ describe('scraper.index', () => {
 
                 data.forEach(result => {
                     expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result']);
+                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
                     expect(result.src).to.be.a('string');
                     expect(result.src).to.contain('brainjar.com/java/host/test');
                     expect(result.result).to.be.an('object');
                     expect(Object.keys(result.result).length).to.eql(0);
+                    expect(result.updatedAt).to.be.a('number');
                 });
 
                 done();
@@ -925,12 +969,12 @@ describe('scraper.index', () => {
             .catch(done);
         });
 
-        it.skip('should throttle the request', function (done) {
-            this.timeout(10000);
+        it('should throttle the request', function (done) {
+            this.timeout(60000);
 
-            // TODO: Need to test this out
+            const time = Date.now();
 
-            fns.getDom('http://www.brainjar.com/java/host/test.html', 'url', 500)
+            fns.getDom('http://www.brainjar.com/java/host/test.html', 'url', 10000)
             .then(domObj => {
                 expect(domObj).to.be.an('object');
                 expect(domObj).to.have.keys(['window', 'errors', 'logs', 'warns']);
@@ -938,6 +982,8 @@ describe('scraper.index', () => {
                 expect(domObj.errors).to.be.an('array');
                 expect(domObj.logs).to.be.an('array');
                 expect(domObj.warns).to.be.an('array');
+                expect(Date.now() - time).to.be.above(9999);
+
                 done();
             })
             .catch(done);
@@ -950,7 +996,7 @@ describe('scraper.index', () => {
             tmpl += '<script>document.getElementById(\'headline\').textContent=\'Foo\';</script>';
             tmpl += '</body></html>';
 
-            fns.getDom(tmpl, 'content')
+            fns.getDom(tmpl, 'content', null, true)
             .then(domObj => {
                 expect(domObj).to.be.an('object');
                 expect(domObj).to.have.keys(['window', 'errors', 'logs', 'warns']);
@@ -964,6 +1010,48 @@ describe('scraper.index', () => {
             .catch(done);
         });
 
+        it('should wait for element to appear on page', function (done) {
+            this.timeout(10000);
+
+            let tmpl = '<html><body>';
+            tmpl += '<script>var foo = document.createElement("div"); document.body.appendChild(foo);</script>';
+            tmpl += '</body></html>';
+
+            fns.getDom(tmpl, 'content', null, true, 'div')
+            .then(domObj => {
+                expect(domObj).to.be.an('object');
+                expect(domObj).to.have.keys(['window', 'errors', 'logs', 'warns']);
+                expect(domObj.window).to.contain.keys(['$', 'document']);
+                expect(domObj.errors).to.be.an('array');
+                expect(domObj.logs).to.be.an('array');
+                expect(domObj.warns).to.be.an('array');
+                expect(domObj.window.$.find('div').length).to.eql(1);
+
+                done();
+            })
+            .catch(done);
+        });
+
+        it('shouldn\'t wait more than 10 seconds for an element to be on the page', function (done) {
+            this.timeout(15000);
+
+            const tmpl = '<html><body></body></html>';
+
+            fns.getDom(tmpl, 'content', null, true, 'div')
+            .then(domObj => {
+                expect(domObj).to.be.an('object');
+                expect(domObj).to.have.keys(['window', 'errors', 'logs', 'warns']);
+                expect(domObj.window).to.contain.keys(['$', 'document']);
+                expect(domObj.errors).to.be.an('array');
+                expect(domObj.logs).to.be.an('array');
+                expect(domObj.warns).to.be.an('array');
+                expect(domObj.window.$.find('div').length).to.eql(0);
+
+                done();
+            })
+            .catch(done);
+        });
+
         it('should return javascript errors', function (done) {
             this.timeout(10000);
 
@@ -971,7 +1059,7 @@ describe('scraper.index', () => {
             tmpl += '<script>console.error(\'BarFoo\');throw new Error(\'FooBar\');</script>';
             tmpl += '</body></html>';
 
-            fns.getDom(tmpl, 'content')
+            fns.getDom(tmpl, 'content', null, true)
             .then(domObj => {
                 expect(domObj).to.be.an('object');
                 expect(domObj).to.have.keys(['window', 'errors', 'logs', 'warns']);
@@ -996,7 +1084,7 @@ describe('scraper.index', () => {
             tmpl += '<script>console.log(\'FooBar\');</script>';
             tmpl += '</body></html>';
 
-            fns.getDom(tmpl, 'content')
+            fns.getDom(tmpl, 'content', null, true)
             .then(domObj => {
                 expect(domObj).to.be.an('object');
                 expect(domObj).to.have.keys(['window', 'errors', 'logs', 'warns']);
@@ -1020,7 +1108,7 @@ describe('scraper.index', () => {
             tmpl += '<script>console.warn(\'FooBar\');</script>';
             tmpl += '</body></html>';
 
-            fns.getDom(tmpl, 'content')
+            fns.getDom(tmpl, 'content', null, true)
             .then(domObj => {
                 expect(domObj).to.be.an('object');
                 expect(domObj).to.have.keys(['window', 'errors', 'logs', 'warns']);
