@@ -13,6 +13,7 @@ import { isUrl, contains } from './utils.js';
 import { get as configGet } from './config.js';
 
 const MIN_UPDATE_DIFF = 518400000; // 7 days
+const cache = {};
 
 //-------------------------------------
 // Functions
@@ -231,6 +232,24 @@ const getDom = (src, type = 'url', throttle = 2000, enableJs = false, waitFor) =
         const logs = [];
         const warns = [];
 
+        // Set the timer to wait for and evaluate evaluation
+        const waitForTimer = (window, selector, time = (waitFor ? 2000 : 1), i = 0) => {
+            setTimeout(() => {
+                if (selector && window.$.find(selector).length === 0 && i < 10) {
+                    return waitForTimer(window, selector, time, i + 1);
+                }
+
+                const docHtml = window.document.documentElement.innerHTML;
+                const toCache = { window, docHtml, errors, logs, warns };
+
+                // Save it
+                cache[src] = toCache;
+
+                // And resolve it
+                resolve(toCache);
+            }, time);
+        };
+
         if (enableJs) {
             virtualConsole.on('jsdomError', error => { errors.push(error); });
             virtualConsole.on('error', error => { errors.push(error); });
@@ -238,6 +257,12 @@ const getDom = (src, type = 'url', throttle = 2000, enableJs = false, waitFor) =
             virtualConsole.on('warn', warn => { warns.push(warn); });
         }
 
+        // Lets check if it exists in cache...
+        if (cache[src]) {
+            return waitForTimer(cache[src].window, waitFor);
+        }
+
+        // If not... lets just get it
         const config = merge(getUrlConfig(), {
             virtualConsole,
             scripts: ['http://code.jquery.com/jquery.min.js'],
@@ -249,19 +274,8 @@ const getDom = (src, type = 'url', throttle = 2000, enableJs = false, waitFor) =
             done: (err, window) => {
                 if (err) { return reject(err); }
 
-                // Set the timer for evaluation
-                const setTime = (selector, time, i = 0) => {
-                    setTimeout(() => {
-                        if (selector && window.$.find(selector).length === 0 && i < 10) {
-                            return setTime(selector, time, i + 1);
-                        }
-
-                        resolve({ window, errors, logs, warns });
-                    }, time);
-                };
-
                 // Wait for selector to be available
-                setTime(waitFor, waitFor ? 1000 : 1);
+                waitForTimer(window, waitFor);
             }
         });
 

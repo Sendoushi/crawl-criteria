@@ -91,7 +91,7 @@ mrcrowley --config=<config_json_src> --output=<file_to_save_src> --force=<false|
 - `attribute`: If not provided, text content will be returned. Optional key.
 - `ignore`: Ignore results with a regex pattern. Optional key.
 - `enableJs`: Javascript isn't enable by default for security reasons. Use this if you really need it
-- `waitFor`: Usually used with `enableJs`. If the sources uses javascript to render, you may `waitFor` the selector to be present. It will only wait `10` seconds
+- `waitFor`: Usually used with `enableJs`. If the sources uses javascript to render, you may `waitFor` the selector to be present. It will only wait `20` seconds
 - `<var_to_replace>`: It can also be an object with keys `min` (it will default to `0`) and `max` (it will default to `10`)
 
     ```json

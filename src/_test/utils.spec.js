@@ -11,24 +11,41 @@ import { __testMethods__ as fns } from '../utils.js';
 // Functions
 
 describe('mrcrowley.utils', () => {
-    // readFile
-    describe('readFile', () => {
-        it('should load file', () => {
-            let result = fns.readFile('./data/config.json', __dirname);
+    // isUrl
+    describe('isUrl', () => {
+        it('should be true', () => {
+            const urls = [
+                'http://www.brainjar.com/java/host/test.html',
+                'http://brainjar.com/java/host/test.html',
+                'https://www.brainjar.com/java/host/test.html',
+                'https://brainjar.com/java/host/test.html'
+            ];
+            let result;
 
-            expect(result).to.be.a('string');
+            urls.forEach((url) => {
+                result = fns.isUrl(url);
 
-            result = JSON.parse(result);
-            expect(result).to.be.an('object');
-            expect(result).to.have.all.keys(['projectId', 'projectName', 'data']);
-            expect(result.data).to.be.an('array');
+                expect(result).to.be.a('boolean');
+                expect(result).to.equal(true);
+            });
         });
 
-        it('should be false if file doesn\'t exit', () => {
-            const result = fns.readFile('/bar');
+        it('shouldn\'t be true', () => {
+            const urls = [
+                'www.brainjar.com/java/host/test.html',
+                'brainjar.com/java/host/test.html',
+                '/www.brainjar.com/java/host/test.html',
+                '/brainjar.com/java/host/test.html',
+                '/bar'
+            ];
+            let result;
 
-            expect(result).to.be.a('boolean');
-            expect(result).to.equal(false);
+            urls.forEach((url) => {
+                result = fns.isUrl(url);
+
+                expect(result).to.be.a('boolean');
+                expect(result).to.equal(false);
+            });
         });
     });
 
@@ -72,41 +89,24 @@ describe('mrcrowley.utils', () => {
         });
     });
 
-    // isUrl
-    describe('isUrl', () => {
-        it('should be true', () => {
-            const urls = [
-                'http://www.brainjar.com/java/host/test.html',
-                'http://brainjar.com/java/host/test.html',
-                'https://www.brainjar.com/java/host/test.html',
-                'https://brainjar.com/java/host/test.html'
-            ];
-            let result;
+    // readFile
+    describe('readFile', () => {
+        it('should load file', () => {
+            let result = fns.readFile('./data/config.json', __dirname);
 
-            urls.forEach((url) => {
-                result = fns.isUrl(url);
+            expect(result).to.be.a('string');
 
-                expect(result).to.be.a('boolean');
-                expect(result).to.equal(true);
-            });
+            result = JSON.parse(result);
+            expect(result).to.be.an('object');
+            expect(result).to.have.all.keys(['projectId', 'projectName', 'data']);
+            expect(result.data).to.be.an('array');
         });
 
-        it('shouldn\'t be true', () => {
-            const urls = [
-                'www.brainjar.com/java/host/test.html',
-                'brainjar.com/java/host/test.html',
-                '/www.brainjar.com/java/host/test.html',
-                '/brainjar.com/java/host/test.html',
-                '/bar'
-            ];
-            let result;
+        it('should be false if file doesn\'t exit', () => {
+            const result = fns.readFile('/bar');
 
-            urls.forEach((url) => {
-                result = fns.isUrl(url);
-
-                expect(result).to.be.a('boolean');
-                expect(result).to.equal(false);
-            });
+            expect(result).to.be.a('boolean');
+            expect(result).to.equal(false);
         });
     });
 
