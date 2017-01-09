@@ -233,7 +233,9 @@ const getDom = (src, type = 'url', throttle = 2000, enableJs = false, waitFor) =
         const warns = [];
 
         // Set the timer to wait for and evaluate evaluation
-        const waitForTimer = (window, selector, time = (waitFor ? 2000 : 1), i = 0) => {
+        const waitForTimer = (window, selector, time, i = 0) => {
+            time = (waitFor || enableJs) ? 2000 : 1;
+
             setTimeout(() => {
                 if (selector && window.$.find(selector).length === 0 && i < 10) {
                     return waitForTimer(window, selector, time, i + 1);
@@ -385,13 +387,14 @@ const getSingle = (data = []) => {
 
             // Remove retrieve we no longer need it
             delete item.retrieve;
+
+            return item;
         });
 
         promises.push(promise);
     });
 
-    return Promise.all(promises)
-    .then(() => data);
+    return Promise.all(promises);
 };
 
 /**
@@ -445,29 +448,19 @@ const gatherData = (data = []) => {
         // Cache the urls
         item.results = urls;
 
-        // Make the single request
-        promise = getSingle(item.results).then(() => {
-            /* eslint-disable prefer-arrow-callback */
-            send('output.type', (type) => {
-                // No promises doesn't need cache, it will improve performance
-                if (type !== 'promise') { return; }
+        promise = getSingle(item.results)
+        .then(singleData => {
+            // Lets save the data coming in
+            send('output.saveItem', item);
 
-                // Results are already cached since the project
-                // is using object/array references
-
-                // Save data to output
-                // TODO: ...
-            });
-            /* eslint-enable prefer-arrow-callback */
-
-            return data;
+            return singleData;
         });
 
+        // Cache promise
         promises.push(promise);
     });
 
-    return Promise.all(promises)
-    .then(() => data);
+    return Promise.all(promises).then(() => data);
 };
 
 /**
@@ -478,34 +471,22 @@ const gatherData = (data = []) => {
  */
 const run = (baseConfig) => {
     const promise = new Promise((resolve) => {
-        send('output.getFile', (fileData) => {
-            const config = configGet(baseConfig);
+        // Save the config data in case it isn't already...
+        send('output.save', configGet(baseConfig));
 
-            // Lets merge the data
-            fileData && fileData.data && fileData.data.forEach(nItem => config.data.forEach(oItem => {
-                if (oItem.src === nItem.src) { oItem.results = nItem.results; }
-            }));
-
-            // Save the first data...
-            send('output.save', config);
-
-            resolve(config);
-        });
+        // Now get the full file
+        send('output.getFile', (fileData) => resolve(fileData));
     })
     .then(config => {
         const gatherPromise = gatherData(config.data)
         .then(() => new Promise((resolve) => {
-            send('output.type', (type) => {
-                // No promises doesn't need cache, it will improve performance
-                if (type === 'promise') { return resolve(config); }
+            // Results are already cached since the project
+            // is using object/array references
 
-                // Results are already cached since the project
-                // is using object/array references
+            // Save the output
+            send('output.save', config);
 
-                // Save the output
-                send('output.save', config);
-                resolve();
-            });
+            resolve(config);
         }));
 
         return gatherPromise;

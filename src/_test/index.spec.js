@@ -28,10 +28,13 @@ describe('mrcrowley.index', () => {
 
     afterEach(() => {
         if (fs.existsSync(pwdTmp)) {
+            fs.unlinkSync(pwdTmp);
+
             // Delete so that we can require it again
-            delete require.cache[require.resolve(pwdTmp)];
-            // fs.unlink(pwdTmp);
+            delete require.cache[pwdTmp];
         }
+
+        set();
     });
 
     // getUserAgent
@@ -1146,10 +1149,10 @@ describe('mrcrowley.index', () => {
                 expect(data.projectId).to.be.a('string');
                 expect(data.projectName).to.be.a('string');
                 expect(data.data).to.be.an('array');
-                expect(data.data).to.have.length.above(2);
+                expect(data.data).to.have.length.above(1);
 
                 expect(data.data).to.be.a('array');
-                expect(data.data).to.have.length.above(2);
+                expect(data.data).to.have.length.above(1);
 
                 data.data.forEach(val => {
                     expect(val).to.be.an('object');
@@ -1191,10 +1194,10 @@ describe('mrcrowley.index', () => {
                 expect(data.projectId).to.be.a('string');
                 expect(data.projectName).to.be.a('string');
                 expect(data.data).to.be.an('array');
-                expect(data.data).to.have.length.above(2);
+                expect(data.data).to.have.length.above(1);
 
                 expect(data.data).to.be.a('array');
-                expect(data.data).to.have.length.above(2);
+                expect(data.data).to.have.length.above(1);
 
                 data.data.forEach(val => {
                     expect(val).to.be.an('object');
@@ -1239,10 +1242,10 @@ describe('mrcrowley.index', () => {
                 expect(data.projectId).to.be.a('string');
                 expect(data.projectName).to.be.a('string');
                 expect(data.data).to.be.an('array');
-                expect(data.data).to.have.length.above(2);
+                expect(data.data).to.have.length.above(1);
 
                 expect(data.data).to.be.a('array');
-                expect(data.data).to.have.length.above(2);
+                expect(data.data).to.have.length.above(1);
 
                 data.data.forEach(val => {
                     expect(val).to.be.an('object');

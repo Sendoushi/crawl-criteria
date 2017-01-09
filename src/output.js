@@ -3,39 +3,14 @@
 
 import fs from 'fs';
 import path from 'path';
+import uniqBy from 'lodash/uniqBy.js';
+import isArray from 'lodash/isArray.js';
 import merge from 'lodash/merge.js';
 import { getPwd } from './utils.js';
 import { on, off } from './mailbox.js';
 
 //-------------------------------------
 // Functions
-
-/**
- * Saves data into file
- *
- * @param {*} data
- * @returns
- */
-const save = (output, data) => {
-    if (!output || typeof output !== 'object') {
-        throw new Error('An output object is needed');
-    }
-
-    const exists = output.src ? fs.existsSync(output.src) : false;
-    // TODO: What if it is a csv? It needs conversion
-    const fileData = exists ? JSON.parse(fs.readFileSync(output.src, 'utf-8')) : {};
-    const finalData = output.force ? data : merge(fileData, data);
-
-    // TODO: Lets log now
-
-    if (output.type === 'csv') {
-        // TODO: We may need to parse it to CSV for example
-        return;
-    }
-
-    // Save the file
-    output.src && fs.writeFileSync(output.src, JSON.stringify(finalData, null, 4), { encoding: 'utf-8' });
-};
 
 /**
  * Gets actual output from file
@@ -48,8 +23,106 @@ const getFile = (output) => {
     }
 
     const exists = output.src ? fs.existsSync(output.src) : false;
-    // TODO: What if it is a csv? It needs conversion
-    return exists ? JSON.parse(fs.readFileSync(output.src, 'utf-8')) : {};
+
+    // Now for the save
+    switch (output.type) {
+    case 'promise':
+    case 'middleware':
+        return output.data;
+    case 'csv':
+        // TODO: We need to parse it
+        break;
+    case 'json':
+    default:
+        return exists ? JSON.parse(fs.readFileSync(output.src, 'utf-8')) : {};
+    }
+};
+
+/**
+ * Saves data into file
+ *
+ * @param {obejct} output
+ * @param {object} data
+ * @param {boolean} fromFile
+ * @returns
+ */
+const save = (output, data, fromFile) => {
+    if (!output || typeof output !== 'object') {
+        throw new Error('An output object is needed');
+    }
+
+    let finalObj = data;
+    data.data = data.data || [];
+
+    if (!output.force) {
+        const fileData = getFile(output) || {};
+        const actualData = (fileData.data || []).concat(data.data);
+
+        // Delete so it doesn't merge
+        delete data.data;
+        delete fileData.data;
+
+        // Lets merge the data
+        finalObj = merge(fileData, data);
+        finalObj.data = uniqBy(actualData.reverse(), 'src');
+    }
+
+    // Now for the save
+    switch (output.type) {
+    case 'middleware':
+        output.data = finalObj;
+        !fromFile && output.fn(finalObj);
+        break;
+    case 'promise':
+        output.data = finalObj;
+        break;
+    case 'csv':
+        // TODO: We may need to parse it to CSV for example
+        break;
+    case 'json':
+    default:
+        if (!output.src) {
+            return;
+        }
+
+        // Save the file
+        fs.writeFileSync(output.src, JSON.stringify(finalObj, null, 4), { encoding: 'utf-8' });
+        /* eslint-disable no-console */
+        !fromFile && console.log('File saved:', output.src);
+        /* eslint-enable no-console */
+    }
+};
+
+/**
+ * Saves item in data
+ *
+ * @param {object} output
+ * @param {array} data
+ */
+const saveItem = (output, data) => {
+    if (!output || typeof output !== 'object') {
+        throw new Error('An output object is needed');
+    }
+
+    const finalObj = { data: !isArray(data) ? [data] : data };
+
+    // Type specifics
+    switch (output.type) {
+    case 'middleware':
+        output.fn(finalObj, true);
+        break;
+    case 'promise':
+        break;
+    case 'csv':
+    case 'json':
+    default:
+        /* eslint-disable no-console */
+        console.log('Saved item');
+        /* eslint-enable no-console */
+    }
+
+    // Finally lets go for the save
+    save(output, finalObj, true);
 };
 
 /**
@@ -65,6 +138,7 @@ const set = (src, type, force = false) => {
 
     // Remove old events
     off('output.save', mbId);
+    off('output.saveItem', mbId);
     off('output.type', mbId);
     off('output.getFile', mbId);
 
@@ -83,6 +157,7 @@ const set = (src, type, force = false) => {
 
     // Set events
     on('output.save', mbId, data => save(output, data));
+    on('output.saveItem', mbId, data => saveItem(output, data));
     on('output.type', mbId, (cb) => cb(actualType));
     on('output.getFile', mbId, (cb) => cb(getFile(output)));
 
@@ -94,7 +169,8 @@ const set = (src, type, force = false) => {
 
 export { set };
 export { save };
+export { saveItem };
 export { getFile };
 
 // Essentially for testing purposes
-export const __testMethods__ = { set, save, getFile };
+export const __testMethods__ = { set, save, saveItem, getFile };

@@ -18,6 +18,13 @@ const pwdTmp = getPwd(pathTmp);
 
 describe('mrcrowley.output', () => {
     afterEach(() => {
+        if (fs.existsSync(pwdTmp)) {
+            fs.unlinkSync(pwdTmp);
+
+            // Delete so that we can require it again
+            delete require.cache[pwdTmp];
+        }
+
         reset();
     });
 
@@ -71,31 +78,36 @@ describe('mrcrowley.output', () => {
         });
     });
 
+    // getFile
+    describe('getFile', () => {
+        before(() => { fns.set(); });
+
+        it('should get the output file', () => {
+            const output = fns.set(pwdTmp);
+            fns.save(output, { foo: 'bar' });
+
+            const result = fns.getFile(output);
+            expect(result).to.be.an('object');
+            expect(result).to.have.keys(['foo', 'data']);
+            expect(result.foo).to.be.a('string');
+            expect(result.foo).to.eql('bar');
+        });
+
+        it('should error without a compliant output', (done) => {
+            try {
+                fns.getFile(null, { foo: 'bar' });
+                done('It should ve\'errored');
+            } catch (err) {
+                done();
+            }
+        });
+
+        it.skip('should get a csv', () => {});
+    });
+
     // save
     describe('save', () => {
-        beforeEach(() => {
-            if (fs.existsSync(pwdTmp)) {
-                fs.unlink(pwdTmp);
-
-                // Delete so that we can require it again
-                delete require.cache[require.resolve(pwdTmp)];
-            }
-
-            // Reset the set
-            fns.set();
-        });
-
-        afterEach(() => {
-            if (fs.existsSync(pwdTmp)) {
-                fs.unlink(pwdTmp);
-
-                // Delete so that we can require it again
-                delete require.cache[require.resolve(pwdTmp)];
-            }
-
-            // Reset the set
-            fns.set();
-        });
+        beforeEach(() => { fns.set(); });
 
         it('should save the output', () => {
             fns.save(fns.set(pwdTmp), {
@@ -104,9 +116,11 @@ describe('mrcrowley.output', () => {
 
             const result = require(pwdTmp);
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(['foo']);
+            expect(result).to.have.keys(['foo', 'data']);
             expect(result.foo).to.be.a('string');
             expect(result.foo).to.eql('bar');
+            expect(result.data).to.be.an('array');
+            expect(result.data.length).to.eql(0);
         });
 
         it('should update the output', () => {
@@ -122,33 +136,75 @@ describe('mrcrowley.output', () => {
 
             const result = require(pwdTmp);
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(['foo', 'stay', 'bar']);
+            expect(result).to.have.keys(['foo', 'stay', 'bar', 'data']);
             expect(result.stay).to.be.a('string');
             expect(result.stay).to.eql('foo');
             expect(result.foo).to.be.a('string');
             expect(result.foo).to.eql('foo');
             expect(result.bar).to.be.a('string');
             expect(result.bar).to.eql('bar');
+            expect(result.data).to.be.an('array');
+            expect(result.data.length).to.eql(0);
         });
 
         it('should save force the output', () => {
-            fns.save(fns.set(pwdTmp), {
-                foo: 'bar',
-                stay: 'foo'
-            });
+            fns.save(fns.set(pwdTmp), { foo: 'bar', stay: 'foo' });
 
-            fns.save(fns.set(pwdTmp, null, true), {
-                foo: 'foo',
-                bar: 'bar'
-            });
+            // Delete so that we can require it again
+            delete require.cache[pwdTmp];
+
+            fns.save(fns.set(pwdTmp, null, true), { foo: 'foo', bar: 'bar' });
 
             const result = require(pwdTmp);
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(['foo', 'bar']);
+            expect(result).to.have.keys(['foo', 'bar', 'data']);
             expect(result.foo).to.be.a('string');
             expect(result.foo).to.eql('foo');
             expect(result.bar).to.be.a('string');
             expect(result.bar).to.eql('bar');
+            expect(result.data).to.be.an('array');
+            expect(result.data.length).to.eql(0);
+        });
+
+        it('should merge data to the output', () => {
+            const output = fns.set(pwdTmp);
+
+            fns.save(output, { data: [{ src: 'foo', val: 1 }] });
+            fns.save(output, { data: [{ src: 'foo', val: 2 }] });
+
+            const result = require(pwdTmp);
+            expect(result).to.be.an('object');
+            expect(result).to.have.keys(['data']);
+            expect(result.data).to.be.an('array');
+            expect(result.data.length).to.eql(1);
+
+            result.data.forEach(val => {
+                expect(val).to.be.an('object');
+                expect(val).to.have.keys(['src', 'val']);
+                expect(val.src).to.be.a('string');
+            });
+
+            expect(result.data[0].val).to.be.a('number');
+            expect(result.data[0].val).to.eql(2);
+        });
+
+        it('shouldn\'t merge data to the output when not the same', () => {
+            const output = fns.set(pwdTmp);
+
+            fns.save(output, { data: [{ src: 'foo' }] });
+            fns.save(output, { data: [{ src: 'bar' }] });
+
+            const result = require(pwdTmp);
+            expect(result).to.be.an('object');
+            expect(result).to.have.keys(['data']);
+            expect(result.data).to.be.an('array');
+            expect(result.data.length).to.eql(2);
+
+            result.data.forEach(val => {
+                expect(val).to.be.an('object');
+                expect(val).to.have.keys(['src']);
+                expect(val.src).to.be.a('string');
+            });
         });
 
         it('should error without a compliant output', (done) => {
@@ -163,38 +219,56 @@ describe('mrcrowley.output', () => {
         it.skip('should save into csv', () => {});
     });
 
-    // getFile
-    describe('getFile', () => {
-        afterEach(() => {
-            fs.existsSync(pwdTmp) && fs.unlink(pwdTmp);
+    // saveItem
+    describe('saveItem', () => {
+        beforeEach(() => { fns.set(); });
 
-            // Delete so that we can require it again
-            delete require.cache[require.resolve(pwdTmp)];
+        it('should save item in the output', () => {
+            const output = fns.set(pwdTmp);
+            fns.saveItem(output, [{ src: 'foo', val: 'bar' }]);
 
-            // Reset the set
-            fns.set();
+            const result = require(pwdTmp);
+            expect(result).to.be.an('object');
+            expect(result).to.have.keys(['data']);
+            expect(result.data).to.be.an('array');
+            expect(result.data.length).to.eql(1);
+
+            result.data.forEach(val => {
+                expect(val).to.be.an('object');
+                expect(val).to.have.keys(['src', 'val']);
+                expect(val.src).to.be.a('string');
+                expect(val.val).to.be.a('string');
+                expect(val.val).to.eql('bar');
+            });
         });
 
-        it('should get the output file', () => {
+        it('should update item in the output', () => {
             const output = fns.set(pwdTmp);
-            fns.save(output, { foo: 'bar' });
+            fns.saveItem(output, [{ src: 'foo', val: 'bar' }]);
+            fns.saveItem(output, [{ src: 'foo', val: 'foo' }]);
 
-            const result = fns.getFile(output);
+            const result = require(pwdTmp);
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(['foo']);
-            expect(result.foo).to.be.a('string');
-            expect(result.foo).to.eql('bar');
+            expect(result).to.have.keys(['data']);
+            expect(result.data).to.be.an('array');
+            expect(result.data.length).to.eql(1);
+
+            result.data.forEach(val => {
+                expect(val).to.be.an('object');
+                expect(val).to.have.keys(['src', 'val']);
+                expect(val.src).to.be.a('string');
+                expect(val.val).to.be.a('string');
+                expect(val.val).to.eql('foo');
+            });
         });
 
         it('should error without a compliant output', (done) => {
             try {
-                fns.getFile(null, { foo: 'bar' });
+                fns.saveItem(null, [{ src: 'bar' }]);
                 done('It should ve\'errored');
             } catch (err) {
                 done();
             }
         });
-
-        it.skip('should get a csv', () => {});
     });
 });
