@@ -996,6 +996,7 @@ describe('mrcrowley.index', () => {
         it('should get queried data', function (done) {
             const config = [{
                 src: 'https://www.sendoushi.com/posts/single/{{query}}',
+                name: 'Foo',
                 enableJs: true,
                 waitFor: '.list-posts-view',
                 modifiers: {
@@ -1059,6 +1060,7 @@ describe('mrcrowley.index', () => {
         it('should ignore results', function (done) {
             const config = [{
                 src: 'https://www.sendoushi.com/posts/projects',
+                name: 'Foo',
                 enableJs: true,
                 waitFor: '.list-posts-view',
                 retrieve: {

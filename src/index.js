@@ -119,16 +119,6 @@ const getQueriedUrls = (data) => {
     // Lets cache the first one
     let srcs;
 
-    // Lets get the first keyModifier
-        // Lets get each value modifier
-            // Use the original src and query it
-            // Cache it
-    // Lets get the second keyModifier
-        // Lets get through all already set values
-
-    // Modifiers are the keys to check
-    // Its array are the value
-
     // Now lets go per modifier
     keyModifiers.forEach(key => {
         const modifiersSet = data.modifiers[key];
@@ -155,29 +145,6 @@ const getQueriedUrls = (data) => {
 
         // Lets cache it now
         srcs = flattenDeep(newSrcs).filter(val => !!val);
-
-        // data.modifiers[key].map(modifier => {
-        // // Lets go per source and set the modifier
-        // urls = urls.concat([data.src]).map(src => {
-        //     const actualSrcs = [];
-
-        //     if (typeof modifier === 'object') {
-        //         const min = modifier.min || 0;
-        //         const max = modifier.max || 10;
-
-        //         for (let i = min; i < max + 1; i += 1) {
-        //             actualSrcs.push(src.replace(new RegExp(`\{\{${key}\}\}`, 'g'), i));
-        //         }
-        //     } else {
-        //         // Now for the general rule string
-        //         actualSrcs.push(src.replace(new RegExp(`\{\{${key}\}\}`, 'g'), modifier));
-        //     }
-
-        //     return actualSrcs;
-        // });
-
-        // // Lets flatten for the next iteration
-        // urls = flattenDeep(urls).filter(val => !!val);
     });
 
     return srcs;
@@ -437,16 +404,10 @@ const gatherData = (data = []) => {
             return;
         }
 
-        // Lets make the name right
-        item.name = item.name || path.basename(item.src);
-
-        // Create the expected object
-        const urls = getQueriedUrls(item).map(url => ({
+        // Lets set the basics
+        item.results = getQueriedUrls(item).map(url => ({
             src: url, retrieve: item.retrieve
         }));
-
-        // Cache the urls
-        item.results = urls;
 
         promise = getSingle(item.results)
         .then(singleData => {

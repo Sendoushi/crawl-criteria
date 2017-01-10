@@ -3,7 +3,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import uniqBy from 'lodash/uniqBy.js';
+import uniqWith from 'lodash/uniqWith.js';
 import isArray from 'lodash/isArray.js';
 import merge from 'lodash/merge.js';
 import { getPwd } from './utils.js';
@@ -64,7 +64,9 @@ const save = (output, data, fromFile) => {
 
         // Lets merge the data
         finalObj = merge(fileData, data);
-        finalObj.data = uniqBy(actualData.reverse(), 'src');
+        finalObj.data = uniqWith(actualData.reverse(),
+            (a, b) => a && b && a.src === b.src && a.name === b.name
+        ).filter(val => !!val);
     }
 
     // Now for the save
@@ -88,7 +90,7 @@ const save = (output, data, fromFile) => {
         // Save the file
         fs.writeFileSync(output.src, JSON.stringify(finalObj, null, 4), { encoding: 'utf-8' });
         /* eslint-disable no-console */
-        !fromFile && console.log('File saved:', output.src);
+        !fromFile && typeof describe === 'undefined' && console.log('File saved:', output.src);
         /* eslint-enable no-console */
     }
 };
@@ -117,7 +119,7 @@ const saveItem = (output, data) => {
     case 'json':
     default:
         /* eslint-disable no-console */
-        console.log('Saved item');
+        typeof describe === 'undefined' && console.log('Saved item');
         /* eslint-enable no-console */
     }
 

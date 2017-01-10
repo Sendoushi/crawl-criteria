@@ -14,7 +14,7 @@ const STRUCT = Joi.object().keys({
         enableJs: Joi.boolean().default(false),
         waitFor: Joi.string(),
         retrieve: Joi.object().required(),
-        result: Joi.object()
+        results: Joi.array()
     })).required()
 }).required();
 
@@ -58,7 +58,19 @@ const get = (config) => {
         throw new Error(config && config.error || 'Couldn\'t validate');
     }
 
-    return config.value;
+    // We need to set defaults
+    const value = config.value;
+    value.projectId = value.projectId || 'projectname';
+    value.projectName = value.projectName || 'Project Name';
+    value.data = value.data.map(val => {
+        val.name = val.name || val.src;
+        val.throttle = val.throttle || 2000;
+        val.results = val.results || [];
+
+        return val;
+    });
+
+    return value;
 };
 
 //-------------------------------------
