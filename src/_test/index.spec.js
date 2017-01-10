@@ -819,7 +819,7 @@ describe('mrcrowley.index', () => {
                     expect(result.result).to.be.an('object');
                     expect(result.result).to.have.keys(['title']);
                     expect(result.result.title).to.be.an('array');
-                    expect(result.result.title).to.have.length.above(1);
+                    expect(result.result.title).to.have.length.above(0);
 
                     result.result.title.forEach(title => {
                         expect(title).to.be.a('string');
@@ -916,7 +916,7 @@ describe('mrcrowley.index', () => {
 
                     result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt', 'name']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['content']);
@@ -975,7 +975,7 @@ describe('mrcrowley.index', () => {
 
                     result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt', 'name']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['content']);
@@ -1039,7 +1039,7 @@ describe('mrcrowley.index', () => {
 
                     result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt', 'name', 'enableJs', 'modifiers', 'waitFor']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['title']);
@@ -1099,7 +1099,7 @@ describe('mrcrowley.index', () => {
 
                     result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt', 'name', 'enableJs', 'waitFor']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['title']);
@@ -1171,7 +1171,9 @@ describe('mrcrowley.index', () => {
                     expect(val.results).to.be.an('array');
                     val.results.forEach(res => {
                         expect(res).to.be.an('object');
-                        expect(res).to.have.keys(['src', 'result', 'updatedAt']);
+                        expect(res).to.contain.any.keys([
+                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'waitFor'
+                        ]);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
                         expect(res.updatedAt).to.be.a('number');
@@ -1216,7 +1218,9 @@ describe('mrcrowley.index', () => {
                     expect(val.results).to.be.an('array');
                     val.results.forEach(res => {
                         expect(res).to.be.an('object');
-                        expect(res).to.have.keys(['src', 'result', 'updatedAt']);
+                        expect(res).to.contain.any.keys([
+                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'waitFor'
+                        ]);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
                         expect(res.updatedAt).to.be.a('number');
@@ -1264,7 +1268,9 @@ describe('mrcrowley.index', () => {
                     expect(val.results).to.be.an('array');
                     val.results.forEach(res => {
                         expect(res).to.be.an('object');
-                        expect(res).to.have.keys(['src', 'result', 'updatedAt']);
+                        expect(res).to.contain.any.keys([
+                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'waitFor'
+                        ]);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
                         expect(res.updatedAt).to.be.a('number');

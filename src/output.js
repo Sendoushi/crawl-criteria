@@ -3,6 +3,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import mkdirp from 'mkdirp';
 import uniqWith from 'lodash/uniqWith.js';
 import isArray from 'lodash/isArray.js';
 import merge from 'lodash/merge.js';
@@ -69,30 +70,16 @@ const save = (output, data, fromFile) => {
         ).filter(val => !!val);
     }
 
-    // Now for the save
-    switch (output.type) {
-    case 'middleware':
-        output.data = finalObj;
-        !fromFile && output.fn(finalObj);
-        break;
-    case 'promise':
-        output.data = finalObj;
-        break;
-    case 'csv':
-        // TODO: We may need to parse it to CSV for example
-        break;
-    case 'json':
-    default:
-        if (!output.src) {
-            return;
-        }
+    // Save the file
+    output.data = finalObj;
+    !fromFile && output.fn(finalObj);
 
-        // Save the file
+    if (output.src) {
+        mkdirp.sync(path.basename(output.src));
         fs.writeFileSync(output.src, JSON.stringify(finalObj, null, 4), { encoding: 'utf-8' });
-        /* eslint-disable no-console */
-        !fromFile && typeof describe === 'undefined' && console.log('File saved:', output.src);
-        /* eslint-enable no-console */
     }
+
+    output.logger.log('[MrCrowley]', 'File saved');
 };
 
 /**
@@ -108,20 +95,8 @@ const saveItem = (output, data) => {
 
     const finalObj = { data: !isArray(data) ? [data] : data };
 
-    // Type specifics
-    switch (output.type) {
-    case 'middleware':
-        output.fn(finalObj, true);
-        break;
-    case 'promise':
-        break;
-    case 'csv':
-    case 'json':
-    default:
-        /* eslint-disable no-console */
-        typeof describe === 'undefined' && console.log('Saved item');
-        /* eslint-enable no-console */
-    }
+    output.fn(finalObj, true);
+    output.logger.log('[MrCrowley]', 'Saved item', `[${output.count}/${output.allSrcs}]`);
 
     // Finally lets go for the save
     save(output, finalObj, true);
@@ -131,11 +106,12 @@ const saveItem = (output, data) => {
  * Sets
  *
  * @param {string} src
+ * @param {string} type
+ * @param {function} fn
  * @param {boolean} force
- * @param {boolean} isPromise
  * @returns {object}
  */
-const set = (src, type, force = false) => {
+const set = (src, type, fn, force = false) => {
     const mbId = 'output';
 
     // Remove old events
@@ -144,17 +120,24 @@ const set = (src, type, force = false) => {
     off('output.type', mbId);
     off('output.getFile', mbId);
 
+    off('output.onStart', mbId);
+    off('output.onEnd', mbId);
+
     if (src && typeof src !== 'string') {
         throw new Error('Source needs to be a string');
     }
 
     // Set output
-    const actualType = (src && !type) ? path.extname(src).replace('.', '').toLowerCase() : 'promise';
+    const actualType = (src && !type ? path.extname(src).replace('.', '').toLowerCase() : type) || 'promise';
+    const hasConsole = actualType !== 'promise' && typeof describe === 'undefined';
     const output = {
         src: src ? getPwd(src) : undefined,
         type: actualType,
-        logger: actualType !== 'promise' ? console : { log: () => {}, warn: () => {}, error: () => {} },
-        force
+        logger: hasConsole ? console : { log: () => {}, warn: () => {}, error: () => {} },
+        fn: fn || (() => {}),
+        force,
+        allSrcs: 0,
+        count: 0
     };
 
     // Set events
@@ -162,6 +145,12 @@ const set = (src, type, force = false) => {
     on('output.saveItem', mbId, data => saveItem(output, data));
     on('output.type', mbId, (cb) => cb(actualType));
     on('output.getFile', mbId, (cb) => cb(getFile(output)));
+
+    on('output.onStart', mbId, () => output.logger.log('[MrCrowley]', 'Started...'));
+    on('output.onUpdate', mbId, (allSrcs) => {
+        output.allSrcs = allSrcs || output.allSrcs;
+    });
+    on('output.onEnd', mbId, () => output.logger.log('[MrCrowley]', 'Ended'));
 
     return output;
 };

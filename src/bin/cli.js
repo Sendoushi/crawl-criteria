@@ -31,7 +31,7 @@ const help = () => {
 // Runtime
 
 if (argv && argv.config && argv.output) {
-    set(argv.output, argv.force);
+    set(argv.output, null, null, argv.force);
     run(argv.config);
 } else {
     help();

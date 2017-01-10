@@ -1,12 +1,13 @@
 'use strict';
 /* global Promise */
 
-import path from 'path';
 import jsdom from 'jsdom';
 import resourceLoader from 'jsdom/lib/jsdom/browser/resource-loader';
 import toughCookie from 'tough-cookie';
+import uniq from 'lodash/uniq.js';
 import isArray from 'lodash/isArray.js';
 import merge from 'lodash/merge.js';
+import cloneDeep from 'lodash/cloneDeep.js';
 import flattenDeep from 'lodash/flattenDeep.js';
 import { send } from './mailbox.js';
 import { isUrl, contains } from './utils.js';
@@ -109,8 +110,6 @@ const getQueriedUrls = (data) => {
         throw new Error('A source string is needed to query url');
     }
 
-    // TODO: What about modifiers combinations?
-
     const keyModifiers = Object.keys(data.modifiers || []);
     if (!keyModifiers || !keyModifiers.length) {
         return [data.src];
@@ -147,7 +146,7 @@ const getQueriedUrls = (data) => {
         srcs = flattenDeep(newSrcs).filter(val => !!val);
     });
 
-    return srcs;
+    return uniq(srcs);
 };
 
 /**
@@ -405,9 +404,15 @@ const gatherData = (data = []) => {
         }
 
         // Lets set the basics
-        item.results = getQueriedUrls(item).map(url => ({
-            src: url, retrieve: item.retrieve
-        }));
+        item.results = getQueriedUrls(item).map(url => {
+            const resultItem = cloneDeep(item);
+            resultItem.src = url;
+
+            return resultItem;
+        });
+
+        // Inform that all started
+        send('output.onUpdate', item.results.length);
 
         promise = getSingle(item.results)
         .then(singleData => {
@@ -431,6 +436,9 @@ const gatherData = (data = []) => {
  * @returns {promise}
  */
 const run = (baseConfig) => {
+    // Inform that all started
+    send('output.onStart');
+
     const promise = new Promise((resolve) => {
         // Save the config data in case it isn't already...
         send('output.save', configGet(baseConfig));
@@ -446,6 +454,9 @@ const run = (baseConfig) => {
 
             // Save the output
             send('output.save', config);
+
+            // Inform that all ended
+            send('output.onEnd');
 
             resolve(config);
         }));

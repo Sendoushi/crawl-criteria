@@ -34,7 +34,7 @@ describe('mrcrowley.output', () => {
             const result = fns.set(pathTmp);
 
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(['src', 'type', 'force', 'logger']);
+            expect(result).to.have.keys(['src', 'type', 'force', 'logger', 'fn', 'allSrcs', 'count']);
             expect(result.src).to.be.a('string');
             expect(result.src).to.contain('tmp.json');
             expect(result.type).to.be.a('string');
@@ -44,10 +44,10 @@ describe('mrcrowley.output', () => {
         });
 
         it('should set a source and force', () => {
-            const result = fns.set(pathTmp, null, true);
+            const result = fns.set(pathTmp, null, null, true);
 
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(['src', 'type', 'force', 'logger']);
+            expect(result).to.have.keys(['src', 'type', 'force', 'logger', 'fn', 'allSrcs', 'count']);
             expect(result.src).to.be.a('string');
             expect(result.src).to.contain('tmp.json');
             expect(result.type).to.be.a('string');
@@ -60,7 +60,7 @@ describe('mrcrowley.output', () => {
             const result = fns.set();
 
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(['src', 'type', 'force', 'logger']);
+            expect(result).to.have.keys(['src', 'type', 'force', 'logger', 'fn', 'allSrcs', 'count']);
             expect(result.src).to.be.an('undefined');
             expect(result.type).to.be.a('string');
             expect(result.type).to.eql('promise');
@@ -149,11 +149,7 @@ describe('mrcrowley.output', () => {
 
         it('should save force the output', () => {
             fns.save(fns.set(pwdTmp), { foo: 'bar', stay: 'foo' });
-
-            // Delete so that we can require it again
-            delete require.cache[pwdTmp];
-
-            fns.save(fns.set(pwdTmp, null, true), { foo: 'foo', bar: 'bar' });
+            fns.save(fns.set(pwdTmp, null, null, true), { foo: 'foo', bar: 'bar' });
 
             const result = require(pwdTmp);
             expect(result).to.be.an('object');
