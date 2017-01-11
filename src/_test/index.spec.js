@@ -1092,7 +1092,6 @@ describe('mrcrowley.index', () => {
             const config = [{
                 src: 'https://www.npmjs.com/search?q={{query}}',
                 name: 'Foo',
-                enableJs: true,
                 throttle: 5000,
                 modifiers: { query: ['foo', 'bar'] },
                 retrieve: {
@@ -1110,7 +1109,7 @@ describe('mrcrowley.index', () => {
 
                 data.forEach(result => {
                     expect(result).to.have.keys([
-                        'src', 'name', 'retrieve', 'results', 'modifiers', 'enableJs', 'throttle'
+                        'src', 'name', 'retrieve', 'results', 'modifiers', 'throttle'
                     ]);
                     expect(result.src).to.be.a('string');
                     expect(result.name).to.be.a('string');
@@ -1152,17 +1151,14 @@ describe('mrcrowley.index', () => {
 
         it('should ignore results', function (done) {
             const config = [{
-                src: 'https://www.sendoushi.com/posts/projects',
+                src: 'https://www.npmjs.com/search?q={{query}}',
                 name: 'Foo',
-                enableJs: true,
-                wait: {
-                    selector: '.list-posts-view',
-                    for: 10000
-                },
+                throttle: 5000,
+                modifiers: { query: ['foo'] },
                 retrieve: {
                     title: {
-                        selector: '.post-item-title',
-                        ignore: ['Prokofiev']
+                        selector: 'h3 a',
+                        ignore: ['camelcase']
                     }
                 }
             }];
@@ -1176,7 +1172,7 @@ describe('mrcrowley.index', () => {
                 expect(data.length).to.eql(1);
 
                 data.forEach(result => {
-                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'results', 'wait', 'enableJs']);
+                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'results', 'throttle', 'modifiers']);
                     expect(result.src).to.be.a('string');
                     expect(result.name).to.be.a('string');
                     expect(result.retrieve).to.be.an('object');
@@ -1204,7 +1200,7 @@ describe('mrcrowley.index', () => {
 
                         val.result.title.forEach(valResult => {
                             expect(valResult).to.be.a('string');
-                            expect(valResult.toLowerCase()).to.not.contain('prokofiev');
+                            expect(valResult.toLowerCase()).to.not.contain('camelcase');
                         });
                     });
                 });
