@@ -11,12 +11,22 @@ const STRUCT = Joi.object().keys({
         name: Joi.string(),
         throttle: Joi.number().default(2000),
         modifiers: Joi.object(),
-        enableJs: Joi.boolean().default(false),
-        waitFor: Joi.string(),
         retrieve: Joi.object().required(),
-        results: Joi.array()
+        enableJs: Joi.boolean().default(false),
+        wait: {
+            selector: Joi.string(),
+            for: Joi.number().default(5000)
+        },
+        results: Joi.array().items(Joi.object().keys({
+            src: Joi.string().required(),
+            result: Joi.array().items(Joi.string()).required(),
+            updatedAt: Joi.number(),
+            skip: Joi.boolean().default(false)
+        }))
     })).required()
 }).required();
+
+// TODO: Retries, skip, json schema
 
 //-------------------------------------
 // Functions
@@ -62,10 +72,14 @@ const get = (config) => {
     const value = config.value;
     value.projectId = value.projectId || 'projectname';
     value.projectName = value.projectName || 'Project Name';
-    value.data = value.data.map(val => {
+    value.data = (value.data || []).map(val => {
         val.name = val.name || val.src;
         val.throttle = val.throttle || 2000;
         val.results = val.results || [];
+        val.modifiers = val.modifiers || {};
+        val.enableJs = val.enableJs || false;
+        val.wait = val.wait || {};
+        val.wait.for = val.wait.for || (val.wait.selector ? 5000 : 1);
 
         return val;
     });

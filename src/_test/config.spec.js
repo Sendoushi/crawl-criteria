@@ -19,25 +19,11 @@ describe('mrcrowley.config', () => {
     describe('verify', () => {
         it('should verify object', () => {
             const configObj = require(pwdConfig);
-            let result = fns.verify(configObj);
+            const result = fns.verify(configObj);
 
             expect(result).to.be.an('object');
             expect(result).to.contain.all.keys(['value']);
             expect(result.value).to.be.an('object');
-
-            result = result.value;
-            expect(result).to.contain.all.keys(['data']);
-            expect(result).to.contain.any.keys(['projectId', 'projectName', 'data']);
-            expect(result.data).to.be.a('array');
-            expect(result.data).to.have.length.above(1);
-
-            result.data.forEach(val => {
-                expect(val).to.contain.all.keys(['src', 'retrieve']);
-                expect(val).to.contain.any.keys(['src', 'name', 'retrieve', 'modifiers', 'enableJs', 'throttle']);
-                expect(val.src).to.be.an('string');
-                expect(val.src).to.have.length.above(1);
-                expect(val.retrieve).to.be.an('object');
-            });
         });
 
         it('should get error with non compliant object', () => {
@@ -58,17 +44,32 @@ describe('mrcrowley.config', () => {
         it('should load config', () => {
             const result = fns.get(pathConfig);
             expect(result).to.be.an('object');
-            expect(result).to.contain.all.keys(['data']);
-            expect(result).to.contain.any.keys(['projectId', 'projectName', 'data']);
+            expect(result).to.contain.all.keys(['projectId', 'projectName', 'data']);
+            expect(result.projectId).to.be.a('string');
+            expect(result.projectId).to.have.length.above(1);
+            expect(result.projectName).to.be.a('string');
+            expect(result.projectName).to.have.length.above(1);
             expect(result.data).to.be.a('array');
-            expect(result.data).to.have.length.above(1);
 
             result.data.forEach(val => {
-                expect(val).to.contain.all.keys(['src', 'retrieve']);
-                expect(val).to.contain.any.keys(['src', 'name', 'retrieve', 'modifiers', 'enableJs', 'throttle']);
+                expect(val).to.be.an('object');
+                expect(val).to.contain.all.keys([
+                    'src', 'retrieve', 'name', 'throttle', 'results', 'modifiers', 'enableJs', 'wait'
+                ]);
+
                 expect(val.src).to.be.an('string');
                 expect(val.src).to.have.length.above(1);
                 expect(val.retrieve).to.be.an('object');
+                expect(val.name).to.be.an('string');
+                expect(val.name).to.have.length.above(1);
+                expect(val.throttle).to.be.a('number');
+                expect(val.results).to.be.an('array');
+                expect(val.modifiers).to.be.an('object');
+                expect(val.enableJs).to.be.a('boolean');
+                expect(val.wait).to.be.an('object');
+                expect(val.wait).to.contain.all.keys(['for']);
+                expect(val.wait).to.contain.any.keys(['selector', 'for']);
+                expect(val.wait.for).to.be.a('number');
             });
         });
 
@@ -77,17 +78,32 @@ describe('mrcrowley.config', () => {
             const result = fns.get(configObj);
 
             expect(result).to.be.an('object');
-            expect(result).to.contain.all.keys(['data']);
-            expect(result).to.contain.any.keys(['projectId', 'projectName', 'data']);
+            expect(result).to.contain.all.keys(['projectId', 'projectName', 'data']);
+            expect(result.projectId).to.be.a('string');
+            expect(result.projectId).to.have.length.above(1);
+            expect(result.projectName).to.be.a('string');
+            expect(result.projectName).to.have.length.above(1);
             expect(result.data).to.be.a('array');
-            expect(result.data).to.have.length.above(1);
 
             result.data.forEach(val => {
-                expect(val).to.contain.all.keys(['src', 'retrieve']);
-                expect(val).to.contain.any.keys(['src', 'name', 'retrieve', 'modifiers', 'enableJs', 'throttle']);
+                expect(val).to.be.an('object');
+                expect(val).to.contain.all.keys([
+                    'src', 'retrieve', 'name', 'throttle', 'results', 'modifiers', 'enableJs', 'wait'
+                ]);
+
                 expect(val.src).to.be.an('string');
                 expect(val.src).to.have.length.above(1);
                 expect(val.retrieve).to.be.an('object');
+                expect(val.name).to.be.an('string');
+                expect(val.name).to.have.length.above(1);
+                expect(val.throttle).to.be.a('number');
+                expect(val.results).to.be.an('array');
+                expect(val.modifiers).to.be.an('object');
+                expect(val.enableJs).to.be.a('boolean');
+                expect(val.wait).to.be.an('object');
+                expect(val.wait).to.contain.all.keys(['for']);
+                expect(val.wait).to.contain.any.keys(['selector', 'for']);
+                expect(val.wait.for).to.be.a('number');
             });
         });
 

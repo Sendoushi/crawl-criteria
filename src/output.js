@@ -75,7 +75,7 @@ const save = (output, data, fromFile) => {
     !fromFile && output.fn(finalObj);
 
     if (output.src) {
-        mkdirp.sync(path.basename(output.src));
+        mkdirp.sync(path.dirname(output.src));
         fs.writeFileSync(output.src, JSON.stringify(finalObj, null, 4), { encoding: 'utf-8' });
     }
 
@@ -92,6 +92,8 @@ const saveItem = (output, data) => {
     if (!output || typeof output !== 'object') {
         throw new Error('An output object is needed');
     }
+
+    output.count += 1;
 
     const finalObj = { data: !isArray(data) ? [data] : data };
 

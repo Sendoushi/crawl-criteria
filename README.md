@@ -53,6 +53,10 @@ mrcrowley --config=<config_json_src> --output=<file_to_save_src> --force=<false|
         "throttle": 2000,
         "enableJs": false,
         "waitFor": "<html_selector>",
+        "wait": {
+            "selector": "<html_selector>",
+            "for": 5000
+        },
         "modifiers": {
             "<query_var_in_url>": ["<var_to_replace>"]
         },
@@ -91,7 +95,7 @@ mrcrowley --config=<config_json_src> --output=<file_to_save_src> --force=<false|
 - `attribute`: If not provided, text content will be returned. Optional key.
 - `ignore`: Ignore results with a regex pattern. Optional key.
 - `enableJs`: Javascript isn't enable by default for security reasons. Use this if you really need it
-- `waitFor`: Usually used with `enableJs`. If the sources uses javascript to render, you may `waitFor` the selector to be present. It will only wait `20` seconds
+- `wait`: Usually used with `enableJs`. If the sources uses javascript to render, you may `wait` for the selector to be present
 - `<var_to_replace>`: It can also be an object with keys `min` (it will default to `0`) and `max` (it will default to `10`)
 
     ```json

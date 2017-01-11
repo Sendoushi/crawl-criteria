@@ -177,10 +177,10 @@ const getUrl = (url) => new Promise((resolve, reject) => {
  * @param {string} type
  * @param {int} throttle
  * @param {boolean} enableJs
- * @param {string} waitFor
+ * @param {object} wait
  * @returns {promise}
  */
-const getDom = (src, type = 'url', throttle = 2000, enableJs = false, waitFor) => new Promise((resolve, reject) => {
+const getDom = (src, type = 'url', throttle = 2000, enableJs = false, wait = {}) => new Promise((resolve, reject) => {
     if (typeof src !== 'string') {
         throw new Error('A source needs to be provided');
     }
@@ -190,8 +190,12 @@ const getDom = (src, type = 'url', throttle = 2000, enableJs = false, waitFor) =
         throw new Error('Source not valid');
     }
 
+    // Random throttle exists to avoid time patterns which may lead to some crawler issues
+    throttle = type === 'url' ? Math.round(throttle + Math.random() * throttle * 2) : 1;
+
     // First the throttle so it doesn't make the request before
     setTimeout(() => {
+        const time = (wait.selector || enableJs) ? (wait.for || 60000) : 1;
         // Prepare for possible errors
         const virtualConsole = enableJs ? jsdom.createVirtualConsole() : undefined;
         const errors = [];
@@ -199,24 +203,20 @@ const getDom = (src, type = 'url', throttle = 2000, enableJs = false, waitFor) =
         const warns = [];
 
         // Set the timer to wait for and evaluate evaluation
-        const waitForTimer = (window, selector, time, i = 0) => {
-            time = (waitFor || enableJs) ? 2000 : 1;
+        const waitForTimer = (window, i = 0) => setTimeout(() => {
+            if (wait.selector && window.$.find(wait.selector).length === 0 && i < 10) {
+                return waitForTimer(window, i + 1);
+            }
 
-            setTimeout(() => {
-                if (selector && window.$.find(selector).length === 0 && i < 10) {
-                    return waitForTimer(window, selector, time, i + 1);
-                }
+            const docHtml = window.document.documentElement.innerHTML;
+            const toCache = { window, docHtml, errors, logs, warns };
 
-                const docHtml = window.document.documentElement.innerHTML;
-                const toCache = { window, docHtml, errors, logs, warns };
+            // Save it
+            cache[src] = toCache;
 
-                // Save it
-                cache[src] = toCache;
-
-                // And resolve it
-                resolve(toCache);
-            }, time);
-        };
+            // And resolve it
+            resolve(toCache);
+        }, time / 10);
 
         if (enableJs) {
             virtualConsole.on('jsdomError', error => { errors.push(error); });
@@ -227,7 +227,7 @@ const getDom = (src, type = 'url', throttle = 2000, enableJs = false, waitFor) =
 
         // Lets check if it exists in cache...
         if (cache[src]) {
-            return waitForTimer(cache[src].window, waitFor);
+            return waitForTimer(cache[src].window);
         }
 
         // If not... lets just get it
@@ -238,19 +238,17 @@ const getDom = (src, type = 'url', throttle = 2000, enableJs = false, waitFor) =
                 FetchExternalResources: enableJs ? ['script'] : [],
                 ProcessExternalResources: enableJs ? ['script'] : [],
                 SkipExternalResources: !enableJs
-            },
-            done: (err, window) => {
-                if (err) { return reject(err); }
-
-                // Wait for selector to be available
-                waitForTimer(window, waitFor);
             }
         });
 
         // Now for the actual getting
-        jsdom.env(src, config);
-    }, type === 'url' ? Math.round(throttle + Math.random() * throttle * 2) : 1);
-    // Random throttle exists to avoid time patterns which may lead to some crawler issues
+        jsdom.env(src, config, (err, window) => {
+            if (err) { return reject(err); }
+
+            // Wait for selector to be available
+            waitForTimer(window);
+        });
+    }, throttle);
 });
 
 /**
@@ -298,7 +296,11 @@ const getScrap = ($, parentEl, data = {}) => {
                 // No need to go for the content if it gots nested
                 // Lets get the nested then
                 single = getScrap($, $(el), req);
-                result.push(single);
+
+                // Don't add if there is no data
+                if (Object.keys(single).length) {
+                    result.push(single);
+                }
             } else {
                 // Ignore if the element has some "nofollow"
                 if (el.getAttribute('rel') === 'nofollow') {
@@ -311,8 +313,10 @@ const getScrap = ($, parentEl, data = {}) => {
             }
         }
 
-        // Lets take care of ignore and finallycache it...
-        results[key] = result;
+        // Lets take care of ignore and finally cache it...
+        if (result.length) {
+            results[key] = result;
+        }
     }
 
     return results;
@@ -321,46 +325,37 @@ const getScrap = ($, parentEl, data = {}) => {
 /**
  * Gets single data
  *
- * @param {object} data
+ * @param {object} srcItem
+ * @param {object} originalItem
  * @return {promise}
  */
-const getSingle = (data = []) => {
-    if (!isArray(data)) {
+const getSingle = (srcItem, originalItem = {}) => {
+    if (!srcItem || typeof srcItem !== 'object') {
         return new Promise(() => {
-            throw new Error('Data needs to exist and be an array');
+            throw new Error('Src item needs to exist and be a compliant object');
         });
     }
 
-    if (!data.length) {
-        return new Promise(resolve => resolve(data));
+    // Lets check if we are still in the diff time
+    if (
+        !srcItem.src ||
+        srcItem.updatedAt && (Date.now() - srcItem.updatedAt < MIN_UPDATE_DIFF) &&
+        Object.keys(srcItem.result || {}).length ||
+        srcItem.skip || originalItem.skip
+    ) {
+        return new Promise(resolve => resolve());
     }
 
-    // Lets go per each data member
-    const promises = [];
-    data.forEach((item) => {
-        // Lets check if we are still in the diff time
-        if (!item.src || item.updatedAt && (Date.now() - item.updatedAt < MIN_UPDATE_DIFF)) {
-            return;
-        }
+    // Make the request and get back
+    return getDom(srcItem.src, 'url', originalItem.throttle, originalItem.enableJs, originalItem.wait).then(singleDom => {
+        const el = singleDom.window.$;
 
-        // Make the request and get back
-        const promise = getDom(item.src, 'url', item.throttle, item.enableJs, item.waitFor).then(singleDom => {
-            const el = singleDom.window.$;
+        // Cache data
+        srcItem.result = getScrap(el, el, originalItem);
+        srcItem.updatedAt = (new Date()).getTime();
 
-            // Cache data
-            item.result = getScrap(el, el, item);
-            item.updatedAt = (new Date()).getTime();
-
-            // Remove retrieve we no longer need it
-            delete item.retrieve;
-
-            return item;
-        });
-
-        promises.push(promise);
+        return srcItem;
     });
-
-    return Promise.all(promises);
 };
 
 /**
@@ -376,57 +371,73 @@ const gatherData = (data = []) => {
         });
     }
 
+    // There is no data
     if (!data.length) {
         return new Promise(resolve => resolve());
     }
 
-    // Lets go per each data member
-    const promises = [];
-    data.forEach((item) => {
-        let promise;
+    // Inform that all started
+    send('output.onUpdate', data.length);
 
+    // Lets first check if we have all data or something failed
+    const failed = data.map(item => {
         if (!item || typeof item !== 'object') {
-            promise = new Promise(() => {
+            return new Promise(() => {
                 throw new Error('A data object is required to get the url');
             });
-            promises.push(promise);
-
-            return;
         }
 
         if (!item.src || typeof item.src !== 'string') {
-            promise = new Promise(() => {
+            return new Promise(() => {
                 throw new Error('A src is required to get the url');
             });
-            promises.push(promise);
-
-            return;
         }
+    }).filter(val => val)[0];
+    if (failed) { return failed; }
 
+    // Lets go per each data member
+    let promises = [];
+    data.forEach((item) => {
         // Lets set the basics
+        const oldResults = item.results || [];
         item.results = getQueriedUrls(item).map(url => {
-            const resultItem = cloneDeep(item);
-            resultItem.src = url;
+            let newItem = { src: url };
 
-            return resultItem;
+            // Lets check if this exists in the old results already
+            oldResults.forEach(val => {
+                newItem = val.src === url ? merge(oldResults, newItem) : newItem;
+            });
+
+            return newItem;
         });
 
-        // Inform that all started
-        send('output.onUpdate', item.results.length);
-
-        promise = getSingle(item.results)
+        // Now for the actual promises
+        promises = promises.concat(item.results.map(queryItem => () => getSingle(queryItem, item)
         .then(singleData => {
+            if (!singleData) { return; }
+
             // Lets save the data coming in
             send('output.saveItem', item);
 
             return singleData;
-        });
-
-        // Cache promise
-        promises.push(promise);
+        })));
     });
 
-    return Promise.all(promises).then(() => data);
+    // Lets run promises in sync
+    return new Promise(resolve => resolve(promises || []))
+    .then(promisesArr => {
+        // Loop the promises
+        const next = i => {
+            const promise = promisesArr[i];
+            if (!promise) { return; }
+
+            return promise().then(() => next(i + 1));
+        };
+
+        // Lets get the first
+        return next(0);
+    })
+    .then(() => data);
 };
 
 /**

@@ -10,6 +10,8 @@ import { __testMethods__ as fns } from '../output.js';
 // --------------------------------
 // Variables
 
+const pathConfig = './src/_test/data/config.json';
+const pwdConfig = getPwd(pathConfig);
 const pathTmp = './src/_test/data/tmp.json';
 const pwdTmp = getPwd(pathTmp);
 
@@ -83,14 +85,17 @@ describe('mrcrowley.output', () => {
         before(() => { fns.set(); });
 
         it('should get the output file', () => {
-            const output = fns.set(pwdTmp);
-            fns.save(output, { foo: 'bar' });
-
+            const output = fns.set(pwdConfig);
             const result = fns.getFile(output);
+
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(['foo', 'data']);
-            expect(result.foo).to.be.a('string');
-            expect(result.foo).to.eql('bar');
+            expect(result).to.have.keys(['projectId', 'projectName', 'data']);
+            expect(result.projectId).to.be.a('string');
+            expect(result.projectId).to.eql('test');
+            expect(result.projectName).to.be.a('string');
+            expect(result.projectName).to.eql('Test');
+            expect(result.data).to.be.an('array');
+            expect(result.data.length).to.eql(4);
         });
 
         it('should error without a compliant output', (done) => {
@@ -110,41 +115,129 @@ describe('mrcrowley.output', () => {
         beforeEach(() => { fns.set(); });
 
         it('should save the output', () => {
-            fns.save(fns.set(pwdTmp), {
-                foo: 'bar'
-            });
+            fns.save(fns.set(pwdTmp), require(pwdConfig));
 
-            const result = require(pwdTmp);
+            const result = JSON.parse(fs.readFileSync(pwdTmp, 'utf-8'));
             expect(result).to.be.an('object');
-            expect(result).to.have.keys(['foo', 'data']);
-            expect(result.foo).to.be.a('string');
-            expect(result.foo).to.eql('bar');
+            expect(result).to.have.keys(['projectId', 'projectName', 'data']);
+            expect(result.projectId).to.be.a('string');
+            expect(result.projectId).to.eql('test');
+            expect(result.projectName).to.be.a('string');
+            expect(result.projectName).to.eql('Test');
             expect(result.data).to.be.an('array');
-            expect(result.data.length).to.eql(0);
+            expect(result.data.length).to.eql(4);
+
+            result.data.forEach(val => {
+                expect(val).to.be.an('object');
+                expect(val).to.contain.any.keys([
+                    'src', 'retrieve', 'name', 'throttle', 'results', 'modifiers', 'enableJs', 'wait'
+                ]);
+            });
         });
 
         it('should update the output', () => {
-            fns.save(fns.set(pwdTmp), {
-                foo: 'bar',
-                stay: 'foo'
+            const output = fns.set(pwdTmp);
+            fns.save(output, {
+                projectId: 'foo',
+                projectName: 'bar',
+                data: [
+                    { src: 'has/no/result', retrieve: {}, results: [] },
+                    {
+                        src: 'has/no/update',
+                        retrieve: {},
+                        results: [{ src: '2', result: ['result'], skip: true }]
+                    }, {
+                        src: 'has/result',
+                        retrieve: {},
+                        results: [{ src: '3', result: ['result-1'] }]
+                    }
+                ]
             });
 
-            fns.save(fns.set(pwdTmp), {
-                foo: 'foo',
-                bar: 'bar'
+            fns.save(output, {
+                projectId: 'foo',
+                projectName: 'bar',
+                data: [
+                    {
+                        src: 'has/no/result',
+                        retrieve: {},
+                        results: [{ src: '1', result: ['result'], skip: false }]
+                    }, {
+                        src: 'has/result',
+                        retrieve: {},
+                        results: [{ src: '3', result: ['result-1', 'result-2'], skip: true }]
+                    }
+                ]
             });
 
-            const result = require(pwdTmp);
-            expect(result).to.be.an('object');
-            expect(result).to.have.keys(['foo', 'stay', 'bar', 'data']);
-            expect(result.stay).to.be.a('string');
-            expect(result.stay).to.eql('foo');
-            expect(result.foo).to.be.a('string');
-            expect(result.foo).to.eql('foo');
-            expect(result.bar).to.be.a('string');
-            expect(result.bar).to.eql('bar');
-            expect(result.data).to.be.an('array');
-            expect(result.data.length).to.eql(0);
+            const result = JSON.parse(fs.readFileSync(pwdTmp, 'utf-8'));
+            expect(result.data.length).to.eql(3);
+
+            result.data.forEach(val => {
+                expect(val).to.be.an('object');
+                expect(val).to.contain.keys(['src', 'retrieve', 'results']);
+                expect(val.src).to.be.a('string');
+                expect(val.retrieve).to.be.an('object');
+                expect(val.results).to.be.an('array');
+
+                if (val.src === 'has/no/result') {
+                    expect(val.results.length).to.eql(1);
+
+                    val.results.forEach(valRes => {
+                        expect(valRes).to.be.an('object');
+                        expect(valRes).to.contain.keys(['src', 'result', 'skip']);
+                        expect(valRes.src).to.be.a('string');
+                        expect(valRes.src).to.eql('1');
+                        expect(valRes.result).to.be.an('array');
+                        expect(valRes.result.length).to.eql(1);
+                        expect(valRes.skip).to.be.a('boolean');
+
+                        valRes.result.forEach(actRes => {
+                            expect(actRes).to.be.a('string');
+                            expect(actRes).to.eql('result');
+                        });
+                    });
+                } else if (val.src === 'has/no/update') {
+                    expect(val.results.length).to.eql(1);
+
+                    val.results.forEach(valRes => {
+                        expect(valRes).to.be.an('object');
+                        expect(valRes).to.contain.keys(['src', 'result', 'skip']);
+                        expect(valRes.src).to.be.a('string');
+                        expect(valRes.src).to.eql('2');
+                        expect(valRes.result).to.be.an('array');
+                        expect(valRes.result.length).to.eql(1);
+                        expect(valRes.skip).to.be.a('boolean');
+
+                        valRes.result.forEach(actRes => {
+                            expect(actRes).to.be.a('string');
+                            expect(actRes).to.eql('result');
+                        });
+                    });
+                } else if (val.src === 'has/result') {
+                    expect(val.results.length).to.eql(1);
+
+                    val.results.forEach(valRes => {
+                        expect(valRes).to.be.an('object');
+                        expect(valRes).to.contain.keys(['src', 'result', 'skip']);
+                        expect(valRes.src).to.be.a('string');
+                        expect(valRes.src).to.eql('3');
+                        expect(valRes.result).to.be.an('array');
+                        expect(valRes.result.length).to.eql(2);
+                        expect(valRes.skip).to.be.a('boolean');
+
+                        valRes.result.forEach(actRes => {
+                            expect(actRes).to.be.a('string');
+
+                            if (actRes !== 'result-1' && actRes !== 'result-2') {
+                                throw new Error(`${actRes} is the wrong result`);
+                            }
+                        });
+                    });
+                } else {
+                    throw new Error(`${val.src} shouldn't exist`);
+                }
+            });
         });
 
         it('should save force the output', () => {
@@ -160,47 +253,6 @@ describe('mrcrowley.output', () => {
             expect(result.bar).to.eql('bar');
             expect(result.data).to.be.an('array');
             expect(result.data.length).to.eql(0);
-        });
-
-        it('should merge data to the output', () => {
-            const output = fns.set(pwdTmp);
-
-            fns.save(output, { data: [{ src: 'foo', val: 1 }] });
-            fns.save(output, { data: [{ src: 'foo', val: 2 }] });
-
-            const result = require(pwdTmp);
-            expect(result).to.be.an('object');
-            expect(result).to.have.keys(['data']);
-            expect(result.data).to.be.an('array');
-            expect(result.data.length).to.eql(1);
-
-            result.data.forEach(val => {
-                expect(val).to.be.an('object');
-                expect(val).to.have.keys(['src', 'val']);
-                expect(val.src).to.be.a('string');
-            });
-
-            expect(result.data[0].val).to.be.a('number');
-            expect(result.data[0].val).to.eql(2);
-        });
-
-        it('shouldn\'t merge data to the output when not the same', () => {
-            const output = fns.set(pwdTmp);
-
-            fns.save(output, { data: [{ src: 'foo' }] });
-            fns.save(output, { data: [{ src: 'bar' }] });
-
-            const result = require(pwdTmp);
-            expect(result).to.be.an('object');
-            expect(result).to.have.keys(['data']);
-            expect(result.data).to.be.an('array');
-            expect(result.data.length).to.eql(2);
-
-            result.data.forEach(val => {
-                expect(val).to.be.an('object');
-                expect(val).to.have.keys(['src']);
-                expect(val.src).to.be.a('string');
-            });
         });
 
         it('should error without a compliant output', (done) => {

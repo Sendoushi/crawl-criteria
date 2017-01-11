@@ -269,12 +269,15 @@ describe('mrcrowley.index', () => {
             .catch(done);
         });
 
-        it('shouldn\'t wait more than 20 seconds for an element to be on the page', function (done) {
-            this.timeout(30000);
+        it('shouldn\'t wait more than 5 seconds for an element to be on the page', function (done) {
+            this.timeout(10000);
 
             const tmpl = '<html><body></body></html>';
 
-            fns.getDom(tmpl, 'content', null, true, 'div')
+            fns.getDom(tmpl, 'content', null, true, {
+                selector: 'div',
+                for: 5000
+            })
             .then(domObj => {
                 expect(domObj).to.be.an('object');
                 expect(domObj).to.have.keys(['window', 'errors', 'logs', 'warns', 'docHtml']);
@@ -433,6 +436,7 @@ describe('mrcrowley.index', () => {
                 expect(result).to.be.an('object');
                 expect(result).to.have.keys(['content']);
                 expect(result.content).to.be.an('array');
+                expect(result.content.length).to.be.above(0);
 
                 result.content.forEach(content => {
                     expect(content).to.be.a('string');
@@ -515,6 +519,95 @@ describe('mrcrowley.index', () => {
             .catch(done);
         });
 
+        it('should return empty if there is no data', function (done) {
+            this.timeout(10000);
+
+            fns.getDom('http://www.brainjar.com/java/host/test.html', 'url').then(singleDom => {
+                const el = singleDom.window.$;
+                const result = fns.getScrap(el, el, {
+                    retrieve: {
+                        content: {
+                            selector: '.foo'
+                        }
+                    }
+                });
+
+                expect(result).to.be.an('object');
+                expect(Object.keys(result).length).to.eql(0);
+
+                done();
+            })
+            .catch(done);
+        });
+
+        it('should return empty if there is no nested data', function (done) {
+            this.timeout(10000);
+
+            fns.getDom('http://www.brainjar.com/java/host/test.html', 'url').then(singleDom => {
+                const el = singleDom.window.$;
+                const result = fns.getScrap(el, el, {
+                    retrieve: {
+                        body: {
+                            selector: 'body',
+                            retrieve: {
+                                content: {
+                                    selector: '.foo'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                expect(result).to.be.an('object');
+                expect(Object.keys(result).length).to.eql(0);
+
+                done();
+            })
+            .catch(done);
+        });
+
+        it('should return nested data even if one retrieve is empty', function (done) {
+            this.timeout(10000);
+
+            fns.getDom('http://www.brainjar.com/java/host/test.html', 'url').then(singleDom => {
+                const el = singleDom.window.$;
+                const result = fns.getScrap(el, el, {
+                    retrieve: {
+                        body: {
+                            selector: 'body',
+                            retrieve: {
+                                content: {
+                                    selector: 'p'
+                                },
+                                foo: {
+                                    selector: '.foo'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['body']);
+                expect(result.body).to.be.an('array');
+                expect(result.body.length).to.eql(1);
+
+                result.body.forEach(actualResult => {
+                    expect(actualResult).to.be.an('object');
+                    expect(actualResult).to.have.keys(['content']);
+                    expect(actualResult.content).to.be.an('array');
+                    expect(actualResult.content.length).to.eql(1);
+
+                    actualResult.content.forEach(content => {
+                        expect(content).to.be.a('string');
+                    });
+                });
+
+                done();
+            })
+            .catch(done);
+        });
+
         it('should error without $ and with nested data', function (done) {
             this.timeout(10000);
 
@@ -563,34 +656,23 @@ describe('mrcrowley.index', () => {
         it('should get single data', function (done) {
             this.timeout(60000);
 
-            fns.getSingle([
-                {
-                    src: 'http://www.brainjar.com/java/host/test.html',
-                    retrieve: {
-                        content: {
-                            selector: 'body p'
-                        }
-                    }
-                }
-            ])
-            .then(data => {
-                expect(data).to.be.an('array');
-                expect(data.length).to.eql(1);
+            fns.getSingle({ src: 'http://www.brainjar.com/java/host/test.html' }, {
+                src: 'http://www.brainjar.com/java/host/test.html',
+                retrieve: { content: { selector: 'body p' } }
+            })
+            .then(result => {
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['src', 'result', 'updatedAt']);
+                expect(result.src).to.be.a('string');
+                expect(result.src).to.contain('brainjar.com/java/host/test');
+                expect(result.result).to.be.an('object');
+                expect(result.result).to.have.keys(['content']);
+                expect(result.result.content).to.be.an('array');
+                expect(result.updatedAt).to.be.a('number');
+                expect(result.result.content).to.have.length.above(0);
 
-                data.forEach(result => {
-                    expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
-                    expect(result.src).to.be.a('string');
-                    expect(result.src).to.contain('brainjar.com/java/host/test');
-                    expect(result.result).to.be.an('object');
-                    expect(result.result).to.have.keys(['content']);
-                    expect(result.result.content).to.be.an('array');
-                    expect(result.updatedAt).to.be.a('number');
-                    expect(result.result.content).to.have.length.above(0);
-
-                    result.result.content.forEach(content => {
-                        expect(content).to.be.a('string');
-                    });
+                result.result.content.forEach(content => {
+                    expect(content).to.be.a('string');
                 });
 
                 done();
@@ -601,44 +683,37 @@ describe('mrcrowley.index', () => {
         it('should get multiple data', function (done) {
             this.timeout(60000);
 
-            fns.getSingle([
-                {
-                    src: 'http://www.brainjar.com/java/host/test.html',
-                    retrieve: {
-                        content: {
-                            selector: 'body p'
-                        },
-                        meta: {
-                            selector: 'meta',
-                            attribute: 'content'
-                        }
+            fns.getSingle({ src: 'http://www.brainjar.com/java/host/test.html' }, {
+                src: 'http://www.brainjar.com/java/host/test.html',
+                retrieve: {
+                    content: {
+                        selector: 'body p'
+                    },
+                    meta: {
+                        selector: 'meta',
+                        attribute: 'content'
                     }
                 }
-            ])
-            .then(data => {
-                expect(data).to.be.an('array');
-                expect(data.length).to.eql(1);
+            })
+            .then(result => {
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['src', 'result', 'updatedAt']);
+                expect(result.src).to.be.a('string');
+                expect(result.src).to.contain('brainjar.com/java/host/test');
+                expect(result.result).to.be.an('object');
+                expect(result.result).to.have.keys(['content', 'meta']);
+                expect(result.result.content).to.be.an('array');
+                expect(result.result.meta).to.be.an('array');
+                expect(result.updatedAt).to.be.a('number');
+                expect(result.result.content).to.have.length.above(0);
+                expect(result.result.meta).to.have.length.above(0);
 
-                data.forEach(result => {
-                    expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
-                    expect(result.src).to.be.a('string');
-                    expect(result.src).to.contain('brainjar.com/java/host/test');
-                    expect(result.result).to.be.an('object');
-                    expect(result.result).to.have.keys(['content', 'meta']);
-                    expect(result.result.content).to.be.an('array');
-                    expect(result.result.meta).to.be.an('array');
-                    expect(result.updatedAt).to.be.a('number');
-                    expect(result.result.content).to.have.length.above(0);
-                    expect(result.result.meta).to.have.length.above(0);
+                result.result.content.forEach(content => {
+                    expect(content).to.be.a('string');
+                });
 
-                    result.result.content.forEach(content => {
-                        expect(content).to.be.a('string');
-                    });
-
-                    result.result.meta.forEach(meta => {
-                        expect(meta).to.be.a('string');
-                    });
+                result.result.meta.forEach(meta => {
+                    expect(meta).to.be.a('string');
                 });
 
                 done();
@@ -649,100 +724,40 @@ describe('mrcrowley.index', () => {
         it('should get nested data', function (done) {
             this.timeout(60000);
 
-            fns.getSingle([
-                {
-                    src: 'http://www.brainjar.com/java/host/test.html',
-                    retrieve: {
-                        body: {
-                            selector: 'body',
-                            retrieve: {
-                                content: {
-                                    selector: 'p'
-                                }
+            fns.getSingle({ src: 'http://www.brainjar.com/java/host/test.html' }, {
+                src: 'http://www.brainjar.com/java/host/test.html',
+                retrieve: {
+                    body: {
+                        selector: 'body',
+                        retrieve: {
+                            content: {
+                                selector: 'p'
                             }
                         }
                     }
                 }
-            ])
-            .then(data => {
-                expect(data).to.be.an('array');
-                expect(data.length).to.eql(1);
-
-                data.forEach(result => {
-                    expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
-                    expect(result.src).to.be.a('string');
-                    expect(result.src).to.contain('brainjar.com/java/host/test');
-                    expect(result.updatedAt).to.be.a('number');
-
-                    expect(result.result).to.be.an('object');
-                    expect(result.result).to.have.keys(['body']);
-                    expect(result.result.body).to.be.an('array');
-                    expect(result.result.body.length).to.eql(1);
-
-                    result.result.body.forEach(actualResult => {
-                        expect(actualResult).to.be.an('object');
-                        expect(actualResult).to.have.keys(['content']);
-                        expect(actualResult.content).to.be.an('array');
-                        expect(actualResult.content.length).to.eql(1);
-
-                        actualResult.content.forEach(content => {
-                            expect(content).to.be.a('string');
-                        });
-                    });
-                });
-
-                done();
             })
-            .catch(done);
-        });
+            .then(result => {
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['src', 'result', 'updatedAt']);
+                expect(result.src).to.be.a('string');
+                expect(result.src).to.contain('brainjar.com/java/host/test');
+                expect(result.updatedAt).to.be.a('number');
 
-        it('should get multiple urls', function (done) {
-            this.timeout(60000);
+                expect(result.result).to.be.an('object');
+                expect(result.result).to.have.keys(['body']);
+                expect(result.result.body).to.be.an('array');
+                expect(result.result.body.length).to.eql(1);
 
-            fns.getSingle([
-                {
-                    src: 'http://www.brainjar.com/java/host/test.html',
-                    retrieve: {
-                        content: {
-                            selector: 'body p'
-                        }
-                    }
-                }, {
-                    src: 'http://www.brainjar.com/java/host/test.html',
-                    retrieve: {
-                        meta: {
-                            selector: 'meta',
-                            attribute: 'content'
-                        }
-                    }
-                }
-            ])
-            .then(data => {
-                expect(data).to.be.an('array');
-                expect(data.length).to.eql(2);
+                result.result.body.forEach(actualResult => {
+                    expect(actualResult).to.be.an('object');
+                    expect(actualResult).to.have.keys(['content']);
+                    expect(actualResult.content).to.be.an('array');
+                    expect(actualResult.content.length).to.eql(1);
 
-                data.forEach(result => {
-                    expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
-                    expect(result.src).to.be.a('string');
-                    expect(result.src).to.contain('brainjar.com/java/host/test');
-                    expect(result.result).to.be.an('object');
-                    expect(result.updatedAt).to.be.a('number');
-                });
-
-                expect(data[0].result).to.have.keys(['content']);
-                expect(data[0].result.content).to.be.an('array');
-                expect(data[0].result.content).to.have.length.above(0);
-                data[0].result.content.forEach(content => {
-                    expect(content).to.be.a('string');
-                });
-
-                expect(data[1].result).to.have.keys(['meta']);
-                expect(data[1].result.meta).to.be.an('array');
-                expect(data[1].result.meta).to.have.length.above(0);
-                data[1].result.meta.forEach(meta => {
-                    expect(meta).to.be.a('string');
+                    actualResult.content.forEach(content => {
+                        expect(content).to.be.a('string');
+                    });
                 });
 
                 done();
@@ -753,35 +768,28 @@ describe('mrcrowley.index', () => {
         it('should get attribute data', function (done) {
             this.timeout(60000);
 
-            fns.getSingle([
-                {
-                    src: 'http://www.brainjar.com/java/host/test.html',
-                    retrieve: {
-                        meta: {
-                            selector: 'meta',
-                            attribute: 'content'
-                        }
+            fns.getSingle({ src: 'http://www.brainjar.com/java/host/test.html' }, {
+                src: 'http://www.brainjar.com/java/host/test.html',
+                retrieve: {
+                    meta: {
+                        selector: 'meta',
+                        attribute: 'content'
                     }
                 }
-            ])
-            .then(data => {
-                expect(data).to.be.an('array');
-                expect(data.length).to.eql(1);
+            })
+            .then(result => {
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['src', 'result', 'updatedAt']);
+                expect(result.src).to.be.a('string');
+                expect(result.src).to.contain('brainjar.com/java/host/test');
+                expect(result.result).to.be.an('object');
+                expect(result.result).to.have.keys(['meta']);
+                expect(result.result.meta).to.be.an('array');
+                expect(result.updatedAt).to.be.a('number');
+                expect(result.result.meta).to.have.length.above(0);
 
-                data.forEach(result => {
-                    expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
-                    expect(result.src).to.be.a('string');
-                    expect(result.src).to.contain('brainjar.com/java/host/test');
-                    expect(result.result).to.be.an('object');
-                    expect(result.result).to.have.keys(['meta']);
-                    expect(result.result.meta).to.be.an('array');
-                    expect(result.updatedAt).to.be.a('number');
-                    expect(result.result.meta).to.have.length.above(0);
-
-                    result.result.meta.forEach(meta => {
-                        expect(meta).to.be.a('string');
-                    });
+                result.result.meta.forEach(meta => {
+                    expect(meta).to.be.a('string');
                 });
 
                 done();
@@ -790,41 +798,32 @@ describe('mrcrowley.index', () => {
         });
 
         it('should ignore results', function (done) {
-            const config = [
-                {
-                    src: 'https://www.google.pt/search?q=foo',
-                    retrieve: {
-                        title: {
-                            selector: 'h3 a',
-                            ignore: ['Foo Fighters']
-                        }
-                    }
-                }
-            ];
-
             // We need some time for this one to be well tested...
             this.timeout(50000);
 
-            fns.getSingle(config)
-            .then(data => {
-                expect(data).to.be.an('array');
-                expect(data.length).to.eql(1);
+            fns.getSingle({ src: 'https://www.google.pt/search?q=foo' }, {
+                src: 'https://www.google.pt/search?q=foo',
+                retrieve: {
+                    title: {
+                        selector: 'h3 a',
+                        ignore: ['Foo Fighters']
+                    }
+                }
+            })
+            .then(result => {
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['src', 'result', 'updatedAt']);
+                expect(result.src).to.be.a('string');
+                expect(result.src).to.contain('google.pt');
+                expect(result.updatedAt).to.be.a('number');
+                expect(result.result).to.be.an('object');
+                expect(result.result).to.have.keys(['title']);
+                expect(result.result.title).to.be.an('array');
+                expect(result.result.title).to.have.length.above(0);
 
-                data.forEach(result => {
-                    expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
-                    expect(result.src).to.be.a('string');
-                    expect(result.src).to.contain('google.pt');
-                    expect(result.updatedAt).to.be.a('number');
-                    expect(result.result).to.be.an('object');
-                    expect(result.result).to.have.keys(['title']);
-                    expect(result.result.title).to.be.an('array');
-                    expect(result.result.title).to.have.length.above(0);
-
-                    result.result.title.forEach(title => {
-                        expect(title).to.be.a('string');
-                        expect(title.toLowerCase()).to.not.contain('foo fighters');
-                    });
+                result.result.title.forEach(title => {
+                    expect(title).to.be.a('string');
+                    expect(title.toLowerCase()).to.not.contain('foo fighters');
                 });
 
                 done();
@@ -835,22 +834,15 @@ describe('mrcrowley.index', () => {
         it('should return empty without retrieves', function (done) {
             this.timeout(60000);
 
-            fns.getSingle([
-                { src: 'http://www.brainjar.com/java/host/test.html' }
-            ])
-            .then(data => {
-                expect(data).to.be.an('array');
-                expect(data.length).to.eql(1);
-
-                data.forEach(result => {
-                    expect(result).to.be.an('object');
-                    expect(result).to.have.keys(['src', 'result', 'updatedAt']);
-                    expect(result.src).to.be.a('string');
-                    expect(result.src).to.contain('brainjar.com/java/host/test');
-                    expect(result.result).to.be.an('object');
-                    expect(Object.keys(result.result).length).to.eql(0);
-                    expect(result.updatedAt).to.be.a('number');
-                });
+            fns.getSingle({ src: 'http://www.brainjar.com/java/host/test.html' })
+            .then(result => {
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['src', 'result', 'updatedAt']);
+                expect(result.src).to.be.a('string');
+                expect(result.src).to.contain('brainjar.com/java/host/test');
+                expect(result.result).to.be.an('object');
+                expect(Object.keys(result.result).length).to.eql(0);
+                expect(result.updatedAt).to.be.a('number');
 
                 done();
             })
@@ -858,10 +850,113 @@ describe('mrcrowley.index', () => {
         });
 
         it('should succeed with an empty data', (done) => {
-            fns.getSingle([])
-            .then(data => {
-                expect(data).to.be.an('array');
-                expect(data.length).to.eql(0);
+            fns.getSingle({})
+            .then(done)
+            .catch(done);
+        });
+
+        it('should skip if there is such a flag', (done) => {
+            fns.getSingle({
+                src: 'http://www.brainjar.com/java/host/test.html',
+                skip: true
+            }, {
+                src: 'http://www.brainjar.com/java/host/test.html',
+                retrieve: {
+                    body: {
+                        selector: 'body',
+                        retrieve: {
+                            content: {
+                                selector: 'p'
+                            }
+                        }
+                    }
+                }
+            })
+            .then(done)
+            .catch(done);
+        });
+
+        it('should skip if it was updated not so long ago and it has results', (done) => {
+            fns.getSingle({
+                src: 'http://www.brainjar.com/java/host/test.html',
+                updatedAt: Date.now(),
+                result: { content: ['result'] }
+            }, {
+                src: 'http://www.brainjar.com/java/host/test.html',
+                retrieve: {
+                    body: {
+                        selector: 'body',
+                        retrieve: {
+                            content: {
+                                selector: 'p'
+                            }
+                        }
+                    }
+                }
+            })
+            .then(done)
+            .catch(done);
+        });
+
+        it('should skip without a source', (done) => {
+            fns.getSingle({}, {
+                src: 'http://www.brainjar.com/java/host/test.html',
+                retrieve: {
+                    body: {
+                        selector: 'body',
+                        retrieve: {
+                            content: {
+                                selector: 'p'
+                            }
+                        }
+                    }
+                }
+            })
+            .then(done)
+            .catch(done);
+        });
+
+        it('shouldn\'t skip if it was updated not so long ago but without data', function (done) {
+            this.timeout(60000);
+
+            fns.getSingle({
+                src: 'http://www.brainjar.com/java/host/test.html',
+                updatedAt: Date.now()
+            }, {
+                src: 'http://www.brainjar.com/java/host/test.html',
+                retrieve: {
+                    body: {
+                        selector: 'body',
+                        retrieve: {
+                            content: {
+                                selector: 'p'
+                            }
+                        }
+                    }
+                }
+            })
+            .then(result => {
+                expect(result).to.be.an('object');
+                expect(result).to.have.keys(['src', 'result', 'updatedAt']);
+                expect(result.src).to.be.a('string');
+                expect(result.src).to.contain('brainjar.com/java/host/test');
+                expect(result.updatedAt).to.be.a('number');
+
+                expect(result.result).to.be.an('object');
+                expect(result.result).to.have.keys(['body']);
+                expect(result.result.body).to.be.an('array');
+                expect(result.result.body.length).to.eql(1);
+
+                result.result.body.forEach(actualResult => {
+                    expect(actualResult).to.be.an('object');
+                    expect(actualResult).to.have.keys(['content']);
+                    expect(actualResult.content).to.be.an('array');
+                    expect(actualResult.content.length).to.eql(1);
+
+                    actualResult.content.forEach(content => {
+                        expect(content).to.be.a('string');
+                    });
+                });
 
                 done();
             })
@@ -869,7 +964,7 @@ describe('mrcrowley.index', () => {
         });
 
         it('should error without a compliant data', (done) => {
-            fns.getSingle({})
+            fns.getSingle('')
             .then(() => done('It should\'ve errored'))
             .catch(() => done());
         });
@@ -916,7 +1011,7 @@ describe('mrcrowley.index', () => {
 
                     result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result', 'updatedAt', 'name']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['content']);
@@ -944,11 +1039,11 @@ describe('mrcrowley.index', () => {
                     }
                 }
             }, {
-                src: 'http://www.brainjar.com/java/host/test.html',
-                name: 'Simple test html',
+                src: 'http://help.websiteos.com/websiteos/example_of_a_simple_html_page.htm',
+                name: 'Simple test html 2',
                 retrieve: {
                     content: {
-                        selector: 'meta',
+                        selector: 'meta[http-equiv="content-type"]',
                         attribute: 'content'
                     }
                 }
@@ -975,7 +1070,7 @@ describe('mrcrowley.index', () => {
 
                     result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result', 'updatedAt', 'name']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['content']);
@@ -998,19 +1093,19 @@ describe('mrcrowley.index', () => {
                 src: 'https://www.sendoushi.com/posts/single/{{query}}',
                 name: 'Foo',
                 enableJs: true,
-                waitFor: '.list-posts-view',
-                modifiers: {
-                    query: ['prokofiev', 'vii']
+                throttle: 8000,
+                wait: {
+                    selector: '.list-posts-view',
+                    for: 50000
                 },
+                modifiers: { query: ['prokofiev', 'vii'] },
                 retrieve: {
-                    title: {
-                        selector: '.single-title'
-                    }
+                    title: { selector: '.single-title' }
                 }
             }];
 
             // We need some time for this one to be well tested...
-            this.timeout(60000);
+            this.timeout(120000);
 
             fns.gatherData(config)
             .then((data) => {
@@ -1018,7 +1113,9 @@ describe('mrcrowley.index', () => {
                 expect(data.length).to.eql(1);
 
                 data.forEach(result => {
-                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'results', 'modifiers', 'enableJs', 'waitFor']);
+                    expect(result).to.have.keys([
+                        'src', 'name', 'retrieve', 'results', 'modifiers', 'enableJs', 'wait', 'throttle'
+                    ]);
                     expect(result.src).to.be.a('string');
                     expect(result.name).to.be.a('string');
                     expect(result.retrieve).to.be.an('object');
@@ -1039,7 +1136,7 @@ describe('mrcrowley.index', () => {
 
                     result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result', 'updatedAt', 'name', 'enableJs', 'modifiers', 'waitFor']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['title']);
@@ -1062,7 +1159,10 @@ describe('mrcrowley.index', () => {
                 src: 'https://www.sendoushi.com/posts/projects',
                 name: 'Foo',
                 enableJs: true,
-                waitFor: '.list-posts-view',
+                wait: {
+                    selector: '.list-posts-view',
+                    for: 10000
+                },
                 retrieve: {
                     title: {
                         selector: '.post-item-title',
@@ -1080,7 +1180,7 @@ describe('mrcrowley.index', () => {
                 expect(data.length).to.eql(1);
 
                 data.forEach(result => {
-                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'results', 'waitFor', 'enableJs']);
+                    expect(result).to.have.keys(['src', 'name', 'retrieve', 'results', 'wait', 'enableJs']);
                     expect(result.src).to.be.a('string');
                     expect(result.name).to.be.a('string');
                     expect(result.retrieve).to.be.an('object');
@@ -1099,7 +1199,7 @@ describe('mrcrowley.index', () => {
 
                     result.results.forEach(val => {
                         expect(val).to.be.an('object');
-                        expect(val).to.have.keys(['src', 'result', 'updatedAt', 'name', 'enableJs', 'waitFor']);
+                        expect(val).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(val.src).to.be.a('string');
                         expect(val.result).to.be.an('object');
                         expect(val.result).to.have.keys(['title']);
@@ -1172,7 +1272,7 @@ describe('mrcrowley.index', () => {
                     val.results.forEach(res => {
                         expect(res).to.be.an('object');
                         expect(res).to.contain.any.keys([
-                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'waitFor'
+                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'wait'
                         ]);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
@@ -1219,7 +1319,7 @@ describe('mrcrowley.index', () => {
                     val.results.forEach(res => {
                         expect(res).to.be.an('object');
                         expect(res).to.contain.any.keys([
-                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'waitFor'
+                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'wait'
                         ]);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
@@ -1269,7 +1369,7 @@ describe('mrcrowley.index', () => {
                     val.results.forEach(res => {
                         expect(res).to.be.an('object');
                         expect(res).to.contain.any.keys([
-                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'waitFor'
+                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'wait'
                         ]);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
