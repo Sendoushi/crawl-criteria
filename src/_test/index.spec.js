@@ -1090,22 +1090,18 @@ describe('mrcrowley.index', () => {
 
         it('should get queried data', function (done) {
             const config = [{
-                src: 'https://www.sendoushi.com/posts/single/{{query}}',
+                src: 'https://www.npmjs.com/search?q={{query}}',
                 name: 'Foo',
                 enableJs: true,
-                throttle: 10000,
-                wait: {
-                    selector: '.list-posts-view',
-                    for: 70000
-                },
-                modifiers: { query: ['prokofiev', 'vii'] },
+                throttle: 5000,
+                modifiers: { query: ['foo', 'bar'] },
                 retrieve: {
-                    title: { selector: '.single-title' }
+                    title: { selector: 'h3 a' }
                 }
             }];
 
             // We need some time for this one to be well tested...
-            this.timeout(320000);
+            this.timeout(60000);
 
             fns.gatherData(config)
             .then((data) => {
@@ -1114,7 +1110,7 @@ describe('mrcrowley.index', () => {
 
                 data.forEach(result => {
                     expect(result).to.have.keys([
-                        'src', 'name', 'retrieve', 'results', 'modifiers', 'enableJs', 'wait', 'throttle'
+                        'src', 'name', 'retrieve', 'results', 'modifiers', 'enableJs', 'throttle'
                     ]);
                     expect(result.src).to.be.a('string');
                     expect(result.name).to.be.a('string');
