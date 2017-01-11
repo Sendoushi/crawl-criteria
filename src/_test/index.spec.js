@@ -1093,10 +1093,10 @@ describe('mrcrowley.index', () => {
                 src: 'https://www.sendoushi.com/posts/single/{{query}}',
                 name: 'Foo',
                 enableJs: true,
-                throttle: 8000,
+                throttle: 10000,
                 wait: {
                     selector: '.list-posts-view',
-                    for: 50000
+                    for: 70000
                 },
                 modifiers: { query: ['prokofiev', 'vii'] },
                 retrieve: {
@@ -1105,7 +1105,7 @@ describe('mrcrowley.index', () => {
             }];
 
             // We need some time for this one to be well tested...
-            this.timeout(120000);
+            this.timeout(320000);
 
             fns.gatherData(config)
             .then((data) => {
