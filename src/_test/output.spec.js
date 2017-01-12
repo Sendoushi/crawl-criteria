@@ -30,6 +30,163 @@ describe('mrcrowley.output', () => {
         reset();
     });
 
+    describe('mergeArr', () => {
+        it('should merge objects right', () => {
+            const a = [{
+                src: 'foo',
+                name: 'a test',
+                results: [
+                    {
+                        src: 'test src',
+                        result: {
+                            test: ['test1'],
+                            foo: ['bar'],
+                            bar: [],
+                            foobar: [2, 3],
+                            onemore: [2]
+                        }
+                    }
+                ]
+            }];
+            const b = [{
+                src: 'foo',
+                name: 'a test',
+                results: [
+                    {
+                        src: 'test src',
+                        result: {
+                            test: ['test2'],
+                            bar: [1],
+                            foobar: [2],
+                            onemore: []
+                        }
+                    }
+                ]
+            }];
+            const result = fns.mergeArr(a, b);
+
+            expect(result).to.be.an('array');
+            expect(result.length).to.eql(1);
+            result.forEach(val => {
+                expect(val).to.be.an('object');
+                expect(val).to.have.keys(['src', 'name', 'results']);
+                expect(val.src).to.be.a('string');
+                expect(val.src).to.contain('foo');
+                expect(val.name).to.be.a('string');
+                expect(val.name).to.contain('a test');
+                expect(val.results).to.be.an('array');
+                expect(val.results.length).to.eql(1);
+
+                val.results.forEach(valRes => {
+                    expect(valRes).to.be.an('object');
+                    expect(valRes).to.have.keys(['src', 'result']);
+                    expect(valRes.src).to.be.a('string');
+                    expect(valRes.src).to.contain('test src');
+                    expect(valRes.result).to.be.an('object');
+                    expect(valRes.result).to.have.keys(['test', 'foo', 'bar', 'foobar', 'onemore']);
+
+                    expect(valRes.result.test).to.be.an('array');
+                    expect(valRes.result.foo).to.be.an('array');
+                    expect(valRes.result.bar).to.be.an('array');
+                    expect(valRes.result.foobar).to.be.an('array');
+                    expect(valRes.result.onemore).to.be.an('array');
+
+                    expect(valRes.result.test.length).to.eql(1);
+                    expect(valRes.result.foo.length).to.eql(1);
+                    expect(valRes.result.bar.length).to.eql(1);
+                    expect(valRes.result.foobar.length).to.eql(2);
+                    expect(valRes.result.onemore.length).to.eql(1);
+                });
+            });
+        });
+
+        it('should maintain objects without changes', () => {
+            const a = [{
+                src: 'foo',
+                name: 'a test',
+                results: [
+                    {
+                        src: 'test src',
+                        result: {
+                            test: ['test1'],
+                            foo: ['bar'],
+                            bar: [],
+                            foobar: [2, 3],
+                            onemore: [2]
+                        }
+                    }
+                ]
+            }];
+            const b = [{
+                src: 'foo',
+                name: 'a test 2',
+                results: [
+                    {
+                        src: 'test src',
+                        result: {
+                            test: ['test2'],
+                            bar: [1],
+                            foobar: [2],
+                            onemore: []
+                        }
+                    }
+                ]
+            }];
+            const result = fns.mergeArr(a, b);
+
+            expect(result).to.be.an('array');
+            expect(result.length).to.eql(2);
+            result.forEach(val => {
+                expect(val).to.be.an('object');
+                expect(val).to.have.keys(['src', 'name', 'results']);
+                expect(val.src).to.be.a('string');
+                expect(val.src).to.contain('foo');
+                expect(val.name).to.be.a('string');
+                expect(val.name).to.contain('a test');
+                expect(val.results).to.be.an('array');
+                expect(val.results.length).to.eql(1);
+
+                val.results.forEach((valRes) => {
+                    expect(valRes).to.be.an('object');
+                    expect(valRes).to.have.keys(['src', 'result']);
+                    expect(valRes.src).to.be.a('string');
+                    expect(valRes.src).to.contain('test src');
+                    expect(valRes.result).to.be.an('object');
+
+                    if (val.name === 'a test') {
+                        expect(valRes.result).to.have.keys(['test', 'foo', 'bar', 'foobar', 'onemore']);
+
+                        expect(valRes.result.test).to.be.an('array');
+                        expect(valRes.result.foo).to.be.an('array');
+                        expect(valRes.result.bar).to.be.an('array');
+                        expect(valRes.result.foobar).to.be.an('array');
+                        expect(valRes.result.onemore).to.be.an('array');
+
+                        expect(valRes.result.test.length).to.eql(1);
+                        expect(valRes.result.foo.length).to.eql(1);
+                        expect(valRes.result.bar.length).to.eql(0);
+                        expect(valRes.result.foobar.length).to.eql(2);
+                        expect(valRes.result.onemore.length).to.eql(1);
+                    } else if (val.name === 'a test 2') {
+                        expect(valRes.result).to.have.keys(['test', 'bar', 'foobar', 'onemore']);
+
+                        expect(valRes.result.test).to.be.an('array');
+                        expect(valRes.result.bar).to.be.an('array');
+                        expect(valRes.result.foobar).to.be.an('array');
+                        expect(valRes.result.onemore).to.be.an('array');
+
+                        expect(valRes.result.test.length).to.eql(1);
+                        expect(valRes.result.bar.length).to.eql(1);
+                        expect(valRes.result.foobar.length).to.eql(1);
+                        expect(valRes.result.onemore.length).to.eql(0);
+                    } else {
+                        throw new Error('It shouldn\'t reach this stage');
+                    }
+                });
+            });
+        });
+    });
+
     // set
     describe('set', () => {
         it('should set a source', () => {

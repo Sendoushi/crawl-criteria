@@ -396,7 +396,7 @@ const gatherData = (data = []) => {
     if (failed) { return failed; }
 
     // Lets go per each data member
-    let promises = [];
+    const promises = [];
     data.forEach((item) => {
         // Lets set the basics
         const oldResults = item.results || [];
@@ -412,15 +412,13 @@ const gatherData = (data = []) => {
         });
 
         // Now for the actual promises
-        promises = promises.concat(item.results.map(queryItem => () => getSingle(queryItem, item)
-        .then(singleData => {
-            if (!singleData) { return; }
-
-            // Lets save the data coming in
-            send('output.saveItem', item);
-
-            return singleData;
-        })));
+        item.results.forEach(queryItem => promises.push(() =>
+            getSingle(queryItem, item)
+            .then(newItem => {
+                send('output.saveItem', item);
+                return newItem;
+            })
+        ));
     });
 
     // Lets run promises in sync

@@ -1263,9 +1263,7 @@ describe('mrcrowley.index', () => {
                     expect(val.results).to.be.an('array');
                     val.results.forEach(res => {
                         expect(res).to.be.an('object');
-                        expect(res).to.contain.any.keys([
-                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'wait'
-                        ]);
+                        expect(res).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
                         expect(res.updatedAt).to.be.a('number');
@@ -1310,9 +1308,7 @@ describe('mrcrowley.index', () => {
                     expect(val.results).to.be.an('array');
                     val.results.forEach(res => {
                         expect(res).to.be.an('object');
-                        expect(res).to.contain.any.keys([
-                            'src', 'result', 'updatedAt', 'enableJs', 'name', 'results', 'throttle', 'modifiers', 'wait'
-                        ]);
+                        expect(res).to.have.keys(['src', 'result', 'updatedAt']);
                         expect(res.src).to.be.a('string');
                         expect(res.result).to.be.an('object');
                         expect(res.updatedAt).to.be.a('number');

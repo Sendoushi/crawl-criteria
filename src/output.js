@@ -4,7 +4,6 @@
 import fs from 'fs';
 import path from 'path';
 import mkdirp from 'mkdirp';
-import uniqWith from 'lodash/uniqWith.js';
 import isArray from 'lodash/isArray.js';
 import merge from 'lodash/merge.js';
 import { getPwd } from './utils.js';
@@ -12,6 +11,33 @@ import { on, off } from './mailbox.js';
 
 //-------------------------------------
 // Functions
+
+/**
+ * Merge arrays with objects
+ *
+ * @param {array} a
+ * @param {array} b
+ * @returns
+ */
+const mergeArr = (a = [], b = []) => {
+    const newArr = a;
+
+    // Update old ones
+    newArr.forEach((val1, i) => b.forEach(val2 => {
+        if (val1.src !== val2.src || val1.name !== val2.name) { return val2; }
+        newArr[i] = merge({}, val1, val2);
+    }));
+
+    // Add those that didn't make the cut
+    b.forEach(val1 => {
+        const found = newArr.map(val2 => val1.src === val2.src && val1.name === val2.name)
+        .filter(val => !!val)[0];
+
+        !found && newArr.push(val1);
+    });
+
+    return newArr;
+};
 
 /**
  * Gets actual output from file
@@ -57,7 +83,7 @@ const save = (output, data, fromFile) => {
 
     if (!output.force) {
         const fileData = getFile(output) || {};
-        const actualData = (fileData.data || []).concat(data.data);
+        const actualData = mergeArr(fileData.data, data.data);
 
         // Delete so it doesn't merge
         delete data.data;
@@ -65,9 +91,7 @@ const save = (output, data, fromFile) => {
 
         // Lets merge the data
         finalObj = merge(fileData, data);
-        finalObj.data = uniqWith(actualData.reverse(),
-            (a, b) => a && b && a.src === b.src && a.name === b.name
-        ).filter(val => !!val);
+        finalObj.data = actualData;
     }
 
     // Save the file
@@ -98,7 +122,7 @@ const saveItem = (output, data) => {
     const finalObj = { data: !isArray(data) ? [data] : data };
 
     output.fn(finalObj, true);
-    output.logger.log('[MrCrowley]', 'Saved item', `[${output.count}/${output.allSrcs}]`);
+    output.logger.log('[MrCrowley]', 'Saving item', `[${output.count}/${output.allSrcs}]`);
 
     // Finally lets go for the save
     save(output, finalObj, true);
@@ -166,4 +190,4 @@ export { saveItem };
 export { getFile };
 
 // Essentially for testing purposes
-export const __testMethods__ = { set, save, saveItem, getFile };
+export const __testMethods__ = { set, save, saveItem, getFile, mergeArr };
